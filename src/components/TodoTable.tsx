@@ -1,25 +1,29 @@
-// prettier-ignore
-import { Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/styles";
-import * as React from "react";
-import { useSelector } from "react-redux";
-import { useActions } from "../actions";
-import * as TodoActions from "../actions/todo";
-import { Todo } from "../model/index";
-import { RootState } from "../reducers/index";
+import { Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles } from '@material-ui/styles';
+import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { editTodo, fromRoot, removeTodo } from '../store';
+import { Todo } from '../store/todo/todo.model';
 
-export function TodoTable() {
+const useStyles = makeStyles({
+	paper: {
+		width: '100%',
+		minWidth: 260,
+		display: 'inline-block',
+	},
+	table: {
+		width: '100%',
+	},
+});
+
+const TodoTable: React.FunctionComponent = () => {
 	const classes = useStyles();
-	const todoList = useSelector((state: RootState) => state.todoList);
-	const todoActions = useActions(TodoActions);
+	const todoList = useSelector(fromRoot.getAllTodos);
+	const dispatch = useDispatch();
 
 	const onRowClick = (todo: Todo) => {
-		if (todo.completed) {
-			todoActions.uncompleteTodo(todo.id);
-		} else {
-			todoActions.completeTodo(todo.id);
-		}
+		dispatch(editTodo({ ...todo, isCompleted: !todo.isCompleted }));
 	};
 
 	return (
@@ -28,29 +32,25 @@ export function TodoTable() {
 				<TableHead>
 					<TableRow>
 						<TableCell padding="default">Completed</TableCell>
-						<TableCell padding="default">Text</TableCell>
+						<TableCell padding="default">Titel</TableCell>
+						<TableCell padding="default">Beschreibung</TableCell>
 						<TableCell padding="default">Delete</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{todoList.map((n: Todo) => {
+					{todoList.map((todo: Todo) => {
 						return (
-							<TableRow
-								key={n.id}
-								hover
-								onClick={event => onRowClick(n)}
-							>
+							<TableRow key={todo.id} hover>
 								<TableCell padding="none">
-									<Checkbox checked={n.completed} />
+									<Checkbox checked={todo.isCompleted} onClick={() => onRowClick(todo)} />
 								</TableCell>
-								<TableCell padding="none">{n.text}</TableCell>
+								<TableCell padding="none">{todo.title}</TableCell>
+								<TableCell padding="none">{todo.description}</TableCell>
 								<TableCell padding="none">
 									<IconButton
 										aria-label="Delete"
 										color="default"
-										onClick={() =>
-											todoActions.deleteTodo(n.id)
-										}
+										onClick={() => dispatch(removeTodo(todo.id))}
 									>
 										<DeleteIcon />
 									</IconButton>
@@ -62,15 +62,5 @@ export function TodoTable() {
 			</Table>
 		</Paper>
 	);
-}
-
-const useStyles = makeStyles({
-	paper: {
-		width: "100%",
-		minWidth: 260,
-		display: "inline-block",
-	},
-	table: {
-		width: "100%",
-	},
-});
+};
+export default TodoTable;

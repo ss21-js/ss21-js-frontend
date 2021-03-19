@@ -1,10 +1,11 @@
 import { Router } from 'react-typesafe-routes';
-import { HomePage, TodoPage } from './pages';
+import HomePage from './pages/HomePage';
+import TodoPage from './pages/TodoPage';
 
 // Read more about writing a middleware or add query parameter etc.
 // https://github.com/innFactory/react-typesafe-routes
 
-export const router = Router(route => ({
+const router = Router((route) => ({
 	home: route('/', {
 		component: HomePage,
 	}),
@@ -12,3 +13,5 @@ export const router = Router(route => ({
 		component: TodoPage,
 	}),
 }));
+
+export default router;
