@@ -1,6 +1,5 @@
 import { createAction } from 'deox';
 
-export const setDrawerOpen = createAction('[Config] Drawer', (resolve) => (event: boolean) => resolve({ event }));
-export const purgeConfig = createAction('[Config] Purge');
+export const toggleDrawerOpen = createAction('[Config] Toggle Drawer', (resolve) => () => resolve());
 
-export type ConfigActions = ReturnType<typeof setDrawerOpen> | ReturnType<typeof purgeConfig>;
+export type ConfigActions = ReturnType<typeof toggleDrawerOpen>;

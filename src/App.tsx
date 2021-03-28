@@ -1,15 +1,11 @@
-import { AppBar, IconButton, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/styles';
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { RouterSwitch } from 'react-typesafe-routes';
+import { RouterSwitch, useRouteOptions } from 'react-typesafe-routes';
+import AppBar from './components/AppBar';
 import Drawer from './components/Drawer';
 import Snackbar from './components/Snackbar';
-import router from './router';
-import { fromRoot, setDrawerOpen } from './store';
+import router from './Router';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -47,41 +43,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const App: React.FC = () => {
 	const classes = useStyles();
-	const drawerOpen = useSelector(fromRoot.isDrawerOpen);
-	const dispatch = useDispatch();
-	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-	const handleDrawerToggle = () => {
-		dispatch(setDrawerOpen(!drawerOpen));
-	};
+	const { showDrawer, showAppBar } = useRouteOptions(router);
 
 	return (
-		<BrowserRouter>
-			<div className={classes.root}>
-				<div className={classes.appFrame}>
-					<Snackbar />
-					<AppBar className={classes.appBar}>
-						<Toolbar>
-							<IconButton
-								color="inherit"
-								aria-label="open drawer"
-								onClick={handleDrawerToggle}
-								className={classes.navIconHide}
-							>
-								<MenuIcon />
-							</IconButton>
-							<Typography variant="h6" color="inherit" noWrap={isMobile}>
-								Create-React-App with Material-UI, Typescript, Redux and Routing
-							</Typography>
-						</Toolbar>
-					</AppBar>
-					<Drawer />
-					<div className={classes.content}>
-						<RouterSwitch router={router} />
-					</div>
+		<div className={classes.root}>
+			<div className={classes.appFrame}>
+				<Snackbar />
+				{showAppBar && <AppBar />}
+				{showDrawer && <Drawer />}
+				<div className={classes.content}>
+					<RouterSwitch router={router} />
 				</div>
 			</div>
-		</BrowserRouter>
+		</div>
 	);
 };
 

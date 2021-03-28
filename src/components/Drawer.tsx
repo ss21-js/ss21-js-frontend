@@ -1,23 +1,20 @@
-import {
-	Badge,
-	Divider,
-	Drawer as DrawerMui,
-	Hidden,
-	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
-	makeStyles,
-	Theme,
-} from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
+import Badge from '@material-ui/core/Badge/Badge';
+import Divider from '@material-ui/core/Divider/Divider';
+import MuiDrawer from '@material-ui/core/Drawer/Drawer';
+import Hidden from '@material-ui/core/Hidden/Hidden';
+import List from '@material-ui/core/List/List';
+import ListItem from '@material-ui/core/ListItem/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText/ListItemText';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import HomeIcon from '@material-ui/icons/Home';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useRoutesActive } from 'react-typesafe-routes';
-import router from '../router';
-import { fromRoot, setDrawerOpen } from '../store';
+import router from '../Router';
+import { fromRoot, toggleDrawerOpen } from '../store';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) => ({
@@ -86,13 +83,13 @@ const Drawer: React.FC = () => {
 	const dispatch = useDispatch();
 
 	const handleDrawerToggle = () => {
-		dispatch(setDrawerOpen(!drawerOpen));
+		dispatch(toggleDrawerOpen());
 	};
 
 	return (
 		<>
 			<Hidden mdUp>
-				<DrawerMui
+				<MuiDrawer
 					variant="temporary"
 					anchor="left"
 					open={drawerOpen}
@@ -105,10 +102,10 @@ const Drawer: React.FC = () => {
 					}}
 				>
 					<Content />
-				</DrawerMui>
+				</MuiDrawer>
 			</Hidden>
 			<Hidden smDown>
-				<DrawerMui
+				<MuiDrawer
 					variant="permanent"
 					open
 					classes={{
@@ -116,7 +113,7 @@ const Drawer: React.FC = () => {
 					}}
 				>
 					<Content />
-				</DrawerMui>
+				</MuiDrawer>
 			</Hidden>
 		</>
 	);

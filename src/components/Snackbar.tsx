@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const Snackbar: React.FunctionComponent = () => {
+const Snackbar: React.FC = () => {
 	const classes = useStyles();
 
 	const dispatch = useDispatch();

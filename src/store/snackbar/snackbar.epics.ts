@@ -2,17 +2,16 @@ import { ofType } from 'deox';
 import { combineEpics, Epic } from 'redux-observable';
 import { asyncScheduler, merge, of } from 'rxjs';
 import { debounceTime, delay, delayWhen, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
-import { fromRoot, RootState } from '..';
+import { fromRoot, RootActions, RootState } from '..';
 import {
 	createSnackbar,
 	dismissSnackbar,
 	dismissSnackbarCompleted,
 	showSnackbar,
 	showSnackbarCompleted,
-	SnackbarActions,
 } from './snackbar.actions';
 
-const showSnackbarEpic: Epic<SnackbarActions, SnackbarActions, RootState> = (action$, state$) =>
+const showSnackbarEpic: Epic<RootActions, RootActions, RootState> = (action$, state$) =>
 	action$.pipe(
 		ofType(createSnackbar),
 		debounceTime(100, asyncScheduler),
@@ -26,7 +25,7 @@ const showSnackbarEpic: Epic<SnackbarActions, SnackbarActions, RootState> = (act
 		})
 	);
 
-const dismissSnackbarEpic: Epic<SnackbarActions, SnackbarActions, RootState> = (action$) =>
+const dismissSnackbarEpic: Epic<RootActions, RootActions, RootState> = (action$) =>
 	action$.pipe(
 		ofType(showSnackbar),
 		delayWhen(({ payload }) =>

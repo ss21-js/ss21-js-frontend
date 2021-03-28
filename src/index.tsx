@@ -1,6 +1,8 @@
-import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import ReduxRoot from './ReduxRoot';
+import initializeFirebase from './firebase/initializeFirebase';
+import Root from './Root';
+
+initializeFirebase();
 
 const rootEl = document.getElementById('root');
-ReactDOM.render(<ReduxRoot />, rootEl);
+ReactDOM.render(<Root />, rootEl);

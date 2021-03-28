@@ -28,12 +28,13 @@ const todoSchema = Joi.object({
 	description: Joi.string().alphanum().max(200).required(),
 });
 
-const TodoDialog: React.FC<Props> = (props: Props) => {
-	const { open, onClose } = props;
-
+const TodoDialog: React.FC<Props> = ({ open, onClose }: Props) => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
+	// Will get fixed in new release of react-hook-form
+	// See: https://github.com/react-hook-form/react-hook-form/issues/2887
+	// eslint-disable-next-line @typescript-eslint/unbound-method
 	const { register, handleSubmit, errors } = useForm<TodoForm>({
 		resolver: joiResolver(todoSchema),
 	});

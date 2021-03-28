@@ -3,5 +3,8 @@
     "editor.codeActionsOnSave": {
         "source.fixAll": true,
         "source.organizeImports": true
-    }
+    },
+    "editor.rulers": [
+        140
+    ],
 }

@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const TodoTable: React.FunctionComponent = () => {
+const TodoTable: React.FC = () => {
 	const classes = useStyles();
 	const todoList = useSelector(fromRoot.getAllTodos);
 	const dispatch = useDispatch();
