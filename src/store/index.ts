@@ -4,3 +4,4 @@ export const fromRoot = _fromRoot;
 
 export * from './root.actions';
 export * from './root.reducer';
+export type { RootAction } from './types';

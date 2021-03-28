@@ -1,4 +1,3 @@
-import { AnyAction } from 'deox';
 import * as localforage from 'localforage';
 import { applyMiddleware, createStore, Middleware, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -6,6 +5,7 @@ import { createLogger } from 'redux-logger';
 import { createEpicMiddleware } from 'redux-observable';
 import { PersistConfig, Persistor, persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
+import { RootAction } from '.';
 import rootEpic from './root.epic';
 import { rootReducer, RootState } from './root.reducer';
 
@@ -19,7 +19,7 @@ const persistConfig: PersistConfig<RootState> = {
 const dev = process.env.NODE_ENV === 'development';
 const logger = createLogger();
 
-const epicMiddleware = createEpicMiddleware();
+const epicMiddleware = createEpicMiddleware<RootAction, RootAction, RootState>();
 
 const middlewares: Middleware<never>[] = [thunk, epicMiddleware];
 
@@ -36,11 +36,11 @@ if (dev) {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const configureStore = (): {
-	store: Store<RootState, AnyAction>;
+	store: Store<RootState, RootAction>;
 	persistor: Persistor;
 } => {
 	const store = createStore(persistedReducer, middleware);
-	epicMiddleware.run(rootEpic as never);
+	epicMiddleware.run(rootEpic);
 
 	const persistor = persistStore(store);
 

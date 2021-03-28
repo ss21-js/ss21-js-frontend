@@ -1,7 +1,7 @@
-import { createAction } from 'deox';
+import { createAction } from 'typesafe-actions';
 import { SnackbarEvent } from './snackbar.model';
 
-export const createSnackbar = createAction('[Snackbar] create', (resolve) => (event: SnackbarEvent) => {
+export const createSnackbar = createAction('CREATE_SNACKBAR', (event: SnackbarEvent) => {
 	let { duration } = event;
 
 	if (!duration) {
@@ -19,19 +19,10 @@ export const createSnackbar = createAction('[Snackbar] create', (resolve) => (ev
 		}
 	}
 
-	return resolve(event, { duration });
-});
-export const showSnackbar = createAction(
-	'[Snackbar] show',
-	(resolve) => (event: SnackbarEvent & { duration: number }) => resolve(event)
-);
-export const showSnackbarCompleted = createAction('[Snackbar] show completed');
-export const dismissSnackbar = createAction('[Snackbar] dismiss');
-export const dismissSnackbarCompleted = createAction('[Snackbar] dismiss completed');
+	return { ...event, duration };
+})();
 
-export type SnackbarActions =
-	| ReturnType<typeof createSnackbar>
-	| ReturnType<typeof showSnackbar>
-	| ReturnType<typeof showSnackbarCompleted>
-	| ReturnType<typeof dismissSnackbar>
-	| ReturnType<typeof dismissSnackbarCompleted>;
+export const showSnackbar = createAction('SHOW_SNACKBAR')<SnackbarEvent & { duration: number }>();
+export const showSnackbarCompleted = createAction('SHOW_SNACKBAR_COMPLETES')();
+export const dismissSnackbar = createAction('DISMISS_SNACKBAR')();
+export const dismissSnackbarCompleted = createAction('DISMISS_SNACKBAR_COMPLETED')();

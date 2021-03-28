@@ -1,8 +1,8 @@
-import { ofType } from 'deox';
 import { combineEpics, Epic } from 'redux-observable';
 import { asyncScheduler, merge, of } from 'rxjs';
-import { debounceTime, delay, delayWhen, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
-import { fromRoot, RootActions, RootState } from '..';
+import { debounceTime, delay, delayWhen, filter, mapTo, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { isActionOf } from 'typesafe-actions';
+import { fromRoot, RootAction, RootState } from '..';
 import {
 	createSnackbar,
 	dismissSnackbar,
@@ -11,27 +11,31 @@ import {
 	showSnackbarCompleted,
 } from './snackbar.actions';
 
-const showSnackbarEpic: Epic<RootActions, RootActions, RootState> = (action$, state$) =>
+const showSnackbarEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
 	action$.pipe(
-		ofType(createSnackbar),
+		filter(isActionOf(createSnackbar)),
 		debounceTime(100, asyncScheduler),
 		withLatestFrom(state$),
 		switchMap(([action, state]) => {
-			const showAction = showSnackbar({ ...action.payload, ...action.meta });
+			const showAction = showSnackbar({ ...action.payload });
 
 			return fromRoot.getSnackbar(state)
-				? action$.pipe(ofType(dismissSnackbarCompleted), take(1), mapTo(showAction))
+				? action$.pipe(filter(isActionOf(dismissSnackbarCompleted)), take(1), mapTo(showAction))
 				: of(showAction);
 		})
 	);
 
-const dismissSnackbarEpic: Epic<RootActions, RootActions, RootState> = (action$) =>
+const dismissSnackbarEpic: Epic<RootAction, RootAction, RootState> = (action$) =>
 	action$.pipe(
-		ofType(showSnackbar),
+		filter(isActionOf(showSnackbar)),
 		delayWhen(({ payload }) =>
 			merge(
-				action$.pipe(ofType(showSnackbarCompleted), take(1), delay(payload.duration, asyncScheduler)),
-				action$.pipe(ofType(createSnackbar), take(1))
+				action$.pipe(
+					filter(isActionOf(showSnackbarCompleted)),
+					take(1),
+					delay(payload.duration, asyncScheduler)
+				),
+				action$.pipe(filter(isActionOf(createSnackbar)), take(1))
 			)
 		),
 		mapTo(dismissSnackbar())

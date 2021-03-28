@@ -1,5 +1,3 @@
-import { createAction } from 'deox';
+import { createAction } from 'typesafe-actions';
 
-export const toggleDrawerOpen = createAction('[Config] Toggle Drawer', (resolve) => () => resolve());
-
-export type ConfigActions = ReturnType<typeof toggleDrawerOpen>;
+export const toggleDrawerOpen = createAction('TOGGLE_DRAWER')();

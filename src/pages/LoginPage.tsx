@@ -1,21 +1,25 @@
+import { joiResolver } from '@hookform/resolvers/joi';
 import { Apple, Github, Google, Microsoft } from '@icons-pack/react-simple-icons';
 import { makeStyles, Theme } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar/Avatar';
 import Button from '@material-ui/core/Button/Button';
-import Checkbox from '@material-ui/core/Checkbox/Checkbox';
 import Container from '@material-ui/core/Container/Container';
-import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Grid from '@material-ui/core/Grid/Grid';
 import Link from '@material-ui/core/Link/Link';
 import TextField from '@material-ui/core/TextField/TextField';
 import Typography from '@material-ui/core/Typography/Typography';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import firebase from 'firebase';
+import Joi from 'joi';
 import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { fromRoot } from 'src/store';
+import { signIn, signInWith } from 'src/store/auth/auth.actions';
+import { OAuthProvider, SignInWithEmail } from 'src/store/auth/auth.model';
 
 const useStyles = makeStyles((theme: Theme) => ({
+	root: {
+		alignSelf: 'center',
+	},
 	paper: {
-		marginTop: theme.spacing(8),
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -36,51 +40,41 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }));
 
+const loginSchema = Joi.object<SignInWithEmail>({
+	email: Joi.string()
+		.email({ tlds: { allow: false } })
+		.required(),
+	password: Joi.string().min(6).max(32).required(),
+});
+
 const LoginPage: React.FC = () => {
 	const classes = useStyles();
+	const dispatch = useDispatch();
 
-	const [error, setError] = React.useState('');
+	const authError = useSelector(fromRoot.authError);
+	const authLoading = useSelector(fromRoot.authLoading);
 
-	const handleGoogle = () => {
-		const provider = new firebase.auth.GoogleAuthProvider();
-		firebase
-			.auth()
-			.signInWithPopup(provider)
-			.catch((e: firebase.auth.AuthError) => setError(e.message));
+	// Will get fixed in new release of react-hook-form
+	// See: https://github.com/react-hook-form/react-hook-form/issues/2887
+	// eslint-disable-next-line @typescript-eslint/unbound-method
+	const { register, handleSubmit, errors } = useForm<SignInWithEmail>({
+		resolver: joiResolver(loginSchema),
+	});
+
+	const onSubmit = (data: SignInWithEmail) => {
+		dispatch(signIn.request(data));
 	};
-	const handleApple = () => {
-		const provider = new firebase.auth.OAuthProvider('apple.com');
-		provider.addScope('email');
-		provider.addScope('name');
-		firebase
-			.auth()
-			.signInWithPopup(provider)
-			.catch((e: firebase.auth.AuthError) => setError(e.message));
-	};
-	const handleMicrosoft = () => {
-		const provider = new firebase.auth.OAuthProvider('microsoft.com');
-		provider.addScope('mail.read');
-		firebase
-			.auth()
-			.signInWithPopup(provider)
-			.catch((e: firebase.auth.AuthError) => setError(e.message));
-	};
-	const handleGithub = () => {
-		const provider = new firebase.auth.GithubAuthProvider();
-		firebase
-			.auth()
-			.signInWithPopup(provider)
-			.catch((e: firebase.auth.AuthError) => setError(e.message));
-	};
+
+	const handleGoogle = () => dispatch(signInWith.request(OAuthProvider.google));
+	const handleApple = () => dispatch(signInWith.request(OAuthProvider.apple));
+	const handleMicrosoft = () => dispatch(signInWith.request(OAuthProvider.microsoft));
+	const handleGithub = () => dispatch(signInWith.request(OAuthProvider.github));
 
 	return (
-		<Container component="main" maxWidth="xs">
+		<Container className={classes.root} component="main" maxWidth="xs">
 			<div className={classes.paper}>
-				<Avatar className={classes.avatar}>
-					<LockOutlinedIcon />
-				</Avatar>
 				<Typography component="h1" variant="h5">
-					Sign in
+					Login
 				</Typography>
 				<Grid container justify="space-evenly" className={classes.social}>
 					<Grid item>
@@ -104,8 +98,9 @@ const LoginPage: React.FC = () => {
 						</Button>
 					</Grid>
 				</Grid>
-				<form className={classes.form} noValidate>
+				<form className={classes.form} onSubmit={handleSubmit(onSubmit)} noValidate>
 					<TextField
+						inputRef={register}
 						variant="outlined"
 						margin="normal"
 						required
@@ -115,8 +110,12 @@ const LoginPage: React.FC = () => {
 						name="email"
 						autoComplete="email"
 						autoFocus
+						disabled={authLoading}
+						error={errors.email?.message !== undefined}
+						helperText={errors.email?.message}
 					/>
 					<TextField
+						inputRef={register}
 						variant="outlined"
 						margin="normal"
 						required
@@ -126,14 +125,23 @@ const LoginPage: React.FC = () => {
 						type="password"
 						id="password"
 						autoComplete="current-password"
+						disabled={authLoading}
+						error={errors.password?.message !== undefined}
+						helperText={errors.password?.message}
 					/>
-					<FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-					<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
+						className={classes.submit}
+						disabled={authLoading}
+					>
 						Sign In
 					</Button>
-					{error && (
+					{authError && (
 						<Typography variant="body1" color="error" gutterBottom>
-							{error}
+							{authError}
 						</Typography>
 					)}
 					<Grid container>

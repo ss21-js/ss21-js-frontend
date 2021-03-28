@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/styles';
+import clsx from 'clsx';
 import * as React from 'react';
 import { RouterSwitch, useRouteOptions } from 'react-typesafe-routes';
 import AppBar from './components/AppBar';
@@ -30,8 +31,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 		},
 	},
 	content: {
+		display: 'flex',
 		backgroundColor: theme.palette.background.default,
 		width: '100%',
+		height: '100%',
+	},
+	pushDown: {
 		height: 'calc(100% - 56px)',
 		marginTop: 56,
 		[theme.breakpoints.up('sm')]: {
@@ -52,7 +57,11 @@ const App: React.FC = () => {
 				<Snackbar />
 				{showAppBar && <AppBar />}
 				{showDrawer && <Drawer />}
-				<div className={classes.content}>
+				<div
+					className={clsx(classes.content, {
+						[classes.pushDown]: showAppBar,
+					})}
+				>
 					<RouterSwitch router={router} />
 				</div>
 			</div>

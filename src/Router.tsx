@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import { OptionsRouter, Redirect, RouteMiddleware } from 'react-typesafe-routes';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import TodoPage from './pages/TodoPage';
 import { fromRoot } from './store';
 
 const AuthMiddleware: RouteMiddleware = (next) => {
@@ -40,10 +39,6 @@ const router = OptionsRouter(routeOptions, (route) => ({
 	home: route('', {
 		middleware: AuthMiddleware,
 		component: HomePage,
-	}),
-	todo: route('todo', {
-		middleware: AuthMiddleware,
-		component: TodoPage,
 	}),
 }));
 

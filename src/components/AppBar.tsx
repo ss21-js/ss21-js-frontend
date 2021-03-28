@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fromRoot, logout, toggleDrawerOpen } from 'src/store';
+import { fromRoot, signOut, toggleDrawerOpen } from 'src/store';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -36,7 +36,7 @@ const AppBar: React.FC = () => {
 	};
 
 	const handleLogout = () => {
-		dispatch(logout());
+		dispatch(signOut());
 	};
 
 	return (

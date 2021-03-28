@@ -1,5 +1,4 @@
 import { makeStyles, Theme } from '@material-ui/core';
-import Badge from '@material-ui/core/Badge/Badge';
 import Divider from '@material-ui/core/Divider/Divider';
 import MuiDrawer from '@material-ui/core/Drawer/Drawer';
 import Hidden from '@material-ui/core/Hidden/Hidden';
@@ -7,7 +6,6 @@ import List from '@material-ui/core/List/List';
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText/ListItemText';
-import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import HomeIcon from '@material-ui/icons/Home';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,26 +28,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }));
 
-const TodoIcon = () => {
-	const uncompletedTodos = useSelector(fromRoot.getUncompletedTodos);
-
-	if (uncompletedTodos.length > 0) {
-		return (
-			<Badge color="secondary" badgeContent={uncompletedTodos.length}>
-				<FormatListNumberedIcon />
-			</Badge>
-		);
-	}
-	return <FormatListNumberedIcon />;
-};
-
 function Content() {
 	const classes = useStyles();
 	const history = useHistory();
 
-	const { home, todo } = useRoutesActive({
+	const { home } = useRoutesActive({
 		home: router.home,
-		todo: router.todo,
 	});
 
 	return (
@@ -62,15 +46,6 @@ function Content() {
 						<HomeIcon />
 					</ListItemIcon>
 					<ListItemText primary="Home" />
-				</ListItem>
-			</List>
-			<Divider />
-			<List>
-				<ListItem button onClick={() => history.push(router.todo().$)} selected={todo}>
-					<ListItemIcon>
-						<TodoIcon />
-					</ListItemIcon>
-					<ListItemText primary="Todo" />
 				</ListItem>
 			</List>
 		</div>
