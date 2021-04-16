@@ -2,7 +2,9 @@ import firebase from 'firebase';
 import { isProd } from '../constants';
 import firebaseConfig from './firebaseConfig';
 
-const initializeFirebase = (): firebase.app.App => {
+const useEmulators = false;
+
+const initializeFirebase = () => {
 	// Initialize Firebase
 	const app = firebase.initializeApp(firebaseConfig);
 
@@ -10,10 +12,15 @@ const initializeFirebase = (): firebase.app.App => {
 	firebase.auth().languageCode = 'de';
 
 	if (!isProd) {
-		// eslint-disable-next-line no-console
 		console.info(`Firebase-APP created ${firebase.SDK_VERSION}`);
 	}
 
-	return app;
+	let auth = app.auth();
+
+	if (useEmulators) {
+		auth.useEmulator('http://localhost:9099');
+	}
+
+	return { auth };
 };
 export default initializeFirebase;

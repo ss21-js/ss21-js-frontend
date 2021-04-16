@@ -1,22 +1,22 @@
-import { useSelector } from 'react-redux';
 import { OptionsRouter, Redirect, RouteMiddleware } from 'react-typesafe-routes';
+import { useRecoilValue } from 'recoil';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import { fromRoot } from './store';
+import { currentUserId } from './store/auth';
 
 const AuthMiddleware: RouteMiddleware = (next) => {
-	const firebaseUser = useSelector(fromRoot.firebaseUser);
+	const id = useRecoilValue(currentUserId);
 
-	if (firebaseUser === null) {
+	if (id === null) {
 		return () => <Redirect to={router.login()} />;
 	}
 	return next;
 };
 
 const LoginMiddleware: RouteMiddleware = (next) => {
-	const firebaseUser = useSelector(fromRoot.firebaseUser);
+	const id = useRecoilValue(currentUserId);
 
-	if (firebaseUser !== null) {
+	if (id !== null) {
 		return () => <Redirect to={router.home()} />;
 	}
 	return next;
@@ -36,9 +36,12 @@ const router = OptionsRouter(routeOptions, (route) => ({
 			showDrawer: false,
 		},
 	}),
-	home: route('', {
+	home: route('app', {
 		middleware: AuthMiddleware,
 		component: HomePage,
+	}),
+	fallback: route('*', {
+		component: () => <Redirect to={router.home()} />,
 	}),
 }));
 

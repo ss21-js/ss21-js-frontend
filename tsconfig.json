@@ -20,11 +20,14 @@
     "sourceMap": true,
     "strict": true,
     "target": "es5",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
-    ],
+    ]
   },
   "include": [
     "src/**/*"
