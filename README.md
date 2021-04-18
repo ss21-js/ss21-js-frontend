@@ -1,4 +1,7 @@
 ## Studentenjobbörse
+
+[![Build and Deploy](https://github.com/ss21-js/ss21-js-frontend/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/ss21-js/ss21-js-frontend/actions/workflows/build_and_deploy.yml)
+
 **1. Projektbeschreibung**
 
 Entwickelt wird ein responsive Web-Portal namens „Studentenjobbörse“. Das Projekt richtet sich an Rosenheimer IT-Studenten und Unternehmen. Studentenjobbörse soll arbeitswillige Studenten und Unternehmen zusammenführen. Die Webanwendung matcht die veröffentlichten Jobs der Unternehmen mit deren Fähigkeiten des Studenten.
