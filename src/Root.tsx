@@ -1,28 +1,25 @@
-import { Typography } from '@material-ui/core';
 import * as React from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { PersistGate } from 'redux-persist/integration/react';
-import App from './App';
+import { RouterSwitch } from 'react-typesafe-routes';
+import { RecoilRoot } from 'recoil';
+import FullSizeContainer from './components/layout/FullSizeContainer';
 import FirebaseWrapper from './firebase/FirebaseWrapper';
-import configureStore from './store/configureStore';
-import ThemeWrapper from './ThemeWrapper';
-
-const { persistor, store } = configureStore();
+import router from './Router';
+import ThemeWrapper from './Theme';
 
 const Root: React.FC = () => {
 	return (
-		<Provider store={store}>
-			<PersistGate loading={<Typography>Loading...</Typography>} persistor={persistor}>
-				<ThemeWrapper>
-					<BrowserRouter>
+		<RecoilRoot>
+			<ThemeWrapper>
+				<BrowserRouter>
+					<FullSizeContainer>
 						<FirebaseWrapper>
-							<App />
+							<RouterSwitch router={router} />;
 						</FirebaseWrapper>
-					</BrowserRouter>
-				</ThemeWrapper>
-			</PersistGate>
-		</Provider>
+					</FullSizeContainer>
+				</BrowserRouter>
+			</ThemeWrapper>
+		</RecoilRoot>
 	);
 };
 export default Root;

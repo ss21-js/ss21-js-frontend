@@ -8,16 +8,14 @@ import * as React from 'react';
 const theme = createMuiTheme({
 	palette: {
 		primary: {
-			light: '#e5e5e5',
-			main: '#727272',
-			dark: '#363839',
+			light: '#65CEEF',
+			main: '#0B77BF',
+			dark: '#383C7B',
 			contrastText: '#fff',
 		},
 		secondary: {
-			light: '#ff5e50',
-			main: '#e41e26',
-			dark: '#a90000',
-			contrastText: '#fff',
+			main: '#F0F0F0',
+			contrastText: '#8E8E96',
 		},
 	},
 });
@@ -26,9 +24,7 @@ interface Props {
 	children: React.ReactChild;
 }
 
-const ThemeWrapper: React.FC<Props> = (props: Props) => {
-	const { children } = props;
-
+const ThemeWrapper: React.FC<Props> = ({ children }) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />

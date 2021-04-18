@@ -1,23 +1,26 @@
-import { useSelector } from 'react-redux';
 import { OptionsRouter, Redirect, RouteMiddleware } from 'react-typesafe-routes';
-import HomePage from './pages/HomePage';
+import { useRecoilValue } from 'recoil';
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
-import { fromRoot } from './store';
+import ProfilePage from './pages/ProfilePage';
+import SavedPage from './pages/SavedPage';
+import SearchPage from './pages/SearchPage';
+import { currentUserId } from './store/auth';
 
 const AuthMiddleware: RouteMiddleware = (next) => {
-	const firebaseUser = useSelector(fromRoot.firebaseUser);
+	const id = useRecoilValue(currentUserId);
 
-	if (firebaseUser === null) {
+	if (id === null) {
 		return () => <Redirect to={router.login()} />;
 	}
 	return next;
 };
 
 const LoginMiddleware: RouteMiddleware = (next) => {
-	const firebaseUser = useSelector(fromRoot.firebaseUser);
+	const id = useRecoilValue(currentUserId);
 
-	if (firebaseUser !== null) {
-		return () => <Redirect to={router.home()} />;
+	if (id !== null) {
+		return () => <Redirect to={router.app().search()} />;
 	}
 	return next;
 };
@@ -36,9 +39,30 @@ const router = OptionsRouter(routeOptions, (route) => ({
 			showDrawer: false,
 		},
 	}),
-	home: route('', {
-		middleware: AuthMiddleware,
-		component: HomePage,
+
+	landing: route('', {
+		component: LandingPage,
+	}),
+	app: route(
+		'app',
+		{
+			middleware: AuthMiddleware,
+			component: () => <Redirect to={router.app().search()} />,
+		},
+		(route) => ({
+			search: route('search', {
+				component: SearchPage,
+			}),
+			saved: route('saved', {
+				component: SavedPage,
+			}),
+			profile: route('profile', {
+				component: ProfilePage,
+			}),
+		})
+	),
+	fallback: route('*', {
+		component: () => <Redirect to={router.app().search()} />,
 	}),
 }));
 

@@ -1,19 +1,22 @@
+import styled from '@emotion/styled';
+import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { Apple, Github, Google, Microsoft } from '@icons-pack/react-simple-icons';
 import { makeStyles, Theme } from '@material-ui/core';
 import Button from '@material-ui/core/Button/Button';
 import Container from '@material-ui/core/Container/Container';
 import Grid from '@material-ui/core/Grid/Grid';
 import Link from '@material-ui/core/Link/Link';
 import TextField from '@material-ui/core/TextField/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography/Typography';
 import Joi from 'joi';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { fromRoot } from 'src/store';
-import { signIn, signInWith } from 'src/store/auth/auth.actions';
-import { OAuthProvider, SignInWithEmail } from 'src/store/auth/auth.model';
+import { useRecoilValue } from 'recoil';
+import StyledButton from 'src/components/StyledButton';
+import { authState, OAuthProvider, SignInWithEmail, useSignIn, useSignInWith } from 'src/store/auth';
+import { useMaterialRegister } from 'src/utils/formUtils';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -40,6 +43,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }));
 
+const IconButton = styled(StyledButton)`
+	padding: 0.5rem;
+	min-width: unset;
+	width: 42px;
+	height: 42px;
+`;
+
 const loginSchema = Joi.object<SignInWithEmail>({
 	email: Joi.string()
 		.email({ tlds: { allow: false } })
@@ -49,26 +59,23 @@ const loginSchema = Joi.object<SignInWithEmail>({
 
 const LoginPage: React.FC = () => {
 	const classes = useStyles();
-	const dispatch = useDispatch();
 
-	const authError = useSelector(fromRoot.authError);
-	const authLoading = useSelector(fromRoot.authLoading);
+	const signIn = useSignIn();
+	const signInWith = useSignInWith();
+	const { loading, error } = useRecoilValue(authState);
 
-	// Will get fixed in new release of react-hook-form
-	// See: https://github.com/react-hook-form/react-hook-form/issues/2887
-	// eslint-disable-next-line @typescript-eslint/unbound-method
-	const { register, handleSubmit, errors } = useForm<SignInWithEmail>({
+	const { control, handleSubmit } = useForm<SignInWithEmail>({
 		resolver: joiResolver(loginSchema),
 	});
 
-	const onSubmit = (data: SignInWithEmail) => {
-		dispatch(signIn.request(data));
-	};
+	const materialRegister = useMaterialRegister(control);
 
-	const handleGoogle = () => dispatch(signInWith.request(OAuthProvider.google));
-	const handleApple = () => dispatch(signInWith.request(OAuthProvider.apple));
-	const handleMicrosoft = () => dispatch(signInWith.request(OAuthProvider.microsoft));
-	const handleGithub = () => dispatch(signInWith.request(OAuthProvider.github));
+	const onSubmit = (data: SignInWithEmail) => signIn(data);
+
+	const handleGoogle = () => signInWith(OAuthProvider.Google);
+	const handleApple = () => signInWith(OAuthProvider.Apple);
+	const handleMicrosoft = () => signInWith(OAuthProvider.Microsoft);
+	const handleGithub = () => signInWith(OAuthProvider.Github);
 
 	return (
 		<Container className={classes.root} component="main" maxWidth="xs">
@@ -76,58 +83,68 @@ const LoginPage: React.FC = () => {
 				<Typography component="h1" variant="h5">
 					Login
 				</Typography>
-				<Grid container justify="space-evenly" className={classes.social}>
+				<Grid container justifyContent="space-evenly" className={classes.social}>
 					<Grid item>
-						<Button variant="contained" style={{ backgroundColor: '#4285F4' }} onClick={handleGoogle}>
-							<Google color="#fff" fontSize="inherit" />
-						</Button>
+						<Tooltip title="Sign in with Google">
+							<span>
+								<IconButton style={{ backgroundColor: '#4285F4' }} onClick={handleGoogle}>
+									<FontAwesomeIcon icon={faGoogle} size="lg" />
+								</IconButton>
+							</span>
+						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Button variant="contained" style={{ backgroundColor: '#000' }} onClick={handleApple}>
-							<Apple color="#fff" fontSize="inherit" />
-						</Button>
+						<Tooltip title="Sign in with Apple">
+							<span>
+								<IconButton style={{ backgroundColor: '#000' }} onClick={handleApple}>
+									<FontAwesomeIcon icon={faApple} size="lg" />
+								</IconButton>
+							</span>
+						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Button variant="contained" style={{ backgroundColor: '#00A4EF' }} onClick={handleMicrosoft}>
-							<Microsoft color="#fff" fontSize="inherit" />
-						</Button>
+						<Tooltip title="Sign in with Microsoft">
+							<span>
+								<IconButton style={{ backgroundColor: '#00A4EF' }} onClick={handleMicrosoft}>
+									<FontAwesomeIcon icon={faMicrosoft} size="lg" />
+								</IconButton>
+							</span>
+						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Button variant="contained" style={{ backgroundColor: '#333333' }} onClick={handleGithub}>
-							<Github color="#fff" fontSize="inherit" />
-						</Button>
+						<Tooltip title="Sign in with Github">
+							<span>
+								<IconButton style={{ backgroundColor: '#333333' }} onClick={handleGithub}>
+									<FontAwesomeIcon icon={faGithub} size="lg" />
+								</IconButton>
+							</span>
+						</Tooltip>
 					</Grid>
 				</Grid>
 				<form className={classes.form} onSubmit={handleSubmit(onSubmit)} noValidate>
 					<TextField
-						inputRef={register}
+						{...materialRegister('email')}
 						variant="outlined"
 						margin="normal"
 						required
 						fullWidth
 						id="email"
 						label="Email Address"
-						name="email"
 						autoComplete="email"
 						autoFocus
-						disabled={authLoading}
-						error={errors.email?.message !== undefined}
-						helperText={errors.email?.message}
+						disabled={loading}
 					/>
 					<TextField
-						inputRef={register}
+						{...materialRegister('password')}
 						variant="outlined"
 						margin="normal"
 						required
 						fullWidth
-						name="password"
 						label="Password"
 						type="password"
 						id="password"
 						autoComplete="current-password"
-						disabled={authLoading}
-						error={errors.password?.message !== undefined}
-						helperText={errors.password?.message}
+						disabled={loading}
 					/>
 					<Button
 						type="submit"
@@ -135,13 +152,13 @@ const LoginPage: React.FC = () => {
 						variant="contained"
 						color="primary"
 						className={classes.submit}
-						disabled={authLoading}
+						disabled={loading}
 					>
 						Sign In
 					</Button>
-					{authError && (
+					{error && (
 						<Typography variant="body1" color="error" gutterBottom>
-							{authError}
+							{error}
 						</Typography>
 					)}
 					<Grid container>
