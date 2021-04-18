@@ -1,55 +1,19 @@
 import { css } from '@emotion/react';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Theme, useTheme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
 import MuiAppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import { signOut } from 'src/store/auth';
 import { drawerOpen } from 'src/store/general';
 import CurrentUser from '../CurrentUser';
 import Logo from '../Logo';
-import StyledButton from '../StyledButton';
-
-const Navigation = () => {
-	const theme = useTheme();
-
-	return (
-		<div
-			css={css`
-				display: flex;
-				justify-content: center;
-			`}
-		>
-			<StyledButton
-				variant="text"
-				css={css`
-					color: ${theme.palette.primary.light};
-				`}
-			>
-				Find Job
-			</StyledButton>
-			<StyledButton
-				variant="text"
-				css={css`
-					color: ${theme.palette.secondary.contrastText};
-				`}
-			>
-				Saved
-			</StyledButton>
-			<StyledButton
-				variant="text"
-				css={css`
-					color: ${theme.palette.secondary.contrastText};
-				`}
-			>
-				Profile
-			</StyledButton>
-		</div>
-	);
-};
+import Navigation from './Navigation';
 
 const AppBar = () => {
 	const [isDrawerOpen, setDrawerOpen] = useRecoilState(drawerOpen);
@@ -57,6 +21,8 @@ const AppBar = () => {
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
 	const handleMenuToggle = () => setDrawerOpen(!isDrawerOpen);
+
+	const handleSignOut = () => signOut();
 
 	return (
 		<MuiAppBar
@@ -79,7 +45,7 @@ const AppBar = () => {
 				)}
 				<div
 					css={css`
-						${!isMobile && 'width: 200px;'}
+						${!isMobile && 'width: 250px;'}
 					`}
 				>
 					<Logo />
@@ -89,10 +55,23 @@ const AppBar = () => {
 					css={css`
 						display: flex;
 						justify-content: flex-end;
-						${!isMobile && 'width: 200px;'}
+						${!isMobile && 'width: 250px;'}
 					`}
 				>
 					<CurrentUser avatarOnly={isMobile} />
+					<Tooltip title="Sign out">
+						<span>
+							<IconButton
+								aria-label="delete"
+								css={css`
+									margin-left: 0.75rem;
+								`}
+								onClick={handleSignOut}
+							>
+								<FontAwesomeIcon icon={faSignOutAlt} />
+							</IconButton>
+						</span>
+					</Tooltip>
 				</div>
 			</Toolbar>
 		</MuiAppBar>

@@ -1,12 +1,15 @@
 import { css } from '@emotion/react';
+import { useMediaQuery } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { drawerOpen } from 'src/store/general';
+import Navigation from './Navigation';
 
 const Drawer: React.FC = () => {
 	const [open, setOpen] = useRecoilState(drawerOpen);
+
+	const isTiny = useMediaQuery('@media(max-width: 360px)');
 
 	const handleClose = () => setOpen(false);
 
@@ -34,9 +37,7 @@ const Drawer: React.FC = () => {
 				}
 			`}
 		>
-			<MenuItem>Test</MenuItem>
-			<MenuItem>Test</MenuItem>
-			<MenuItem>Test</MenuItem>
+			<Navigation vertical={isTiny} />
 		</Menu>
 	);
 };

@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { ButtonProps } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
-const StyledButton = (props: ButtonProps) => (
+const StyledButton: React.FC<ButtonProps> = (props) => (
 	<Button
 		variant="contained"
 		css={css`
