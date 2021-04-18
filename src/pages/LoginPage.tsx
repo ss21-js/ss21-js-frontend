@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -7,12 +8,15 @@ import Container from '@material-ui/core/Container/Container';
 import Grid from '@material-ui/core/Grid/Grid';
 import Link from '@material-ui/core/Link/Link';
 import TextField from '@material-ui/core/TextField/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography/Typography';
 import Joi from 'joi';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
+import StyledButton from 'src/components/StyledButton';
 import { authState, OAuthProvider, SignInWithEmail, useSignIn, useSignInWith } from 'src/store/auth';
+import { useMaterialRegister } from 'src/utils/formUtils';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -39,6 +43,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }));
 
+const IconButton = styled(StyledButton)`
+	padding: 0.5rem;
+	min-width: unset;
+	width: 42px;
+	height: 42px;
+`;
+
 const loginSchema = Joi.object<SignInWithEmail>({
 	email: Joi.string()
 		.email({ tlds: { allow: false } })
@@ -53,9 +64,11 @@ const LoginPage: React.FC = () => {
 	const signInWith = useSignInWith();
 	const { loading, error } = useRecoilValue(authState);
 
-	const { register, handleSubmit, errors } = useForm<SignInWithEmail>({
+	const { control, handleSubmit } = useForm<SignInWithEmail>({
 		resolver: joiResolver(loginSchema),
 	});
+
+	const materialRegister = useMaterialRegister(control);
 
 	const onSubmit = (data: SignInWithEmail) => signIn(data);
 
@@ -72,56 +85,66 @@ const LoginPage: React.FC = () => {
 				</Typography>
 				<Grid container justifyContent="space-evenly" className={classes.social}>
 					<Grid item>
-						<Button variant="contained" style={{ backgroundColor: '#4285F4' }} onClick={handleGoogle}>
-							<FontAwesomeIcon icon={faGoogle} />
-						</Button>
+						<Tooltip title="Sign in with Google">
+							<span>
+								<IconButton style={{ backgroundColor: '#4285F4' }} onClick={handleGoogle}>
+									<FontAwesomeIcon icon={faGoogle} size="lg" />
+								</IconButton>
+							</span>
+						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Button variant="contained" style={{ backgroundColor: '#000' }} onClick={handleApple}>
-							<FontAwesomeIcon icon={faApple} />
-						</Button>
+						<Tooltip title="Sign in with Apple">
+							<span>
+								<IconButton style={{ backgroundColor: '#000' }} onClick={handleApple}>
+									<FontAwesomeIcon icon={faApple} size="lg" />
+								</IconButton>
+							</span>
+						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Button variant="contained" style={{ backgroundColor: '#00A4EF' }} onClick={handleMicrosoft}>
-							<FontAwesomeIcon icon={faMicrosoft} />
-						</Button>
+						<Tooltip title="Sign in with Microsoft">
+							<span>
+								<IconButton style={{ backgroundColor: '#00A4EF' }} onClick={handleMicrosoft}>
+									<FontAwesomeIcon icon={faMicrosoft} size="lg" />
+								</IconButton>
+							</span>
+						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Button variant="contained" style={{ backgroundColor: '#333333' }} onClick={handleGithub}>
-							<FontAwesomeIcon icon={faGithub} />
-						</Button>
+						<Tooltip title="Sign in with Github">
+							<span>
+								<IconButton style={{ backgroundColor: '#333333' }} onClick={handleGithub}>
+									<FontAwesomeIcon icon={faGithub} size="lg" />
+								</IconButton>
+							</span>
+						</Tooltip>
 					</Grid>
 				</Grid>
 				<form className={classes.form} onSubmit={handleSubmit(onSubmit)} noValidate>
 					<TextField
-						inputRef={register}
+						{...materialRegister('email')}
 						variant="outlined"
 						margin="normal"
 						required
 						fullWidth
 						id="email"
 						label="Email Address"
-						name="email"
 						autoComplete="email"
 						autoFocus
 						disabled={loading}
-						error={errors.email?.message !== undefined}
-						helperText={errors.email?.message}
 					/>
 					<TextField
-						inputRef={register}
+						{...materialRegister('password')}
 						variant="outlined"
 						margin="normal"
 						required
 						fullWidth
-						name="password"
 						label="Password"
 						type="password"
 						id="password"
 						autoComplete="current-password"
 						disabled={loading}
-						error={errors.password?.message !== undefined}
-						helperText={errors.password?.message}
 					/>
 					<Button
 						type="submit"
