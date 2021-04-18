@@ -1,5 +1,6 @@
 import { OptionsRouter, Redirect, RouteMiddleware } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import SavedPage from './pages/SavedPage';
@@ -37,6 +38,10 @@ const router = OptionsRouter(routeOptions, (route) => ({
 			showAppBar: false,
 			showDrawer: false,
 		},
+	}),
+
+	landing: route('', {
+		component: LandingPage,
 	}),
 	app: route(
 		'app',
