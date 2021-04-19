@@ -1,4 +1,6 @@
 import { css } from '@emotion/react';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from '@material-ui/core';
 import Checkbox from "@material-ui/core/Checkbox";
 import Chip from '@material-ui/core/Chip';
@@ -7,8 +9,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 import React from "react";
 import { useRecoilState } from 'recoil';
 import { buttonOpen } from 'src/store/general';
@@ -34,7 +34,7 @@ const CollapsableContainer = () => {
     >
       <ListItem button onClick={handleClick}>
         <ListItemText primary="Art der Anstellung" />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {open ? <FontAwesomeIcon icon={faAngleUp} /> : <FontAwesomeIcon icon={faAngleDown} /> }
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
