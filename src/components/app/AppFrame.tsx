@@ -26,6 +26,7 @@ const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
 					margin-top: 56px;
 					height: calc(100% - 56px);
 					background-color: #fafafb;
+					overflow-y: scroll;
 					${theme.breakpoints.up('sm')} {
 						height: calc(100% - 64px);
 						margin-top: 64px;
