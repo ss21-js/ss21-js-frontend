@@ -18,6 +18,9 @@ const theme = createMuiTheme({
 			contrastText: '#8E8E96',
 		},
 	},
+	shape: {
+		borderRadius: '0.6rem',
+	},
 });
 
 interface Props {
