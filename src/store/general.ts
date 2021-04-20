@@ -9,3 +9,12 @@ export const drawerOpen = atom({
 	key: 'drawerOpen',
 	default: false,
 });
+
+export enum ThemeMode {
+	LIGHT,
+	DARK,
+}
+export const themeMode = atom<ThemeMode>({
+	key: 'themeMode',
+	default: ThemeMode.LIGHT,
+});

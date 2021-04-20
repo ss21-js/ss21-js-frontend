@@ -22,7 +22,7 @@ const Logo: React.FC<LogoProps> = ({ hideText }) => {
 			<Typography
 				component="h1"
 				variant="h6"
-				color={theme.palette.primary.dark}
+				color={theme.palette.primary.main}
 				css={css`
 					display: ${!hideText ? 'block' : 'none'};
 					margin: auto 0;
