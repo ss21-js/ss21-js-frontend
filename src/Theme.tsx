@@ -60,6 +60,9 @@ const ThemeWrapper: React.FC<Props> = ({ children }) => {
 
 		return createMuiTheme({
 			palette: palette,
+			shape: {
+				borderRadius: '0.6rem',
+			},
 		});
 	}, [mode]);
 

@@ -3,6 +3,7 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import AppFrame from 'src/components/app/AppFrame';
 import Center from 'src/components/layout/Center';
+import RoundedBox from 'src/components/RoundedBox';
 import { ThemeMode, themeMode } from 'src/store/general';
 
 const SearchPage: React.FC = () => {
@@ -18,6 +19,7 @@ const SearchPage: React.FC = () => {
 					onChange={handleThemeChange}
 					inputProps={{ 'aria-label': 'controlled' }}
 				/>
+				<RoundedBox>Text</RoundedBox>
 			</Center>
 		</AppFrame>
 	);
