@@ -11,6 +11,7 @@ const StyledButton: React.FC<ButtonProps> = (props) => {
 				height: 2.75rem;
 				padding: 1rem 2rem;
 				text-transform: none;
+				line-height: 1;
 			`}
 			{...props}
 		/>

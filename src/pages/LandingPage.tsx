@@ -1,81 +1,61 @@
 import { css } from '@emotion/react';
+import { Theme, useMediaQuery } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import LandingCallToAction from 'src/components/landing/LandingCallToAction';
+import LandingImage from 'src/components/landing/LandingImage';
 import Logo from 'src/components/Logo';
 import StyledButton from 'src/components/StyledButton';
 import router from 'src/Router';
 import { currentUserId } from 'src/store/auth';
-import UndrawFeelingProud from '../assets/undraw_feeling_proud.svg';
 
 const LandingPage: React.FC = () => {
 	const history = useHistory();
 
 	const userId = useRecoilValue(currentUserId);
+	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
 	const handleToApp = () => history.push(router.app().search().$);
-
 	const handleLogin = () => history.push(router.login().$);
-
 	const handleRegister = () => history.push(router.register().$);
 
 	return (
-		<Box paddingX={6} paddingY={4} width="100%">
+		<Box paddingX={isMobile ? 3 : 6} paddingY={isMobile ? 2 : 4} width="100%">
 			<Box display="flex" justifyContent="space-between" alignItems="center">
-				<Logo large />
+				<Logo large={!isMobile} />
 				<StyledButton
 					variant="text"
 					css={css`
-						font-size: 1.5rem;
+						font-size: ${isMobile ? 1 : 1.5}rem;
 					`}
 					onClick={userId ? handleToApp : handleLogin}
 				>
 					{userId ? 'To App' : 'Login'}
 				</StyledButton>
 			</Box>
-			<Box display="flex" justifyContent="space-between" alignItems="center">
-				<div
-					css={css`
-						margin: 30vh 0 25vh 3vw;
-						width: 30vw;
-					`}
-				>
-					<Typography variant="h5" color="primary" fontWeight={500} gutterBottom>
-						GET STARTED
-					</Typography>
-					<Typography variant="h3" lineHeight="1.45">
-						<b>Hire</b> or <b>Get Hired</b> on the best{' '}
-						<span
-							css={css`
-								text-decoration: line-through;
-							`}
-						>
-							Ninja
-						</span>{' '}
-						Student Job Exchange!
-					</Typography>
-					<StyledButton
-						css={css`
-							margin-top: 1rem;
-							height: 3rem;
-							padding: 2rem 3rem;
-							font-size: 1.5rem;
-						`}
-						onClick={handleRegister}
-					>
-						Create your free Account
-					</StyledButton>
-				</div>
-				<img
-					css={css`
-						margin-right: 3vw;
-						max-width: 40vw;
-					`}
-					src={UndrawFeelingProud}
-				/>
-			</Box>
+			<div
+				css={css`
+					display: flex;
+					flex-direction: ${isMobile ? 'column' : 'row'};
+					justify-content: ${isMobile ? 'center' : 'space-between'};
+					align-items: center;
+					min-height: max(calc(100% - ${isMobile ? 48 : 64}px), ${isMobile ? 450 : 600}px);
+				`}
+			>
+				{isMobile ? (
+					<>
+						<LandingImage />
+						<LandingCallToAction onRegister={handleRegister} />
+					</>
+				) : (
+					<>
+						<LandingCallToAction onRegister={handleRegister} />
+						<LandingImage />
+					</>
+				)}
+			</div>
 		</Box>
 	);
 };
