@@ -6,10 +6,13 @@ import logo from 'src/assets/logo.svg';
 
 export interface LogoProps {
 	hideText?: boolean;
+	large?: boolean;
 }
 
-const Logo: React.FC<LogoProps> = ({ hideText }) => {
+const Logo: React.FC<LogoProps> = ({ hideText, large }) => {
 	const theme = useTheme();
+
+	const size = large ? 64 : 48;
 
 	return (
 		<div
@@ -18,15 +21,15 @@ const Logo: React.FC<LogoProps> = ({ hideText }) => {
 				flex-direction: row;
 			`}
 		>
-			<img src={logo} width="48px" height="48px" />
+			<img src={logo} width={`${size}px`} height={`${size}px`} />
 			<Typography
 				component="h1"
-				variant="h6"
+				variant={large ? 'h4' : 'h6'}
 				color={theme.palette.primary.dark}
 				css={css`
 					display: ${!hideText ? 'block' : 'none'};
 					margin: auto 0;
-					padding-left: 0.5rem;
+					padding-left: ${large ? 0.75 : 0.5}rem;
 				`}
 				noWrap
 			>
