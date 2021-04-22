@@ -43,8 +43,8 @@
 		"build": "react-app-rewired build",
 		"eject": "react-app-rewired eject",
 		"test": "react-app-rewired test",
-		"format": "prettier --write src/**/*.ts{,x}",
-		"lint": "prettier --check src/**/*.ts{,x}"
+		"format": "prettier --write 'src/**/*.ts{,x}'",
+		"lint": "prettier --check 'src/**/*.ts{,x}'"
 	},
 	"devDependencies": {
 		"@emotion/babel-preset-css-prop": "^11.2.0",
