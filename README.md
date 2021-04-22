@@ -7,15 +7,27 @@ Production: [jobs.student.ninja](https://jobs.student.ninja)
 
 Next: [next.jobs.student.ninja](https://next.jobs.student.ninja)
 
+## Inhaltsverzeichnis
+
+- [Job Ninja - Studenten Job Börse](#job-ninja---studenten-job-börse)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Projektbeschreibung](#projektbeschreibung)
+  - [Projektziele](#projektziele)
+  - [Projektvision](#projektvision)
+  - [Personen im Projekt](#personen-im-projekt)
+  - [Projektspezifikation](#projektspezifikation)
+  - [Technologien](#technologien)
+  - [Running the application](#running-the-application)
+
 ## Projektbeschreibung
 
 Entwickelt wird ein responsive Web-Portal namens „Studentenjobbörse“. Das Projekt richtet sich an Rosenheimer IT-Studenten und Unternehmen. Studentenjobbörse soll arbeitswillige Studenten und Unternehmen zusammenführen. Die Webanwendung matcht die veröffentlichten Jobs der Unternehmen mit deren Fähigkeiten des Studenten.
 
-## Was sind die Ziele des Projekts?
+## Projektziele
 
 *  Es soll möglich sein, dass Unternehmen Profile und Jobs anlegen können.​
 *  Es soll möglich sein, dass Studenten Profile und Jobs aus der Jobliste aussuchen können.
-*   Es soll möglich sein, dass sich Studenten auf ausgewählte Jobs bewerben können und die Anfragen der Unternehmen an oder ablehnen können.
+*  Es soll möglich sein, dass sich Studenten auf ausgewählte Jobs bewerben können und die Anfragen der Unternehmen an oder ablehnen können.
 *  Nach erfolgreicher Jobsuche soll es möglich sein, dass der Student und das Unternehmen ein Benachrichtigung per E-Mail bekommen.
 
 
