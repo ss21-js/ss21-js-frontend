@@ -39,6 +39,15 @@ const router = OptionsRouter(routeOptions, (route) => ({
 			showDrawer: false,
 		},
 	}),
+	register: route('register', {
+		middleware: LoginMiddleware,
+		// TODO: Replace with RegisterPage
+		component: LoginPage,
+		options: {
+			showAppBar: false,
+			showDrawer: false,
+		},
+	}),
 
 	landing: route('', {
 		component: LandingPage,

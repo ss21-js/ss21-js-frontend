@@ -32,7 +32,7 @@ const NavButton: React.FC<NavButtonProps> = ({ text, link, isActive, vertical })
 				font-size: 1rem;
 				line-height: 1rem;
 				font-weight: 500;
-				color: ${isActive ? theme.palette.primary.light : theme.palette.secondary.contrastText};
+				color: ${isActive ? theme.palette.primary.main : theme.palette.secondary.contrastText};
 				margin: ${vertical ? '0.25rem 0.5rem' : '0'};
 			`}
 			onClick={handleClick}

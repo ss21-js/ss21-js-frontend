@@ -14,7 +14,7 @@ const Root: React.FC = () => {
 				<BrowserRouter>
 					<FullSizeContainer>
 						<FirebaseWrapper>
-							<RouterSwitch router={router} />;
+							<RouterSwitch router={router} />
 						</FirebaseWrapper>
 					</FullSizeContainer>
 				</BrowserRouter>
