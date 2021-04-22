@@ -21,6 +21,7 @@ const LandingCallToAction: React.FC<LandingCallToActionProps> = ({ onRegister })
 					: css`
 							margin: auto 0 auto 3vw;
 							flex: 1 0 max(30vw, 500px);
+							max-width: max(30vw, 500px);
 					  `
 			}
 		>

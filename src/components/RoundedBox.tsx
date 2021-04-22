@@ -7,7 +7,6 @@ const RoundedBox: React.FC<Omit<BoxProps, 'borderRadius'>> = (props) => {
 
 	return (
 		<Box
-			padding={2}
 			css={css`
 				background-color: ${theme.palette.background.paper};
 				border-radius: ${theme.shape.borderRadius};

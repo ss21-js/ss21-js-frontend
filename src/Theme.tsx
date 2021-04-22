@@ -33,7 +33,7 @@ const paletteDark: PaletteOptions = {
 	},
 	secondary: {
 		main: '#292931',
-		contrastText: '#65666E',
+		contrastText: '#cfd0df',
 	},
 	background: {
 		default: '#131418',
