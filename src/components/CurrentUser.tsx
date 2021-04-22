@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Skeleton, Typography } from '@material-ui/core';
+import { Skeleton, Typography, useTheme } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
@@ -17,6 +17,7 @@ const Row = styled.div`
 `;
 
 const AsyncCurrentUser: React.FC<CurrentUserProps> = ({ avatarOnly }) => {
+	const theme = useTheme();
 	const user = useRecoilValue(currentUser);
 
 	return (
@@ -29,7 +30,7 @@ const AsyncCurrentUser: React.FC<CurrentUserProps> = ({ avatarOnly }) => {
 				<Typography
 					variant="body1"
 					css={css`
-						color: #333;
+						color: ${theme.palette.secondary.contrastText};
 						margin-left: 0.75rem;
 					`}
 				>
