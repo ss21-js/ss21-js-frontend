@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "ss21-js"
+  },
+  "targets": {
+    "ss21-js": {
+      "hosting": {
+        "next": [
+          "next-ss21-js"
+        ],
+        "prod": [
+          "ss21-js"
+        ]
+      }
+    }
+  }
+}
