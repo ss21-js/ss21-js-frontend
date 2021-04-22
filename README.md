@@ -25,10 +25,10 @@ Entwickelt wird ein responsive Web-Portal namens „Studentenjobbörse“. Das P
 
 ## Projektziele
 
-*  Es soll möglich sein, dass Unternehmen Profile und Jobs anlegen können.​
-*  Es soll möglich sein, dass Studenten Profile und Jobs aus der Jobliste aussuchen können.
-*  Es soll möglich sein, dass sich Studenten auf ausgewählte Jobs bewerben können und die Anfragen der Unternehmen an oder ablehnen können.
-*  Nach erfolgreicher Jobsuche soll es möglich sein, dass der Student und das Unternehmen ein Benachrichtigung per E-Mail bekommen.
+- Es soll möglich sein, dass Unternehmen Profile und Jobs anlegen können.​
+- Es soll möglich sein, dass Studenten Profile und Jobs aus der Jobliste aussuchen können.
+- Es soll möglich sein, dass sich Studenten auf ausgewählte Jobs bewerben können und die Anfragen der Unternehmen an oder ablehnen können.
+- Nach erfolgreicher Jobsuche soll es möglich sein, dass der Student und das Unternehmen ein Benachrichtigung per E-Mail bekommen.
 
 
 ## Projektvision
@@ -37,10 +37,10 @@ Bereitstellung eines Webportals zum vereinfachten suchen und zusammenführen von
 
 
 ## Personen im Projekt
-*  Kevin Eder
-*  Nicolas Schlecker
-*  Veronika Starkulla
-*  Carina Wehr
+- Kevin Eder
+- Nicolas Schlecker
+- Veronika Starkulla
+- Carina Wehr
 
 ## Projektspezifikation
 [JS_Spezifikation_Team_Studentenjobboerse20210329.pdf](https://github.com/ss21-js/ss21-js-frontend/files/6278105/JS_Spezifikation_Team_Studentenjobboerse20210329.pdf)
