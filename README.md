@@ -1,7 +1,7 @@
 # Job Ninja - Studenten Job Börse
 
 [![Build and Deploy](https://github.com/ss21-js/ss21-js-frontend/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/ss21-js/ss21-js-frontend/actions/workflows/build_and_deploy.yml)
-[![Build and Deploy Develop](https://github.com/ss21-js/ss21-js-frontend/actions/workflows/build_and_deploy_dev.yml/badge.svg)](https://github.com/ss21-js/ss21-js-frontend/actions/workflows/build_and_deploy_dev.yml)
+[![Build and Deploy Develop](https://github.com/ss21-js/ss21-js-frontend/actions/workflows/build_and_deploy_next.yml/badge.svg)](https://github.com/ss21-js/ss21-js-frontend/actions/workflows/build_and_deploy_next.yml)
 
 Production: [jobs.student.ninja](https://jobs.student.ninja)
 
