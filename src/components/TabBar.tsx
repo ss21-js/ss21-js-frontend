@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import React from 'react';
@@ -14,9 +15,23 @@ const TabBar: React.FC<TabBarProps> = ({ tabs }) => {
 	};
 
 	return (
-		<Tabs value={value} onChange={handleChange} variant="fullWidth" textColor="primary">
+		<Tabs
+			value={value}
+			onChange={handleChange}
+			variant="fullWidth"
+			textColor="primary"
+			css={css`
+				box-shadow: 1px 1px 10px lightgrey;
+				border-radius: 0.6rem;
+			`}
+		>
 			{tabs.map((tab) => (
-				<Tab label={tab} />
+				<Tab
+					label={tab}
+					css={css`
+						font-weight: bold;
+					`}
+				/>
 			))}
 		</Tabs>
 	);
