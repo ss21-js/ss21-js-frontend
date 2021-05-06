@@ -1,12 +1,15 @@
 import React from 'react';
 import AppFrame from 'src/components/app/AppFrame';
-import Center from 'src/components/layout/Center';
+import CompanyPage from 'src/pages/Company/CompanyPage';
 
 const ProfilePage: React.FC = () => {
 	return (
-		<AppFrame>
-			<Center>Profile</Center>
-		</AppFrame>
+		<>
+			<AppFrame>
+				<h1>SearchBar</h1>
+				<CompanyPage />
+			</AppFrame>
+		</>
 	);
 };
 
