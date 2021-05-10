@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Theme, useTheme } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import InputBase from '@material-ui/core/InputBase';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React from 'react';
@@ -17,6 +18,13 @@ const SearchBarTab: React.FC<SearchBarTabProps> = ({ icon, title }) => {
 
 	return (
 		<>
+			<Divider
+				orientation="vertical"
+				flexItem
+				css={css`
+					margin-right: 20px;
+				`}
+			/>
 			<FontAwesomeIcon
 				icon={icon}
 				color="#0B77BF"

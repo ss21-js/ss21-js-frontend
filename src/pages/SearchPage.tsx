@@ -1,16 +1,30 @@
+import { css } from '@emotion/react';
 import { Theme, useMediaQuery } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import AppFrame from 'src/components/app/AppFrame';
 import JobCard from 'src/components/JobCard';
+import JobSearchBar from 'src/components/search/JobSearchBar';
 import SearchBar from 'src/components/search/SearchBar';
 import SearchFilters from 'src/components/search/SearchFilters';
 
-const SearchPage: React.FC = () => {
+export interface SearchPageProps {
+	onClick: () => void;
+}
+
+const SearchPage: React.FC<SearchPageProps> = ({ onClick }) => {
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
 
 	return (
 		<AppFrame>
+			<div
+				css={css`
+					display: flex;
+					justify-content: center;
+				`}
+			>
+				<JobSearchBar onClick={onClick} />
+			</div>
 			<Grid container justifyContent="center" spacing={4} padding={4}>
 				<Grid item xs={12}>
 					<SearchBar />

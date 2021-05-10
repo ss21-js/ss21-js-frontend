@@ -31,7 +31,7 @@ const SearchAppBar: React.FC<SearchAppBarProps> = ({ onClick }) => {
 				position="static"
 				css={css`
 					background-color: white;
-					box-shadow: 1px 1px 10px lightgrey;
+					box-shadow: 1px 1px 3px lightgrey;
 					border-radius: 0.6rem;
 					width: ${isMobile && '20rem'};
 				`}
