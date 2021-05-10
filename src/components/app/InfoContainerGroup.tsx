@@ -2,59 +2,53 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid/Grid';
 import Container from '@material-ui/core/Container/Container';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, Theme } from '@material-ui/core';
+import { useTheme } from '@material-ui/core';
+import { css } from '@emotion/react';
 
-const useStyles = makeStyles((theme: Theme) => ({
-	border: {
-		alignSelf: 'center',
-		border: 'solid gray 1px',
-		borderRadius: '0.6rem',
-		margin: theme.spacing(0, 15, 0, 15),
-	},
-	titel: {
-		textTransform: 'uppercase',
-		color: 'gray',
-		fontSize: '0.8rem',
-	},
-	data: {
-		fontWeight: 500,
-	},
-	item: {
-		margin: theme.spacing(1, 0, 1, 0),
-		minWidth: '120px',
-	},
-}));
+export interface InfoContainerGroupItem {
+	titel: string;
+	content: string;
+}
 
-const InfoContainerGroup: React.FC = () => {
-	const classes = useStyles();
-	const job = {
-		erfahrung: 'Mind. 1 Jahr',
-		dauer: '4 Wochen',
-		beschaeftigung: 'Vollzeitjob',
-		gehalt: '1200,00 €',
-	};
+interface InfoContainerGroupProps {
+	items: InfoContainerGroupItem[];
+}
+
+const InfoContainerGroup: React.FC<InfoContainerGroupProps> = ({ items }) => {
+	const theme = useTheme();
+
 	return (
-		<Container className={classes.border}>
-			<div>
+		<Container
+			css={css`
+				margin: ${theme.spacing(0, 15, 0, 15)};
+				align-self: center;
+				border: solid gray 1px;
+				border-radius: 0.6rem;
+			`}
+		>
+			<>
 				<Grid container justifyContent="space-evenly">
-					<Grid item className={classes.item}>
-						<Typography className={classes.titel}>Erfahrung</Typography>
-						<Typography className={classes.data}>{job.erfahrung}</Typography>
-					</Grid>
-					<Grid item className={classes.item}>
-						<Typography className={classes.titel}>Dauer</Typography>
-						<Typography className={classes.data}>{job.dauer}</Typography>
-					</Grid>
-					<Grid item className={classes.item}>
-						<Typography className={classes.titel}>Beschäftigung</Typography>
-						<Typography className={classes.data}>{job.beschaeftigung}</Typography>
-					</Grid>
-					<Grid item className={classes.item}>
-						<Typography className={classes.titel}>Gehalt</Typography>
-						<Typography className={classes.data}>{job.gehalt}</Typography>
-					</Grid>
+					{items.map((item) => (
+						<Grid item>
+							<Typography
+								css={css`
+									margin: ${theme.spacing(1, 0, 1, 0)};
+									min-width: 120px;
+								`}
+							>
+								{item.titel}
+							</Typography>
+							<Typography
+								css={css`
+									font-weight: 500;
+								`}
+							>
+								{item.content}
+							</Typography>
+						</Grid>
+					))}
 				</Grid>
-			</div>
+			</>
 		</Container>
 	);
 };
