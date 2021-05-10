@@ -6,7 +6,7 @@ import { useTheme } from '@material-ui/core';
 import { css } from '@emotion/react';
 
 export interface InfoContainerGroupItem {
-	titel: string;
+	title: string;
 	content: string;
 }
 
@@ -36,7 +36,7 @@ const InfoContainerGroup: React.FC<InfoContainerGroupProps> = ({ items }) => {
 									min-width: 120px;
 								`}
 							>
-								{item.titel}
+								{item.title}
 							</Typography>
 							<Typography
 								css={css`
