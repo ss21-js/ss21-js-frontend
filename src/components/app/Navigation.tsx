@@ -61,7 +61,7 @@ const Navigation: React.FC<NavigationProps> = ({ vertical }) => {
 				flex-direction: ${vertical ? 'column' : 'row'};
 			`}
 		>
-			<NavButton link={router.app().search().$} text="Find Job" isActive={search} vertical={vertical} />
+			<NavButton link={router.app().search({}).$} text="Find Job" isActive={search} vertical={vertical} />
 			<NavButton link={router.app().saved().$} text="Saved" isActive={saved} vertical={vertical} />
 			<NavButton link={router.app().profile().$} text="Profile" isActive={profile} vertical={vertical} />
 		</div>
