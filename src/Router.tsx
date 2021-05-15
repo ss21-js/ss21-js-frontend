@@ -1,4 +1,4 @@
-import { OptionsRouter, Redirect, RouteMiddleware } from 'react-typesafe-routes';
+import { OptionsRouter, Redirect, RouteMiddleware, stringParser } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
@@ -20,7 +20,7 @@ const LoginMiddleware: RouteMiddleware = (next) => {
 	const id = useRecoilValue(currentUserId);
 
 	if (id !== null) {
-		return () => <Redirect to={router.app().search()} />;
+		return () => <Redirect to={router.app().search({})} />;
 	}
 	return next;
 };
@@ -56,11 +56,14 @@ const router = OptionsRouter(routeOptions, (route) => ({
 		'app',
 		{
 			middleware: AuthMiddleware,
-			component: () => <Redirect to={router.app().search()} />,
+			component: () => <Redirect to={router.app().search({})} />,
 		},
 		(route) => ({
-			search: route('search', {
+			search: route('search/:jobId?', {
 				component: SearchPage,
+				params: {
+					jobId: stringParser,
+				},
 			}),
 			saved: route('saved', {
 				component: SavedPage,
@@ -71,7 +74,7 @@ const router = OptionsRouter(routeOptions, (route) => ({
 		})
 	),
 	fallback: route('*', {
-		component: () => <Redirect to={router.app().search()} />,
+		component: () => <Redirect to={router.app().search({})} />,
 	}),
 }));
 
