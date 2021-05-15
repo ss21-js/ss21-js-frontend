@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import React from 'react';
-import { Job } from 'src/model/job';
+import Job from 'src/model/job';
 
 interface JobListProps {
 	counter: number;
@@ -19,9 +19,9 @@ const JobList: React.FC<JobListProps> = ({ counter, jobs }) => {
 
 	return (
 		<List component="div" disablePadding>
-			{jobs.map((job) => (
+			{jobs.map((job, index) => (
 				<ListItem
-					key={job.index}
+					key={index}
 					button
 					css={css`
 						padding-left: ${theme.spacing(4)};
