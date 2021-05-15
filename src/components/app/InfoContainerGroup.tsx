@@ -1,55 +1,72 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid/Grid';
-import Container from '@material-ui/core/Container/Container';
-import Typography from '@material-ui/core/Typography';
-import { useTheme } from '@material-ui/core';
 import { css } from '@emotion/react';
+import { useTheme } from '@material-ui/core';
+import Box, { BoxProps } from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import React from 'react';
 
 export interface InfoContainerGroupItem {
 	title: string;
 	content: string;
 }
 
-interface InfoContainerGroupProps {
+type InfoContainerGroupProps = BoxProps & {
 	items: InfoContainerGroupItem[];
-}
+};
 
-const InfoContainerGroup: React.FC<InfoContainerGroupProps> = ({ items }) => {
+const InfoContainerGroup: React.FC<InfoContainerGroupProps> = ({ items, ...boxProps }) => {
 	const theme = useTheme();
 
 	return (
-		<Container
+		<Box
 			css={css`
-				margin: ${theme.spacing(0, 15, 0, 15)};
-				align-self: center;
-				border: solid gray 1px;
+				border: solid ${theme.palette.divider} 1px;
 				border-radius: 0.6rem;
+				overflow: hidden;
+				box-sizing: border-box;
 			`}
+			{...boxProps}
 		>
-			<>
-				<Grid container justifyContent="space-evenly">
-					{items.map((item) => (
-						<Grid item>
-							<Typography
-								css={css`
-									margin: ${theme.spacing(1, 0, 1, 0)};
-									min-width: 120px;
-								`}
-							>
-								{item.title}
-							</Typography>
-							<Typography
-								css={css`
-									font-weight: 500;
-								`}
-							>
-								{item.content}
-							</Typography>
-						</Grid>
-					))}
-				</Grid>
-			</>
-		</Container>
+			<Grid
+				container
+				css={css`
+					margin: -1px;
+					width: auto;
+					& :last-child {
+						border-right: none;
+					}
+				`}
+			>
+				{items.map((item) => (
+					<Grid
+						item
+						xs
+						paddingX={2}
+						paddingY={1}
+						css={css`
+							border: solid ${theme.palette.divider} 1px;
+						`}
+					>
+						<Typography
+							css={css`
+								margin: ${theme.spacing(1, 0, 1, 0)};
+								min-width: 120px;
+								opacity: 0.8;
+							`}
+						>
+							{item.title}
+						</Typography>
+						<Typography
+							css={css`
+								font-weight: 500;
+							`}
+						>
+							{item.content}
+						</Typography>
+					</Grid>
+				))}
+			</Grid>
+		</Box>
 	);
 };
 
