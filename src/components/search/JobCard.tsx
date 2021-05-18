@@ -4,15 +4,16 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
-import RoundedBox from './RoundedBox';
-import RoundedImage from './RoundedImage';
-import TagBox from './TagBox';
+import RoundedBox from '../RoundedBox';
+import RoundedImage from '../RoundedImage';
+import TagBox from '../TagBox';
 
 export interface JobCardProps {
 	image: string;
 	title: string;
 	description: string;
 	tags?: string[];
+	selected: boolean;
 	onClick?: () => void;
 }
 
@@ -24,6 +25,7 @@ const JobCard: React.FC<JobCardProps> = ({ image, title, description, tags, onCl
 				color: inherit;
 				text-align: inherit;
 				padding: 0;
+				box-sizing: border-box;
 			`}
 			onClick={onClick}
 		>
