@@ -5,7 +5,7 @@ import JobCard from './JobCard';
 
 export interface JobGridProps {
 	jobs: Job[];
-	activeJobId?: string;
+	activeJobId: string | null;
 	singleColumn: boolean;
 	onJobClick: (jobId: string) => void;
 }
