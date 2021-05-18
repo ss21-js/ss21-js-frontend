@@ -37,8 +37,9 @@ const InfoContainerGroup: React.FC<InfoContainerGroupProps> = ({ items, ...boxPr
 					}
 				`}
 			>
-				{items.map((item) => (
+				{items.map((item, index) => (
 					<Grid
+						key={index}
 						item
 						xs
 						paddingX={2}
