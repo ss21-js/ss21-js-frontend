@@ -30,7 +30,7 @@ const Drawer: React.FC = () => {
 			onClose={handleClose}
 			elevation={0}
 			css={css`
-				div:nth-child(3) {
+				div:nth-of-type(3) {
 					max-width: unset;
 					width: 100%;
 					left: 0 !important;
