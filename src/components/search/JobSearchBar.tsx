@@ -2,12 +2,13 @@ import { css } from '@emotion/react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faDollarSign, faMapMarkerAlt, faSearch, faSuitcase } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useMediaQuery } from '@material-ui/core';
 import Autocomplete from '@material-ui/core/Autocomplete';
+import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import InputBase from '@material-ui/core/InputBase';
 import { experimentalStyled as styled, Theme, useTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React from 'react';
 import StyledButton from 'src/components/StyledButton';
 
@@ -16,12 +17,19 @@ interface TabProps {
 	title: string;
 }
 
+const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
+
 const TabContainer = styled('div')`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	flex-grow: 1;
 	margin: 0 ${(props) => props.theme.spacing(2)};
+
+	${(props) => props.theme.breakpoints.down(mobileBreakpoint)} {
+		width: 100%;
+		padding: ${(props) => props.theme.spacing(1)} ${(props) => props.theme.spacing(2)};
+	}
 `;
 
 const Tab: React.FC<TabProps> = ({ icon, title }) => {
@@ -29,7 +37,9 @@ const Tab: React.FC<TabProps> = ({ icon, title }) => {
 
 	return (
 		<TabContainer>
-			<FontAwesomeIcon icon={icon} color={theme.palette.primary.main} />
+			<Box display="flex" justifyContent="center" width="16px">
+				<FontAwesomeIcon icon={icon} color={theme.palette.primary.main} />
+			</Box>
 			<InputBase
 				placeholder={title}
 				multiline={false}
@@ -57,6 +67,10 @@ const SearchContainer = styled('div')`
 	border-radius: ${(props) => props.theme.shape.borderRadius};
 	box-shadow: 0 0px 0.8px rgba(0, 0, 0, 0.02), 0 0px 2px rgba(0, 0, 0, 0.025), 0 0px 3.8px rgba(0, 0, 0, 0.028),
 		0 0px 6.7px rgba(0, 0, 0, 0.03), 0 0px 12.5px rgba(0, 0, 0, 0.033), 0 0px 30px rgba(0, 0, 0, 0.04);
+
+	${(props) => props.theme.breakpoints.down(mobileBreakpoint)} {
+		flex-direction: column;
+	}
 `;
 
 const SearchFieldContainer = styled('div')`
@@ -65,11 +79,34 @@ const SearchFieldContainer = styled('div')`
 	flex-grow: 1;
 	align-items: center;
 	margin: 0 ${(props) => props.theme.spacing(2)};
+
+	${(props) => props.theme.breakpoints.down(mobileBreakpoint)} {
+		width: 100%;
+		padding: ${(props) => props.theme.spacing(1)} ${(props) => props.theme.spacing(2)};
+	}
 `;
 
 const SearchButtonContainer = styled('div')`
 	display: flex;
 	justify-content: flex-end;
+
+	${(props) => props.theme.breakpoints.down(mobileBreakpoint)} {
+		width: 100%;
+	}
+`;
+
+const SearchButton = styled(StyledButton)`
+	height: 3.85rem;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+
+	${(props) => props.theme.breakpoints.down(mobileBreakpoint)} {
+		height: 3rem;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		width: 100%;
+		border-bottom-left-radius: ${(props) => props.theme.shape.borderRadius};
+	}
 `;
 
 export interface JobSearchBarProps {
@@ -77,19 +114,12 @@ export interface JobSearchBarProps {
 }
 
 const JobSearchBar: React.FC<JobSearchBarProps> = ({ onClick }) => {
-	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down(mobileBreakpoint));
 
 	return (
 		<SearchContainer>
 			<SearchFieldContainer>
-				<FontAwesomeIcon
-					icon={faSearch}
-					color="#0B77BF"
-					css={css`
-						margin-left: ${isMobile ? '10px' : '0'};
-						margin-top: ${isMobile ? '10px' : '0'};
-					`}
-				/>
+				<FontAwesomeIcon icon={faSearch} color="#0B77BF" />
 				<Autocomplete
 					multiple
 					id="search"
@@ -99,7 +129,7 @@ const JobSearchBar: React.FC<JobSearchBarProps> = ({ onClick }) => {
 					freeSolo
 					color="primary"
 					css={css`
-						flex: 1 0 100%;
+						flex: 1 1 100%;
 					`}
 					renderInput={(params) => (
 						<TextField
@@ -115,23 +145,14 @@ const JobSearchBar: React.FC<JobSearchBarProps> = ({ onClick }) => {
 					)}
 				/>
 			</SearchFieldContainer>
-			<Divider orientation="vertical" flexItem />
+			<Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />
 			<Tab icon={faMapMarkerAlt} title={'Stadt'} />
-			<Divider orientation="vertical" flexItem />
+			<Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />
 			<Tab icon={faSuitcase} title={'Job Type'} />
-			<Divider orientation="vertical" flexItem />
+			<Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />
 			<Tab icon={faDollarSign} title={'Budget'} />
 			<SearchButtonContainer>
-				<StyledButton
-					onClick={onClick}
-					css={css`
-						height: ${isMobile ? '3rem' : '3.85rem'};
-						border-top-left-radius: 0;
-						border-bottom-left-radius: 0;
-					`}
-				>
-					Job suchen
-				</StyledButton>
+				<SearchButton onClick={onClick}>Job suchen</SearchButton>
 			</SearchButtonContainer>
 		</SearchContainer>
 	);
