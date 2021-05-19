@@ -51,10 +51,10 @@ const paletteDark: PaletteOptions = {
 	text: {
 		primary: '#fff',
 	},
-	divider: '#131418',
+	divider: '#434961',
 	background: {
 		default: '#131418',
-		paper: '#1C1C24',
+		paper: '#1c1c25',
 	},
 };
 
