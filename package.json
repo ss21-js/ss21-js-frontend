@@ -23,6 +23,7 @@
 		"@fortawesome/react-fontawesome": "^0.1.14",
 		"@hookform/resolvers": "^2.5.1",
 		"@material-ui/core": "^5.0.0-alpha.33",
+		"animate-css-grid": "^1.4.3",
 		"axios": "^0.21.1",
 		"clsx": "^1.1.1",
 		"customize-cra": "^1.0.0",

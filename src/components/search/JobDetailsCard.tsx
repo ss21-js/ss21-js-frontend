@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { faHeart, faShareSquare } from '@fortawesome/free-regular-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Box from '@material-ui/core/Box';
+import Box, { BoxProps } from '@material-ui/core/Box';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Stack from '@material-ui/core/Stack';
 import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
@@ -17,6 +17,7 @@ import UnorderedList from '../UnorderedList';
 export interface JobDetailsCardProps {
 	job: Job;
 	handleClose?: () => void;
+	box?: BoxProps;
 }
 
 const Header = styled('div')`
@@ -52,7 +53,7 @@ const CompanyLogo = styled('img')`
 	border-radius: ${(props) => props.theme.shape.borderRadius};
 `;
 
-const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose }) => {
+const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose, box }) => {
 	const theme = useTheme();
 
 	const handleSave = () => {
@@ -64,7 +65,7 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose }) => 
 	};
 
 	return (
-		<RoundedBox>
+		<RoundedBox {...box}>
 			<Header>
 				<HeaderImage src={job.headerImageUrl} />
 				<CompanyLogoContainer>
