@@ -54,7 +54,7 @@ const paletteDark: PaletteOptions = {
 	divider: '#434961',
 	background: {
 		default: '#131418',
-		paper: '#1c1c25',
+		paper: '#29292f',
 	},
 };
 
