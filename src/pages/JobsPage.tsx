@@ -125,11 +125,11 @@ const JobsPage: React.FC = () => {
 										css={
 											jobId == i.toString() &&
 											css`
-												grid-column: auto / span 3;
+												grid-column: auto / span 2;
 												grid-row: auto / span 3;
 
-												${theme.breakpoints.down('lg')} {
-													grid-column: auto / span 2;
+												${theme.breakpoints.down('md')} {
+													grid-column: auto / span 3;
 												}
 											`
 										}
