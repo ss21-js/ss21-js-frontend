@@ -24,7 +24,6 @@ const Header = styled('div')`
 	position: relative;
 	width: 100%;
 	height: 256px;
-	margin-bottom: 48px;
 `;
 
 const HeaderImage = styled('img')`
@@ -51,6 +50,12 @@ const CompanyLogo = styled('img')`
 	width: 100%;
 	height: 100%;
 	border-radius: ${(props) => props.theme.shape.borderRadius};
+`;
+
+const ButtonRow = styled('div')`
+	display: flex;
+	justify-content: flex-end;
+	margin: ${(props) => props.theme.spacing(2)};
 `;
 
 const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose, box }) => {
@@ -91,18 +96,18 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose, box }
 					</ButtonBase>
 				)}
 			</Header>
+			<ButtonRow>
+				<StyledIconButton icon={faHeart} onClick={handleSave} />
+				<Box width={16} />
+				<StyledIconButton icon={faShareSquare} onClick={handleShare} />
+			</ButtonRow>
 			<Box padding={4}>
-				<Stack direction="row" marginBottom={1}>
-					<Typography variant="h4" component="h3" flexGrow={1}>
-						{job.title}
-					</Typography>
-					<StyledIconButton icon={faHeart} onClick={handleSave} />
-					<Box width={16} />
-					<StyledIconButton icon={faShareSquare} onClick={handleShare} />
-				</Stack>
-				<Stack direction="row" alignItems="baseline" marginBottom={3}>
+				<Typography variant="h4" component="h3" flexGrow={1}>
+					{job.title}
+				</Typography>
+				<Stack direction="row" alignItems="baseline" marginBottom={3} flexWrap="wrap">
 					<Typography variant="h6" color={theme.palette.primary.main}>
-						Dropbox
+						{job.companyName}
 					</Typography>
 					<Typography variant="body1" marginX={1}>
 						•
