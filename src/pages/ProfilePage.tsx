@@ -1,15 +1,20 @@
 import React from 'react';
 import AppFrame from 'src/components/app/AppFrame';
-import CompanyPage from 'src/pages/Company/CompanyPage';
+import ProfilHeader from '../components/profile/ProfileHeader';
 
 const ProfilePage: React.FC = () => {
 	return (
-		<>
-			<AppFrame>
-				<h1>SearchBar</h1>
-				<CompanyPage />
-			</AppFrame>
-		</>
+		<AppFrame>
+			{/* TODO: Mit BE Daten füllen */}
+			<ProfilHeader
+				firstName={''}
+				lastName={''}
+				companyName={'BMW Group GmbH'}
+				type={'Unternehmen'}
+				adress={[]}
+			/>{' '}
+			,
+		</AppFrame>
 	);
 };
 
