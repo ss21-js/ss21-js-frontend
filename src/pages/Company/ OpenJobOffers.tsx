@@ -24,8 +24,8 @@ const OpenJobOffers: React.FC = () => {
 		return { description };
 	}
 
-    //Daten aus dem BE vom Job benutzen
-	const rows = [createData('UX Designer'), createData('React FE Developer' ), createData('Fullstack Developer')];
+	//Daten aus dem BE vom Job benutzen
+	const rows = [createData('UX Designer'), createData('React FE Developer'), createData('Fullstack Developer')];
 
 	return (
 		<>
