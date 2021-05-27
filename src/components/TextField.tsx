@@ -8,9 +8,7 @@ export interface TextFieldProps {
 }
 
 const TextFieldContainer: React.FC<TextFieldProps> = ({ label, id, defaultValue }) => {
-	return (
-		<TextField variant="outlined" margin="normal" fullWidth id={id} label={label} defaultValue={defaultValue} />
-	);
+	return <TextField variant="outlined" margin="normal" fullWidth id={id} label={label} defaultValue={defaultValue} />;
 };
 
 export default TextFieldContainer;
