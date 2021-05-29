@@ -26,35 +26,37 @@ const IconButton = styled(StyledButton)`
 	height: 42px;
 `;
 
-const IconBar: React.FC<IconBarProps> = ({icons}) => {
-
+const IconBar: React.FC<IconBarProps> = ({ icons }) => {
 	return (
-		<Container component="main"
-				   maxWidth="xs"
-				   css={css`
-					align-self: center;
-				  `}
+		<Container
+			component="main"
+			maxWidth="xs"
+			css={css`
+				align-self: center;
+			`}
 		>
-			<Grid container
-				  justifyContent="space-evenly"
-				  css={css`
+			<Grid
+				container
+				justifyContent="space-evenly"
+				css={css`
 					margin: 3px 0px 0px 0px;
-				  `}
+				`}
 			>
 				{icons.map((icon) => (
 					<Grid item>
 						<Tooltip title={icon.title}>
 							<span>
-								<IconButton css={css`
-											background-color: ${icon.color};
-											`}
+								<IconButton
+									css={css`
+										background-color: ${icon.color};
+									`}
 								>
 									<FontAwesomeIcon icon={icon.icon} size="lg" />
 								</IconButton>
 							</span>
 						</Tooltip>
 					</Grid>
-					))}
+				))}
 			</Grid>
 		</Container>
 	);
