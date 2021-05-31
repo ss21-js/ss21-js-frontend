@@ -8,20 +8,24 @@ import { css } from '@emotion/react';
 export interface StudentenProfilProps {
 	student: Student;
 }
-const StudentenProfil: React.FC<StudentenProfilProps> = ( {student}) => {
-
+const StudentenProfil: React.FC<StudentenProfilProps> = ({ student }) => {
 	return (
 		<Center>
 			<>
-				<Typography css={css`
-					display: none;
-				`}>{student.githubusername}</Typography>
+				<Typography
+					css={css`
+						display: none;
+					`}
+				>
+					{student.githubusername}
+				</Typography>
 			</>
 			<>
-				<ProfileGithub username={student.githubusername} languages={['Python', 'JavaScript', 'Flutter', 'TypeScript', 'Dart', 'Java']}/>
-
+				<ProfileGithub
+					username={student.githubusername}
+					languages={['Python', 'JavaScript', 'Flutter', 'TypeScript', 'Dart', 'Java']}
+				/>
 			</>
-
 		</Center>
 	);
 };

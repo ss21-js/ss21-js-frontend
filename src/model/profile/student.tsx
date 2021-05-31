@@ -3,10 +3,10 @@ export interface Student {
 	semester: string;
 	website: string;
 	location: string;
-	status: "Student";
+	status: 'Student';
 	skills: string[];
 	bio: string;
-	 githubusername: string;
+	githubusername: string;
 	experience: [
 		{
 			title: string;
@@ -17,7 +17,7 @@ export interface Student {
 			current: boolean;
 			description: string;
 		}
-	],
+	];
 	education: [
 		{
 			school: string;
@@ -28,7 +28,7 @@ export interface Student {
 			current: boolean;
 			description: string;
 		}
-	],
+	];
 	social: {
 		youtube: string;
 		twitter: string;
@@ -36,5 +36,5 @@ export interface Student {
 		linkedin: string;
 		instagram: string;
 		github: string;
-	}
+	};
 }
