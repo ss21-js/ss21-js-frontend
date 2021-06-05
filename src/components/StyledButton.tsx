@@ -1,21 +1,12 @@
-import { css } from '@emotion/react';
-import { ButtonProps } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-const StyledButton: React.FC<ButtonProps> = (props) => {
-	return (
-		<Button
-			variant="contained"
-			css={css`
-				border: 0;
-				height: 2.75rem;
-				padding: 1rem 2rem;
-				text-transform: none;
-				line-height: 1;
-			`}
-			{...props}
-		/>
-	);
-};
+const StyledButton = styled<typeof Button>(({ ...props }) => <Button variant="contained" {...props} />)`
+	border: 0;
+	height: 2.75rem;
+	padding: 1rem 2rem;
+	text-transform: none;
+	line-height: 1;
+`;
 
 export default StyledButton;

@@ -1,13 +1,12 @@
 import { css } from '@emotion/react';
 import { faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Theme, useTheme } from '@material-ui/core';
 import MuiAppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
+import { Theme, useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import React from 'react';
 import { useRecoilState } from 'recoil';
 import { signOut } from 'src/store/auth';
 import { drawerOpen } from 'src/store/general';
