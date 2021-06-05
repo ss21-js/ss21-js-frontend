@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Container from '@material-ui/core/Container';
 import React from 'react';
-import ProfilHeader from './ProfileHeader';
+import ProfilHeader from 'src/components/profile/ProfileHeader';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -21,10 +21,10 @@ const ContainerTwo = styled(Container)`
 	background-color: lightgrey;
 `;
 
-const SavedPage: React.FC = () => {
+const CompanyPage: React.FC = () => {
 	return (
 		<>
-			<ProfilHeader firstName="" lastName="" companyName="JobBörse GmbH" type={'Unternehmen'} adress={[]} />
+			<ProfilHeader firstName="" lastName="" companyName="JobBörse GmbH" type={'Unternehmen'} address={[]} />
 			<Wrapper>
 				<ContainerOne>Ausgeschriebene Jobs</ContainerOne>
 				<ContainerTwo>TabBar</ContainerTwo>
@@ -33,4 +33,4 @@ const SavedPage: React.FC = () => {
 	);
 };
 
-export default SavedPage;
+export default CompanyPage;

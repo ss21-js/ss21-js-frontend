@@ -5,13 +5,13 @@ import ProfilHeader from '../components/profile/ProfileHeader';
 const ProfilePage: React.FC = () => {
 	return (
 		<AppFrame>
-			{/* TODO: Mit BE Daten füllen */}
+			{/* TODO: Fill data with BE */}
 			<ProfilHeader
 				firstName={''}
 				lastName={''}
 				companyName={'BMW Group GmbH'}
 				type={'Unternehmen'}
-				adress={[]}
+				address={[]}
 			/>{' '}
 			,
 		</AppFrame>

@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import TabBar from 'src/components/TabBar';
-import AboutUsCompnay from '../Company/AboutUsCompnay';
-import OpenJobOffers from './ OpenJobOffers';
+import AboutUsCompany from './AboutUsCompany';
+import OpenJobOffers from './OpenJobOffers';
 
 const GridContainer = styled(Grid)`
 	background-color: #efefef;
@@ -26,7 +26,7 @@ const CompanyProfilPage: React.FC = () => {
 						},
 						{
 							tabTitle: 'Über uns',
-							tabContent: <AboutUsCompnay />,
+							tabContent: <AboutUsCompany />,
 						},
 					]}
 				/>

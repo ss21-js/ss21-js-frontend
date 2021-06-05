@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import { Typography } from '@material-ui/core';
 import React from 'react';
+import InfoAlert from 'src/components/app/InfoAlert';
 import TextFieldContainer from 'src/components/TextField';
-import InfoAlert from '../../components/app/InfoAlert';
 
-const AboutUsCompnay: React.FC = () => {
+const AboutUsCompany: React.FC = () => {
 	return (
 		<>
 			<InfoAlert />
@@ -33,4 +33,4 @@ const AboutUsCompnay: React.FC = () => {
 	);
 };
 
-export default AboutUsCompnay;
+export default AboutUsCompany;
