@@ -20,7 +20,6 @@ const AboutUsCompany: React.FC = () => {
 					label="Firmenname"
 					defaultValue="BMW Group GmbH"
 					fullWidth
-					helperText="bh"
 				/>
 				<TextField
 					{...register('homepage')}
