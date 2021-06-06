@@ -14,7 +14,7 @@ const Container = styled.div`
 	margin-bottom: 40px;
 `;
 
-const CompanyProfilPage: React.FC = () => {
+const CompanyProfilePage: React.FC = () => {
 	return (
 		<GridContainer>
 			<Container>
@@ -35,4 +35,4 @@ const CompanyProfilPage: React.FC = () => {
 	);
 };
 
-export default CompanyProfilPage;
+export default CompanyProfilePage;

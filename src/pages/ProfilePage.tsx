@@ -1,12 +1,12 @@
 import React from 'react';
 import AppFrame from 'src/components/app/AppFrame';
-import ProfilHeader from '../components/profile/ProfileHeader';
+import ProfileHeader from '../components/profile/ProfileHeader';
 
 const ProfilePage: React.FC = () => {
 	return (
 		<AppFrame>
 			{/* TODO: Fill data with BE */}
-			<ProfilHeader
+			<ProfileHeader
 				firstName={''}
 				lastName={''}
 				companyName={'BMW Group GmbH'}
