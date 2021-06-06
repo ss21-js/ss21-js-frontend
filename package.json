@@ -14,20 +14,23 @@
 	},
 	"license": "UNLICENSED",
 	"dependencies": {
-		"@emotion/react": "^11.1.5",
+		"@emotion/react": "^11.4.0",
 		"@emotion/styled": "^11.3.0",
 		"@fortawesome/fontawesome-svg-core": "^1.2.35",
 		"@fortawesome/free-brands-svg-icons": "^5.15.3",
+		"@fortawesome/free-regular-svg-icons": "^5.15.3",
 		"@fortawesome/free-solid-svg-icons": "^5.15.3",
 		"@fortawesome/react-fontawesome": "^0.1.14",
-		"@hookform/resolvers": "^2.4.0",
-		"@material-ui/core": "^5.0.0-alpha.30",
+		"@hookform/resolvers": "^2.5.1",
+		"@material-ui/core": "^5.0.0-alpha.33",
+		"animate-css-grid": "^1.4.3",
+		"axios": "^0.21.1",
 		"clsx": "^1.1.1",
 		"customize-cra": "^1.0.0",
-		"firebase": "^8.3.1",
+		"firebase": "^8.6.1",
 		"joi": "^17.4.0",
 		"lodash": "^4.17.21",
-		"react": "17.0.1",
+		"react": "17.0.2",
 		"react-app-rewired": "^2.1.8",
 		"react-div-100vh": "^0.6.0",
 		"react-dom": "17.0.2",
@@ -35,8 +38,8 @@
 		"react-router-dom": "5.2.0",
 		"react-scripts": "4.0.3",
 		"react-typesafe-routes": "^0.0.6",
-		"recoil": "^0.2.0",
-		"typescript": "4.1.2"
+		"recoil": "^0.3.0",
+		"typescript": "4.2.4"
 	},
 	"scripts": {
 		"start": "react-app-rewired start",
@@ -48,15 +51,15 @@
 	},
 	"devDependencies": {
 		"@emotion/babel-preset-css-prop": "^11.2.0",
-		"@types/jest": "26.0.21",
+		"@types/jest": "26.0.23",
 		"@types/lodash": "^4.14.168",
 		"@types/node": "12.12.18",
 		"@types/qs": "^6.9.6",
-		"@types/react": "17.0.3 ",
-		"@types/react-dom": "17.0.2",
+		"@types/react": "17.0.5 ",
+		"@types/react-dom": "17.0.5",
 		"@types/react-router-dom": "5.1.7",
 		"@types/webpack-env": "1.16.0",
-		"prettier": "^2.2.1"
+		"prettier": "^2.3.0"
 	},
 	"browserslist": {
 		"production": [

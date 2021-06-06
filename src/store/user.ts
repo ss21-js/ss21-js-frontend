@@ -1,5 +1,5 @@
 import { selector } from 'recoil';
-import { User } from 'src/model/user';
+import User from 'src/model/user';
 import { currentUserId } from './auth';
 
 export const currentUser = selector<User>({
