@@ -1,10 +1,13 @@
 import { css } from '@emotion/react';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Fab from '@material-ui/core/Fab';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { globalLoading } from 'src/store/general';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { globalLoading, ThemeMode, themeModeAtom } from 'src/store/general';
 import AppBar from './AppBar';
 import Drawer from './Drawer';
 
@@ -16,6 +19,9 @@ const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
 	const theme = useTheme();
 	const backdropOpen = useRecoilValue(globalLoading);
 
+	const [themeMode, setThemeMode] = useRecoilState(themeModeAtom);
+	const handleThemeChange = () => setThemeMode(themeMode == ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.DARK);
+
 	return (
 		<>
 			<AppBar />
@@ -25,7 +31,7 @@ const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
 					width: 100%;
 					margin-top: 56px;
 					height: calc(100% - 56px);
-					background-color: #efefef;
+					background-color: ${theme.palette.background.default};
 					overflow-y: scroll;
 					${theme.breakpoints.up('sm')} {
 						height: calc(100% - 64px);
@@ -34,6 +40,9 @@ const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
 				`}
 			>
 				{children}
+				<Fab color="primary" onClick={handleThemeChange} style={{ position: 'fixed', right: 32, bottom: 32 }}>
+					<FontAwesomeIcon icon={themeMode == ThemeMode.DARK ? faSun : faMoon} />
+				</Fab>
 			</div>
 			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={backdropOpen}>
 				<CircularProgress color="primary" />

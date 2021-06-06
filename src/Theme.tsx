@@ -1,11 +1,12 @@
 import { CssBaseline } from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
-import { ThemeProvider } from '@material-ui/styles';
 import * as React from 'react';
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { ThemeMode, themeMode } from './store/general';
+import { ThemeMode, themeModeAtom } from './store/general';
+
+export const theme = {};
 
 const paletteLight: PaletteOptions = {
 	primary: {
@@ -16,13 +17,24 @@ const paletteLight: PaletteOptions = {
 	},
 	secondary: {
 		main: '#F0F0F0',
+		dark: '#292931',
 		contrastText: '#7e7e85',
 	},
+	text: {
+		primary: '#000',
+	},
 	background: {
-		default: '#fff',
+		default: '#efefef',
 		paper: '#fafafb',
 	},
 };
+
+const themeLight = createTheme({
+	palette: paletteLight,
+	shape: {
+		borderRadius: '0.6rem',
+	},
+});
 
 const paletteDark: PaletteOptions = {
 	primary: {
@@ -33,37 +45,40 @@ const paletteDark: PaletteOptions = {
 	},
 	secondary: {
 		main: '#292931',
+		dark: '#F0F0F0',
 		contrastText: '#cfd0df',
 	},
+	text: {
+		primary: '#fff',
+	},
+	divider: '#434961',
 	background: {
 		default: '#131418',
-		paper: '#1C1C24',
+		paper: '#29292f',
 	},
 };
+
+const themeDark = createTheme({
+	palette: paletteDark,
+	shape: {
+		borderRadius: '0.6rem',
+	},
+});
+
 interface Props {
 	children: React.ReactChild;
 }
 
 const ThemeWrapper: React.FC<Props> = ({ children }) => {
-	const mode = useRecoilValue(themeMode);
-	const theme = useMemo(() => {
-		let palette: PaletteOptions;
+	const mode = useRecoilValue(themeModeAtom);
 
+	const theme = useMemo(() => {
 		switch (mode) {
 			case ThemeMode.LIGHT:
-				palette = paletteLight;
-				break;
+				return themeLight;
 			case ThemeMode.DARK:
-				palette = paletteDark;
-				break;
+				return themeDark;
 		}
-
-		return createMuiTheme({
-			palette: palette,
-			shape: {
-				borderRadius: '0.6rem',
-			},
-		});
 	}, [mode]);
 
 	return (
