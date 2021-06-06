@@ -7,7 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import React from 'react';
 import { useRecoilState } from 'recoil';
 import { signOut } from 'src/store/auth';
 import { drawerOpen } from 'src/store/general';
