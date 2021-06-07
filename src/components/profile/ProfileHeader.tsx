@@ -51,7 +51,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, comp
 				`}
 			>
 				<ProfileImage />
-				<ProfileHeaderDevice> 
+				<ProfileHeaderDevice>
 					<UiTypography variant="h4">
 						{firstName} {lastName} {companyName}
 					</UiTypography>
@@ -70,7 +70,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, comp
 						<UiFontAwesomeIcon icon={faMapMarkerAlt} />
 						{address}
 					</UiTypography>
-					</ProfileHeaderDevice>
+				</ProfileHeaderDevice>
 			</Grid>
 			<CompanyProfilePage />
 		</Grid>
