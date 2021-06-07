@@ -1,6 +1,6 @@
 import { Address } from '../address';
 import { University } from '../university';
-import { Jobhistory } from '../jobhistory';
+import { JobHistory } from '../jobHistory';
 
 export interface Student {
 	email: string;
@@ -11,7 +11,7 @@ export interface Student {
 	address: Address[];
 	university: University[];
 	semester: string;
-	job_history: Jobhistory[];
+	job_history: JobHistory[];
 	jobsMarkedIds: string[];
 	skills: string[];
 	datesAvailable: string[];

@@ -1,8 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import ProfileGithub from './profile/student/ProfileGithub';
-import Center from '../components/layout/Center';
-import { Student } from '../model/profile/student';
+import ProfileGithub from './ProfileGithub';
+import Center from '../../components/layout/Center';
+import { Student } from '../../model/profile/student';
 import { css } from '@emotion/react';
 
 export interface StudentenProfilProps {
@@ -23,7 +23,14 @@ const StudentenProfil: React.FC<StudentenProfilProps> = ({ student }) => {
 			<>
 				<ProfileGithub
 					username={student.githubusername}
-					languages={['Python', 'JavaScript', 'Flutter', 'TypeScript', 'Dart', 'Java']}
+					languages={[
+						{ name: 'Python', count: 12 },
+						{ name: 'JavaScript', count: 19 },
+						{ name: 'Flutter', count: 3 },
+						{ name: 'TypeScript', count: 5 },
+						{ name: 'Dart', count: 2 },
+						{ name: 'Java', count: 3 },
+					]}
 				/>
 			</>
 		</Center>

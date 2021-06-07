@@ -5,26 +5,39 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import RoundedBox from '../../../components/RoundedBox';
+import RoundedBox from '../../components/RoundedBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar';
 import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
 import { faGitAlt } from '@fortawesome/free-brands-svg-icons/faGitAlt';
-import TagBox from '../../../components/TagBox';
+import TagBox from '../../components/TagBox';
 
+export interface LanguageStat {
+	name: string;
+	count: number;
+}
 interface ProfileGithubProps {
 	username: string;
-	languages: string[];
+	languages: LanguageStat[];
 }
 
-const ProfileGithub: React.FC<ProfileGithubProps> = ({ username }) => {
+const ProfileGithub: React.FC<ProfileGithubProps> = ({ username, languages }) => {
+	const fillLabels = [languages.length];
+	const fillStats = [languages.length];
+
+	const colors = ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'];
+
+	languages.map((language, index) => (fillStats[index] = language.count));
+
+	languages.map((language, index) => (fillLabels[index] = language.name));
+
 	const data = {
-		labels: ['Python', 'TypeScript', 'Dart', 'Flutter', 'JavaScript', 'Java'],
+		labels: fillLabels,
 		datasets: [
 			{
 				label: 'Languages',
-				data: [12, 19, 3, 5, 2, 3],
+				data: fillStats,
 				backgroundColor: [
 					'rgba(255, 99, 132, 0.2)',
 					'rgba(54, 162, 235, 0.2)',
@@ -33,7 +46,7 @@ const ProfileGithub: React.FC<ProfileGithubProps> = ({ username }) => {
 					'rgba(153, 102, 255, 0.2)',
 					'rgba(255, 159, 64, 0.2)',
 				],
-				borderColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'],
+				borderColor: colors,
 				borderWidth: 1,
 			},
 		],
@@ -43,6 +56,7 @@ const ProfileGithub: React.FC<ProfileGithubProps> = ({ username }) => {
 		responsive: true,
 		plugins: {
 			legend: {
+				display: true,
 				position: 'left',
 				align: 'center',
 				labels: {
@@ -71,7 +85,12 @@ const ProfileGithub: React.FC<ProfileGithubProps> = ({ username }) => {
 		<Container>
 			<Grid container justifyContent={'space-evenly'}>
 				<Grid item lg={6} md={9} sm={8} xs={12}>
-					<RoundedBox padding={3}>
+					<RoundedBox
+						padding={3}
+						css={css`
+							text-align: -webkit-center;
+						`}
+					>
 						<Box marginTop={1} marginBottom={0.5}>
 							<Typography variant="h6">Programming language usage in GitHub Repositories</Typography>
 						</Box>
