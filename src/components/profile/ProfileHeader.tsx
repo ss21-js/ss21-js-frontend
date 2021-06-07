@@ -6,16 +6,16 @@ import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React from 'react';
-import { Adress } from 'src/model/adress';
-import CompanyProfilPage from '../../pages/Company/CompanyProfilPage';
+import { Address } from 'src/model/address';
+import CompanyProfilePage from 'src/pages/Company/CompanyProfilePage';
 import ProfilImage from './ProfilImage';
 
-export interface ProfilHeaderProps {
+export interface ProfileHeaderProps {
 	firstName: string;
 	lastName: string;
 	companyName: string;
 	type: string;
-	adress: Adress[];
+	address: Address[];
 }
 
 const UiTypography = styled(Typography)`
@@ -27,7 +27,7 @@ const UiFontAwesomeIcon = styled(FontAwesomeIcon)`
 	margin-right: 10px;
 `;
 
-const ProfilHeader: React.FC<ProfilHeaderProps> = ({ firstName, lastName, companyName, type, adress }) => {
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, companyName, type, address }) => {
 	const theme = useTheme();
 	const isMobile = useMediaQuery(() => theme.breakpoints.down('sm'));
 
@@ -74,13 +74,13 @@ const ProfilHeader: React.FC<ProfilHeaderProps> = ({ firstName, lastName, compan
 					</Typography>
 					<UiTypography variant="subtitle1">
 						<UiFontAwesomeIcon icon={faMapMarkerAlt} />
-						{adress}
+						{address}
 					</UiTypography>
 				</div>
 			</Grid>
-			<CompanyProfilPage />
+			<CompanyProfilePage />
 		</Grid>
 	);
 };
 
-export default ProfilHeader;
+export default ProfileHeader;

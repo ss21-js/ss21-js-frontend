@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 
 export const globalLoading = atom({
 	key: 'globalLoading',
@@ -14,7 +15,11 @@ export enum ThemeMode {
 	LIGHT,
 	DARK,
 }
-export const themeMode = atom<ThemeMode>({
+
+const { persistAtom } = recoilPersist();
+
+export const themeModeAtom = atom<ThemeMode>({
 	key: 'themeMode',
 	default: ThemeMode.LIGHT,
+	effects_UNSTABLE: [persistAtom],
 });

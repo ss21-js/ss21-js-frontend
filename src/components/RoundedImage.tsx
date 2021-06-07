@@ -1,16 +1,7 @@
-import { css } from '@emotion/react';
-import { useTheme } from '@material-ui/core';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-const RoundedImage = (props: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>) => {
-	const theme = useTheme();
+const RoundedImage = styled('img')`
+	border-radius: ${(props) => props.theme.shape.borderRadius};
+`;
 
-	return (
-		<img
-			css={css`
-				border-radius: ${theme.shape.borderRadius};
-			`}
-			{...props}
-		/>
-	);
-};
 export default RoundedImage;
