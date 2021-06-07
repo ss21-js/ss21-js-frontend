@@ -48,7 +48,7 @@ export interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ vertical }) => {
 	const { search, saved, profile } = useRoutesActive({
-		search: router.app.children.search,
+		search: router.app.children.jobs,
 		saved: router.app.children.saved,
 		profile: router.app.children.profile,
 	});
@@ -61,7 +61,7 @@ const Navigation: React.FC<NavigationProps> = ({ vertical }) => {
 				flex-direction: ${vertical ? 'column' : 'row'};
 			`}
 		>
-			<NavButton link={router.app().search().$} text="Find Job" isActive={search} vertical={vertical} />
+			<NavButton link={router.app().jobs({}).$} text="Find Job" isActive={search} vertical={vertical} />
 			<NavButton link={router.app().saved().$} text="Saved" isActive={saved} vertical={vertical} />
 			<NavButton link={router.app().profile().$} text="Profile" isActive={profile} vertical={vertical} />
 		</div>
