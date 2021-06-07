@@ -1,40 +1,26 @@
+import { Address } from '../address';
+import { University } from '../university';
+import { Jobhistory } from '../jobhistory';
+
 export interface Student {
-	university: string;
+	email: string;
+	firstname: string;
+	lastname: string;
+	description: string;
+	yearsOfExperience: number;
+	address: Address[];
+	university: University[];
 	semester: string;
-	website: string;
-	location: string;
-	status: 'Student';
+	job_history: Jobhistory[];
+	jobsMarkedIds: string[];
 	skills: string[];
-	bio: string;
+	datesAvailable: string[];
+	workArea: string;
+	workBasis: number;
 	githubusername: string;
-	experience: [
-		{
-			title: string;
-			company: string;
-			location: string;
-			from: Date;
-			to: Date;
-			current: boolean;
-			description: string;
-		}
-	];
-	education: [
-		{
-			school: string;
-			degree: string;
-			fieldofstudy: string;
-			from: string;
-			to: string;
-			current: boolean;
-			description: string;
-		}
-	];
 	social: {
-		youtube: string;
-		twitter: string;
 		facebook: string;
 		linkedin: string;
-		instagram: string;
 		github: string;
 	};
 }
