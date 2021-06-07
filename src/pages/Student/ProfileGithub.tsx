@@ -23,7 +23,7 @@ interface ProfileGithubProps {
 }
 
 const ProfileGithub: React.FC<ProfileGithubProps> = ({ username, languages }) => {
-	const fillLabels = 	languages.map((language) => language.name);
+	const fillLabels = languages.map((language) => language.name);
 	const fillStats = languages.map((language) => language.count);
 
 	const colors = ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'];
@@ -84,13 +84,16 @@ const ProfileGithub: React.FC<ProfileGithubProps> = ({ username, languages }) =>
 		<Container>
 			<Grid container justifyContent={'space-evenly'}>
 				<Grid item lg={6} md={9} sm={8} xs={12}>
-					<RoundedBox padding={3}
-								css={css`
-								width: 450px;
-								`}
+					<RoundedBox
+						padding={3}
+						css={css`
+							width: 450px;
+						`}
 					>
 						<Box marginTop={1} marginBottom={0.5}>
-							<Typography variant="h6" textAlign='center'>Programming language usage in GitHub Repositories</Typography>
+							<Typography variant="h6" textAlign="center">
+								Programming language usage in GitHub Repositories
+							</Typography>
 						</Box>
 						<Box marginBottom={0}>
 							<Doughnut data={data} type={Doughnut} options={option} />
