@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import React from 'react';
-import JobCard from 'src/components/JobCard';
+import JobCard from 'src/components/search/JobCard';
 
 const UiDivider = styled(Divider)`
 	margin-top: 10px;
@@ -34,6 +34,7 @@ const OpenJobOffers: React.FC = () => {
 				description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et"
 				image="https://preview.redd.it/iraq6sc6o3qz.jpg?auto=webp&s=dc0dfa00121359da7129d4efd9fbfc64635eac20"
 				tags={['Full-Time', '1 year Experience']}
+				selected
 			/>
 			<UiDivider />
 			<UiTypography variant="h6">Vergangene Jobs: </UiTypography>

@@ -1,18 +1,50 @@
 import { css } from '@emotion/react';
 import { Typography } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import InfoAlert from 'src/components/app/InfoAlert';
-import TextFieldContainer from 'src/components/TextField';
 
 const AboutUsCompany: React.FC = () => {
+	const { register } = useForm();
+
 	return (
 		<>
 			<InfoAlert />
+			{/* TODO: Fill defaultValue with BE */}
 			<form>
-				<TextFieldContainer id="company" label="Firma" defaultValue="BMW Group GmbH" />
-				<TextFieldContainer id="homepage" label="Homepage" defaultValue="www.bmw-group.de" />
-				<TextFieldContainer id="email" label="E-Mailadresse" defaultValue="info@bmw-group.de" />
-				<TextFieldContainer id="location" label="Standort" defaultValue="München" />
+				<TextField
+					{...register('company')}
+					variant="outlined"
+					margin="normal"
+					label="Firmenname"
+					defaultValue="BMW Group GmbH"
+					fullWidth
+				/>
+				<TextField
+					{...register('homepage')}
+					variant="outlined"
+					margin="normal"
+					label="Webseite"
+					defaultValue="www.bmw-group.de"
+					fullWidth
+				/>
+				<TextField
+					{...register('email')}
+					variant="outlined"
+					margin="normal"
+					label="E-Mailadresse"
+					defaultValue="info@bmw-group.de"
+					fullWidth
+				/>
+				<TextField
+					{...register('location')}
+					variant="outlined"
+					margin="normal"
+					label="Standort"
+					defaultValue="München"
+					fullWidth
+				/>
 				<Typography
 					variant="h6"
 					css={css`
@@ -22,12 +54,54 @@ const AboutUsCompany: React.FC = () => {
 				>
 					Adresse:
 				</Typography>
-				<TextFieldContainer id="street1" label="Straße" defaultValue="Münchnerstr." />
-				<TextFieldContainer id="street2" label="zusätzliche Straße" defaultValue="" />
-				<TextFieldContainer id="zip" label="PLZ" defaultValue="84957" />
-				<TextFieldContainer id="city" label="Stadt" defaultValue="München" />
-				<TextFieldContainer id="country" label="Land" defaultValue="Deutschland" />
-				<TextFieldContainer id="state" label="Staat" defaultValue="" />
+				<TextField
+					{...register('street1')}
+					variant="outlined"
+					margin="normal"
+					label="Straße"
+					defaultValue="Münchnerstr."
+					fullWidth
+				/>
+				<TextField
+					{...register('street2')}
+					variant="outlined"
+					margin="normal"
+					label="zusätzliche Straße"
+					defaultValue=""
+					fullWidth
+				/>
+				<TextField
+					{...register('zip')}
+					variant="outlined"
+					margin="normal"
+					label="PLZ"
+					defaultValue="84957"
+					fullWidth
+				/>
+				<TextField
+					{...register('city')}
+					variant="outlined"
+					margin="normal"
+					label="Stadt"
+					defaultValue="München"
+					fullWidth
+				/>
+				<TextField
+					{...register('country')}
+					variant="outlined"
+					margin="normal"
+					label="Land"
+					defaultValue="Deutschland"
+					fullWidth
+				/>
+				<TextField
+					{...register('state')}
+					variant="outlined"
+					margin="normal"
+					label="Staat"
+					defaultValue=""
+					fullWidth
+				/>
 			</form>
 		</>
 	);
