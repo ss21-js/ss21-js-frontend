@@ -1,18 +1,18 @@
-import styled from '@emotion/styled';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 import React, { useState } from 'react';
 import placeholder from 'src/assets/HeaderPicture.jpeg';
 import RoundedImage from 'src/components/RoundedImage';
 
 const Image = styled(RoundedImage)`
 	margin-top: 20px;
-	@media (min-width: 500px) {
+	${(props) => props.theme.breakpoints.up('sm')} {
 		margin-right: 70px;
 		margin-top: 0;
 	}
 	border-radius: 4.6rem;
 `;
 
-const ProfilImage: React.FC = () => {
+const ProfileImage: React.FC = () => {
 	const [{ alt, src }, setImg] = useState({
 		src: placeholder,
 		alt: 'Upload an Image',
@@ -42,4 +42,4 @@ const ProfilImage: React.FC = () => {
 	);
 };
 
-export default ProfilImage;
+export default ProfileImage;
