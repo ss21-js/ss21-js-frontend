@@ -1,6 +1,5 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import { css } from '@emotion/react';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container/Container';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +11,7 @@ import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
 import { faGitAlt } from '@fortawesome/free-brands-svg-icons/faGitAlt';
 import TagBox from '../../components/TagBox';
+import { css } from '@emotion/react';
 
 export interface LanguageStat {
 	name: string;
@@ -23,14 +23,10 @@ interface ProfileGithubProps {
 }
 
 const ProfileGithub: React.FC<ProfileGithubProps> = ({ username, languages }) => {
-	const fillLabels = [languages.length];
-	const fillStats = [languages.length];
+	const fillLabels = 	languages.map((language) => language.name);
+	const fillStats = languages.map((language) => language.count);
 
 	const colors = ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'];
-
-	languages.map((language, index) => (fillStats[index] = language.count));
-
-	languages.map((language, index) => (fillLabels[index] = language.name));
 
 	const data = {
 		labels: fillLabels,
@@ -54,9 +50,12 @@ const ProfileGithub: React.FC<ProfileGithubProps> = ({ username, languages }) =>
 
 	const option = {
 		responsive: true,
+		layout: {
+			padding: 50,
+		},
 		plugins: {
 			legend: {
-				display: true,
+				display: false,
 				position: 'left',
 				align: 'center',
 				labels: {
@@ -85,21 +84,15 @@ const ProfileGithub: React.FC<ProfileGithubProps> = ({ username, languages }) =>
 		<Container>
 			<Grid container justifyContent={'space-evenly'}>
 				<Grid item lg={6} md={9} sm={8} xs={12}>
-					<RoundedBox
-						padding={3}
-						css={css`
-							text-align: -webkit-center;
-						`}
+					<RoundedBox padding={3}
+								css={css`
+								width: 450px;
+								`}
 					>
 						<Box marginTop={1} marginBottom={0.5}>
-							<Typography variant="h6">Programming language usage in GitHub Repositories</Typography>
+							<Typography variant="h6" textAlign='center'>Programming language usage in GitHub Repositories</Typography>
 						</Box>
-						<Box
-							marginBottom={0}
-							css={css`
-								width: 400px;
-							`}
-						>
+						<Box marginBottom={0}>
 							<Doughnut data={data} type={Doughnut} options={option} />
 						</Box>
 					</RoundedBox>
