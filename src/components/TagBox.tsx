@@ -8,9 +8,10 @@ export interface TagBoxProps {
 	content: string;
 	paddingX?: number;
 	paddingY?: number;
+	color?: string;
 }
 
-const TagBox: React.FC<TagBoxProps> = ({ content, paddingX, paddingY }) => {
+const TagBox: React.FC<TagBoxProps> = ({ content, paddingX, paddingY, color }) => {
 	const theme = useTheme();
 
 	return (
@@ -18,7 +19,7 @@ const TagBox: React.FC<TagBoxProps> = ({ content, paddingX, paddingY }) => {
 			paddingX={paddingX ?? 1.5}
 			paddingY={paddingY ?? 0.75}
 			css={css`
-				background-color: ${theme.palette.primary.main}33;
+				background-color: ${color ?? theme.palette.primary.main}33;
 			`}
 		>
 			<Typography
@@ -26,7 +27,7 @@ const TagBox: React.FC<TagBoxProps> = ({ content, paddingX, paddingY }) => {
 				variant="body2"
 				css={css`
 					font-weight: 600;
-					color: ${theme.palette.primary.main};
+					color: ${color ?? theme.palette.primary.main};
 				`}
 			>
 				{content}
