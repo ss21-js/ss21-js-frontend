@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faIdBadge, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Grid from '@material-ui/core/Grid';
@@ -8,6 +9,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React from 'react';
 import { Address } from 'src/model/address';
 import CompanyProfilePage from 'src/pages/Company/CompanyProfilePage';
+import IconBar from '../app/IconBar';
 import ProfilImage from './ProfilImage';
 
 export interface ProfileHeaderProps {
@@ -76,6 +78,30 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, comp
 						<UiFontAwesomeIcon icon={faMapMarkerAlt} />
 						{address}
 					</UiTypography>
+					<IconBar
+						icons={[
+							{
+								title: 'Zum Google Konto',
+								icon: faGoogle,
+								color: `${theme.palette.secondary.contrastText}`,
+							},
+							{
+								title: 'Zum Apple Konto',
+								icon: faApple,
+								color: `${theme.palette.secondary.contrastText}`,
+							},
+							{
+								title: 'Zum Microsoft Konto',
+								icon: faMicrosoft,
+								color: `${theme.palette.secondary.contrastText}`,
+							},
+							{
+								title: 'Zum Github Konto',
+								icon: faGithub,
+								color: `${theme.palette.secondary.contrastText}`,
+							},
+						]}
+					/>
 				</div>
 			</Grid>
 			<CompanyProfilePage />
