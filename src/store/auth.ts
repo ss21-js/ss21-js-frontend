@@ -82,4 +82,4 @@ export const useSignInWith = () => {
 	};
 };
 
-export const signOut = () => auth.signOut();
+export const useSignOut = () => auth.signOut();

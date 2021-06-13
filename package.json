@@ -29,6 +29,7 @@
 		"customize-cra": "^1.0.0",
 		"firebase": "^8.6.1",
 		"joi": "^17.4.0",
+		"js-api-client": "github:ss21-js/ss21-js-api-client",
 		"lodash": "^4.17.21",
 		"react": "17.0.2",
 		"react-app-rewired": "^2.1.8",

@@ -8,7 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useRecoilState } from 'recoil';
-import { signOut } from 'src/store/auth';
+import { useSignOut } from 'src/store/auth';
 import { drawerOpen } from 'src/store/general';
 import CurrentUser from '../CurrentUser';
 import Logo from '../Logo';
@@ -22,7 +22,7 @@ const AppBar = () => {
 
 	const handleMenuToggle = () => setDrawerOpen(!isDrawerOpen);
 
-	const handleSignOut = () => signOut();
+	const handleSignOut = () => useSignOut();
 
 	return (
 		<MuiAppBar
