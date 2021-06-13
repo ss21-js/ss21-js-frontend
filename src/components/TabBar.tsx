@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 import { useTheme } from '@material-ui/core';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import { TabContent } from 'models/tab';
 import React, { useState } from 'react';
-import { TabContent } from 'src/model/tab';
 import TabContentPanel from './TabContentPanel';
 
 interface TabProps {
@@ -44,6 +44,7 @@ const TabBar: React.FC<TabProps> = ({ tab }) => {
 			>
 				{tab.map((TabContent, index) => (
 					<Tab
+						key={index}
 						label={TabContent.tabTitle}
 						{...Props(index)}
 						css={css`
@@ -53,11 +54,9 @@ const TabBar: React.FC<TabProps> = ({ tab }) => {
 				))}
 			</Tabs>
 			{tab.map((TabContent, index) => (
-				<>
-					<TabContentPanel value={value} index={index}>
-						{TabContent.tabContent}
-					</TabContentPanel>
-				</>
+				<TabContentPanel key={index} value={value} index={index}>
+					{TabContent.tabContent}
+				</TabContentPanel>
 			))}
 		</>
 	);

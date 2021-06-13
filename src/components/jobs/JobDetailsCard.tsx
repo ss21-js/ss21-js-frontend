@@ -2,13 +2,13 @@ import { css } from '@emotion/react';
 import { faHeart, faShareSquare } from '@fortawesome/free-regular-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Box, { BoxProps } from '@material-ui/core/Box';
+import Box from '@material-ui/core/Box';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Stack from '@material-ui/core/Stack';
 import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Job from 'models/job';
 import React from 'react';
-import Job from 'src/model/job';
 import InfoContainerGroup from '../app/InfoContainerGroup';
 import StyledIconButton from '../app/StyledIconButton';
 import RoundedBox from '../RoundedBox';
@@ -17,7 +17,6 @@ import UnorderedList from '../UnorderedList';
 export interface JobDetailsCardProps {
 	job: Job;
 	handleClose?: () => void;
-	box?: BoxProps;
 }
 
 const Header = styled('div')`
@@ -58,7 +57,11 @@ const ButtonRow = styled('div')`
 	margin: ${(props) => props.theme.spacing(2)};
 `;
 
-const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose, box }) => {
+const Root = styled(RoundedBox)`
+	height: 100%;
+`;
+
+const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose }) => {
 	const theme = useTheme();
 
 	const handleSave = () => {
@@ -70,7 +73,7 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose, box }
 	};
 
 	return (
-		<RoundedBox {...box}>
+		<Root>
 			<Header>
 				<HeaderImage src={job.headerImageUrl} />
 				<CompanyLogoContainer>
@@ -152,7 +155,7 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose, box }
 					))}
 				</UnorderedList>
 			</Box>
-		</RoundedBox>
+		</Root>
 	);
 };
 

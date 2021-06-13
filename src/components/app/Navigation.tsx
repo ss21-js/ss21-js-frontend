@@ -4,8 +4,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRoutesActive } from 'react-typesafe-routes';
 import { useSetRecoilState } from 'recoil';
-import router from 'src/Router';
-import { drawerOpen } from 'src/store/general';
+import router from 'Router';
+import { drawerOpen } from 'store/general';
 import StyledButton from '../StyledButton';
 
 interface NavButtonProps {
@@ -61,9 +61,9 @@ const Navigation: React.FC<NavigationProps> = ({ vertical }) => {
 				flex-direction: ${vertical ? 'column' : 'row'};
 			`}
 		>
-			<NavButton link={router.app().jobs({}).$} text="Find Job" isActive={search} vertical={vertical} />
-			<NavButton link={router.app().saved().$} text="Saved" isActive={saved} vertical={vertical} />
-			<NavButton link={router.app().profile().$} text="Profile" isActive={profile} vertical={vertical} />
+			<NavButton link={router.app().jobs({}).$} text="Job finden" isActive={search} vertical={vertical} />
+			<NavButton link={router.app().saved().$} text="Gespeichert" isActive={saved} vertical={vertical} />
+			<NavButton link={router.app().profile().$} text="Profil" isActive={profile} vertical={vertical} />
 		</div>
 	);
 };

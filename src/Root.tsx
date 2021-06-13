@@ -2,8 +2,9 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { RouterSwitch } from 'react-typesafe-routes';
 import { RecoilRoot } from 'recoil';
+import FirebaseWrapper from './components/FirebaseWrapper';
+import FullScreenLoading from './components/FullScreenLoading';
 import FullSizeContainer from './components/layout/FullSizeContainer';
-import FirebaseWrapper from './firebase/FirebaseWrapper';
 import router from './Router';
 import ThemeWrapper from './Theme';
 
@@ -14,7 +15,9 @@ const Root: React.FC = () => {
 				<BrowserRouter>
 					<FullSizeContainer>
 						<FirebaseWrapper>
-							<RouterSwitch router={router} />
+							<React.Suspense fallback={<FullScreenLoading />}>
+								<RouterSwitch router={router} />
+							</React.Suspense>
 						</FirebaseWrapper>
 					</FullSizeContainer>
 				</BrowserRouter>

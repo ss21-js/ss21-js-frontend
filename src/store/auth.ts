@@ -1,9 +1,14 @@
 import firebase from 'firebase';
 import { atom, useSetRecoilState } from 'recoil';
-import { auth } from 'src';
+import { firebaseAuth } from '..';
 
-export const currentUserId = atom<string | null>({
-	key: 'currentUser',
+export interface CurrentUser {
+	id: string;
+	idToken: string;
+}
+
+export const currentFirebaseUser = atom<CurrentUser | null>({
+	key: 'currentFirebaseUser',
 	default: null,
 });
 
@@ -32,7 +37,8 @@ export const useSignIn = () => {
 			error: null,
 		});
 
-		auth.signInWithEmailAndPassword(arg.email, arg.password)
+		firebaseAuth
+			.signInWithEmailAndPassword(arg.email, arg.password)
 			.then(() => setAuthState({ loading: false, error: null }))
 			.catch((error: firebase.auth.AuthError) => setAuthState({ loading: false, error: error.message }));
 	};
@@ -55,31 +61,32 @@ export const useSignInWith = () => {
 
 		let firebaseAuthProvider: firebase.auth.AuthProvider;
 
-		if (provider == OAuthProvider.Google) {
+		if (provider === OAuthProvider.Google) {
 			firebaseAuthProvider = new firebase.auth.GoogleAuthProvider();
-		} else if (provider == OAuthProvider.Apple) {
+		} else if (provider === OAuthProvider.Apple) {
 			const appleProvider = new firebase.auth.OAuthProvider('apple.com');
 
 			appleProvider.addScope('email');
 			appleProvider.addScope('name');
 
 			firebaseAuthProvider = appleProvider;
-		} else if (provider == OAuthProvider.Microsoft) {
+		} else if (provider === OAuthProvider.Microsoft) {
 			const microsoftProvider = new firebase.auth.OAuthProvider('microsoft.com');
 
 			microsoftProvider.addScope('mail.read');
 
 			firebaseAuthProvider = microsoftProvider;
-		} else if (provider == OAuthProvider.Github) {
+		} else if (provider === OAuthProvider.Github) {
 			firebaseAuthProvider = new firebase.auth.GithubAuthProvider();
 		} else {
 			return;
 		}
 
-		auth.signInWithPopup(firebaseAuthProvider)
+		firebaseAuth
+			.signInWithPopup(firebaseAuthProvider)
 			.then(() => setAuthState({ loading: false, error: null }))
 			.catch((error: firebase.auth.AuthError) => setAuthState({ loading: false, error: error.message }));
 	};
 };
 
-export const useSignOut = () => auth.signOut();
+export const signOut = () => firebaseAuth.signOut();

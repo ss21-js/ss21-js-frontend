@@ -1,22 +1,19 @@
+import { AuthApi, UserResponse } from 'js-api-client';
 import { selector } from 'recoil';
-import User from 'src/model/user';
-import { currentUserId } from './auth';
+import { authenticatedApiConfiguration } from './api';
 
-export const currentUser = selector<User>({
+export const currentUser = selector<UserResponse | null>({
 	key: 'userInfo',
 	get: async ({ get }) => {
-		const id = get(currentUserId);
+		const config = get(authenticatedApiConfiguration);
 
-		if (id == null) {
-			throw Error('User not found');
+		if (config == null) {
+			return null;
 		}
 
-		// TODO: Get user info from backend
-
-		return {
-			id: id,
-			firstname: 'Max',
-			lastname: 'Mustermann',
-		};
+		return new AuthApi(config)
+			.appControllerGetOwnProfile()
+			.then((response) => response)
+			.catch(() => null);
 	},
 });

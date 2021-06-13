@@ -1,27 +1,51 @@
+import JobsPage from 'pages/JobsPage';
+import LandingPage from 'pages/LandingPage';
+import LoginPage from 'pages/LoginPage';
+import OnboardingPage from 'pages/OnboardingPage';
+import OnboardingStudentPage from 'pages/OnboardingStudentPage';
+import ProfilePage from 'pages/ProfilePage';
+import SavedPage from 'pages/SavedPage';
+import React from 'react';
 import { OptionsRouter, Redirect, RouteMiddleware, stringParser } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
-import JobsPage from './pages/JobsPage';
-import LandingPage from './pages/LandingPage';
-import LoginPage from './pages/LoginPage';
-import ProfilePage from './pages/ProfilePage';
-import SavedPage from './pages/SavedPage';
-import { currentUserId } from './store/auth';
+import { currentFirebaseUser } from 'store/auth';
+import { currentUser } from 'store/user';
 
 const AuthMiddleware: RouteMiddleware = (next) => {
-	const id = useRecoilValue(currentUserId);
+	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	const user = useRecoilValue(currentUser);
 
-	if (id === null) {
+	if (firebaseUser === null) {
 		return () => <Redirect to={router.login()} />;
 	}
+
+	if (user === null) {
+		return () => <Redirect to={router.onboarding()} />;
+	}
+
 	return next;
 };
 
-const LoginMiddleware: RouteMiddleware = (next) => {
-	const id = useRecoilValue(currentUserId);
+const LoginMiddleware: RouteMiddleware = (Next) => {
+	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	if (firebaseUser !== null) {
+		return () => <Redirect to={router.onboarding()} />;
+	}
+	return Next;
+};
 
-	if (id !== null) {
+const OnboardingMiddleware: RouteMiddleware = (next) => {
+	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	const user = useRecoilValue(currentUser);
+
+	if (firebaseUser === null) {
+		return () => <Redirect to={router.login()} />;
+	}
+
+	if (user !== null) {
 		return () => <Redirect to={router.app().jobs({})} />;
 	}
+
 	return next;
 };
 
@@ -52,6 +76,21 @@ const router = OptionsRouter(routeOptions, (route) => ({
 	landing: route('', {
 		component: LandingPage,
 	}),
+	onboarding: route(
+		'onboarding',
+		{
+			component: OnboardingPage,
+			middleware: OnboardingMiddleware,
+		},
+		(route) => ({
+			student: route('student', {
+				component: OnboardingStudentPage,
+			}),
+			company: route('unternehmen', {
+				component: OnboardingStudentPage,
+			}),
+		})
+	),
 	app: route(
 		'app',
 		{

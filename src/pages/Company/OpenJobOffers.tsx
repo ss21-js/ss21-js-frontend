@@ -7,8 +7,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import JobCard from 'components/jobs/JobCard';
 import React from 'react';
-import JobCard from 'src/components/search/JobCard';
 
 const UiDivider = styled(Divider)`
 	margin-top: 10px;

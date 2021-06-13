@@ -1,9 +1,9 @@
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import ProfileGithub from './ProfileGithub';
-import Center from '../../components/layout/Center';
-import { Student } from '../../model/profile/student';
 import { css } from '@emotion/react';
+import Typography from '@material-ui/core/Typography';
+import React from 'react';
+import Center from '../../components/layout/Center';
+import { Student } from '../../models/profile/student';
+import ProfileGithub from './ProfileGithub';
 
 export interface StudentenProfilProps {
 	student: Student;

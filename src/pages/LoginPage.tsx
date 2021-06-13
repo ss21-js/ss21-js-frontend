@@ -1,8 +1,7 @@
-import styled from '@emotion/styled';
 import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { makeStyles, Theme } from '@material-ui/core';
+import { experimentalStyled as styled, makeStyles, Theme } from '@material-ui/core';
 import Button from '@material-ui/core/Button/Button';
 import Container from '@material-ui/core/Container/Container';
 import Grid from '@material-ui/core/Grid/Grid';
@@ -10,23 +9,16 @@ import Link from '@material-ui/core/Link/Link';
 import TextField from '@material-ui/core/TextField/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography/Typography';
+import { useMaterialRegister } from 'common/formUtils';
+import RoundedBox from 'components/RoundedBox';
+import StyledButton from 'components/StyledButton';
 import Joi from 'joi';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
-import StyledButton from 'src/components/StyledButton';
-import { authState, OAuthProvider, SignInWithEmail, useSignIn, useSignInWith } from 'src/store/auth';
-import { useMaterialRegister } from 'src/utils/formUtils';
+import { authState, OAuthProvider, SignInWithEmail, useSignIn, useSignInWith } from 'store/auth';
 
 const useStyles = makeStyles((theme: Theme) => ({
-	root: {
-		alignSelf: 'center',
-	},
-	paper: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	},
 	avatar: {
 		margin: theme.spacing(1),
 		backgroundColor: theme.palette.secondary.main,
@@ -42,6 +34,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 		margin: theme.spacing(3, 0, 0, 0),
 	},
 }));
+
+const Root = styled(Container)`
+	display: flex;
+	align-items: center;
+	overflow-y: scroll;
+	padding: ${(props) => props.theme.spacing(3)};
+`;
 
 const IconButton = styled(StyledButton)`
 	padding: 0.5rem;
@@ -68,8 +67,6 @@ const LoginPage: React.FC = () => {
 		resolver: joiResolver(loginSchema),
 	});
 
-	const materialRegister = useMaterialRegister(control);
-
 	const onSubmit = (data: SignInWithEmail) => signIn(data);
 
 	const handleGoogle = () => signInWith(OAuthProvider.Google);
@@ -77,15 +74,18 @@ const LoginPage: React.FC = () => {
 	const handleMicrosoft = () => signInWith(OAuthProvider.Microsoft);
 	const handleGithub = () => signInWith(OAuthProvider.Github);
 
+	const emailField = useMaterialRegister(control, 'email');
+	const passwordField = useMaterialRegister(control, 'password');
+
 	return (
-		<Container className={classes.root} component="main" maxWidth="xs">
-			<div className={classes.paper}>
+		<Root maxWidth="sm">
+			<RoundedBox padding={3}>
 				<Typography component="h1" variant="h5">
 					Login
 				</Typography>
 				<Grid container justifyContent="space-evenly" className={classes.social}>
 					<Grid item>
-						<Tooltip title="Sign in with Google">
+						<Tooltip title="Weiter mit Google">
 							<span>
 								<IconButton style={{ backgroundColor: '#4285F4' }} onClick={handleGoogle}>
 									<FontAwesomeIcon icon={faGoogle} size="lg" />
@@ -94,7 +94,7 @@ const LoginPage: React.FC = () => {
 						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Tooltip title="Sign in with Apple">
+						<Tooltip title="Weiter mit Apple">
 							<span>
 								<IconButton style={{ backgroundColor: '#000' }} onClick={handleApple}>
 									<FontAwesomeIcon icon={faApple} size="lg" />
@@ -103,7 +103,7 @@ const LoginPage: React.FC = () => {
 						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Tooltip title="Sign in with Microsoft">
+						<Tooltip title="Weiter mit Microsoft">
 							<span>
 								<IconButton style={{ backgroundColor: '#00A4EF' }} onClick={handleMicrosoft}>
 									<FontAwesomeIcon icon={faMicrosoft} size="lg" />
@@ -112,7 +112,7 @@ const LoginPage: React.FC = () => {
 						</Tooltip>
 					</Grid>
 					<Grid item>
-						<Tooltip title="Sign in with Github">
+						<Tooltip title="Weiter mit Github">
 							<span>
 								<IconButton style={{ backgroundColor: '#333333' }} onClick={handleGithub}>
 									<FontAwesomeIcon icon={faGithub} size="lg" />
@@ -123,24 +123,24 @@ const LoginPage: React.FC = () => {
 				</Grid>
 				<form className={classes.form} onSubmit={handleSubmit(onSubmit)} noValidate>
 					<TextField
-						{...materialRegister('email')}
+						{...emailField}
 						variant="outlined"
 						margin="normal"
 						required
 						fullWidth
 						id="email"
-						label="Email Address"
+						label="Email Adresse"
 						autoComplete="email"
 						autoFocus
 						disabled={loading}
 					/>
 					<TextField
-						{...materialRegister('password')}
+						{...passwordField}
 						variant="outlined"
 						margin="normal"
 						required
 						fullWidth
-						label="Password"
+						label="Passwort"
 						type="password"
 						id="password"
 						autoComplete="current-password"
@@ -154,7 +154,7 @@ const LoginPage: React.FC = () => {
 						className={classes.submit}
 						disabled={loading}
 					>
-						Sign In
+						Login
 					</Button>
 					{error && (
 						<Typography variant="body1" color="error" gutterBottom>
@@ -162,20 +162,20 @@ const LoginPage: React.FC = () => {
 						</Typography>
 					)}
 					<Grid container>
-						<Grid item xs>
+						{/* <Grid item xs>
 							<Link href="#" variant="body2">
 								Forgot password?
 							</Link>
-						</Grid>
+						</Grid> */}
 						<Grid item>
 							<Link href="#" variant="body2">
-								Don&apos;t have an account? Sign Up
+								Noch kein Konto? Account erstellen
 							</Link>
 						</Grid>
 					</Grid>
 				</form>
-			</div>
-		</Container>
+			</RoundedBox>
+		</Root>
 	);
 };
 

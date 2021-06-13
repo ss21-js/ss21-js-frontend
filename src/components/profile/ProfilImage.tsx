@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import placeholder from 'assets/HeaderPicture.jpeg';
+import RoundedImage from 'components/RoundedImage';
 import React, { useState } from 'react';
-import placeholder from 'src/assets/HeaderPicture.jpeg';
-import RoundedImage from 'src/components/RoundedImage';
 
 const Image = styled(RoundedImage)`
 	margin-top: 20px;

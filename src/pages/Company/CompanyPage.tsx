@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Container from '@material-ui/core/Container';
+import ProfileHeader from 'components/profile/ProfileHeader';
 import React from 'react';
-import ProfileHeader from 'src/components/profile/ProfileHeader';
 
 const Wrapper = styled.div`
 	display: flex;

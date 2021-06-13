@@ -5,9 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Address } from 'models/address';
+import CompanyProfilePage from 'pages/Company/CompanyProfilePage';
 import React from 'react';
-import { Address } from 'src/model/address';
-import CompanyProfilePage from 'src/pages/Company/CompanyProfilePage';
 import ProfilImage from './ProfilImage';
 
 export interface ProfileHeaderProps {

@@ -1,6 +1,5 @@
 import firebase from 'firebase';
-import { isProd } from '../constants';
-import firebaseConfig from './firebaseConfig';
+import { firebaseConfig, isProd } from './config';
 
 const useEmulators = false;
 
@@ -15,12 +14,12 @@ const initializeFirebase = () => {
 		console.info(`Firebase-APP created ${firebase.SDK_VERSION}`);
 	}
 
-	let auth = app.auth();
+	let firebaseAuth = app.auth();
 
 	if (useEmulators) {
-		auth.useEmulator('http://localhost:9099');
+		firebaseAuth.useEmulator('http://localhost:9099');
 	}
 
-	return { auth };
+	return { firebaseAuth };
 };
 export default initializeFirebase;

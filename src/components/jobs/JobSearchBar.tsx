@@ -9,8 +9,8 @@ import Divider from '@material-ui/core/Divider';
 import InputBase from '@material-ui/core/InputBase';
 import { experimentalStyled as styled, Theme, useTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import StyledButton from 'components/StyledButton';
 import React from 'react';
-import StyledButton from 'src/components/StyledButton';
 
 interface TabProps {
 	icon: IconProp;

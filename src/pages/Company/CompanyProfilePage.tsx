@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Grid from '@material-ui/core/Grid';
+import TabBar from 'components/TabBar';
 import React from 'react';
-import TabBar from 'src/components/TabBar';
 import AboutUsCompany from './AboutUsCompany';
 import OpenJobOffers from './OpenJobOffers';
 
