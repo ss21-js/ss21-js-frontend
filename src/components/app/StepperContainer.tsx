@@ -7,28 +7,38 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
+import AdditionalDataCompany from 'src/pages/Company/AdditionalDataCompany';
+import ProfileInformtion from 'src/pages/Company/ProfileInformtion';
 import Center from '../layout/Center';
-import RoundedBox from '../RoundedBox';
+import ProfileImageUpload from './ProfileImageUpload';
+
+const StepperWrapper = styled(Stepper)`
+	padding-top: 3rem;
+	background-color: white;
+`;
 
 const Wrapper = styled.div`
-	margin-top: 50px;
+	padding-top: 3rem;
+	background-color: white;
 `;
 
 const ButtonWrapper = styled.div`
-	margin-top: 50px;
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+	padding-left: 11rem;
 `;
 
 const ButtonContainer = styled(Button)`
-	margin-top: 50px;
-`;
-
-const Box = styled(RoundedBox)`
-	height: 300px;
-	width: 800px;
+	margin-bottom: 3rem;
+	margin-left: 11rem;
 `;
 
 const Icon = styled(FontAwesomeIcon)`
 	margin-left: 10px;
+`;
+
+const CenterContainer = styled(Center)`
+	height: 30rem;
 `;
 
 function getSteps(steps: string[]) {
@@ -56,7 +66,7 @@ function getStepContent(
 
 const StepperContainer: React.FC = () => {
 	const [activeStep, setActiveStep] = React.useState(0);
-	const steps = getSteps(['Profil Informationen', 'Extra Informationen', 'Bild']);
+	const steps = getSteps(['Profil Daten', 'zusätzliche Daten', 'Profilbild']);
 
 	const handleNext = () => {
 		setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -72,30 +82,30 @@ const StepperContainer: React.FC = () => {
 
 	return (
 		<div>
-			<Stepper activeStep={activeStep} alternativeLabel>
+			<StepperWrapper activeStep={activeStep} alternativeLabel>
 				{steps.map((label) => (
 					<Step key={label}>
 						<StepLabel>{label}</StepLabel>
 					</Step>
 				))}
-			</Stepper>
+			</StepperWrapper>
 			<div>
 				{activeStep === steps.length ? (
 					<Wrapper>
-						<Box>
-							<Center>
-								Erfolgreich registriert! <Icon icon={faCheck} size="lg" color="primary" />{' '}
-							</Center>
-						</Box>
-
+						<CenterContainer>
+							Erfolgreich registriert! <Icon icon={faCheck} size="lg" color="primary" />
+						</CenterContainer>
 						<ButtonContainer onClick={handleReset}>Zurücksetzen</ButtonContainer>
 					</Wrapper>
 				) : (
 					<Wrapper>
 						<Typography>
 							{getStepContent(
-								activeStep
+								activeStep,
 								//TODO: This is where the respective classes of the pages go
+								<ProfileInformtion />,
+								<AdditionalDataCompany />,
+								<ProfileImageUpload />
 							)}
 						</Typography>
 						<ButtonWrapper>
