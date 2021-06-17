@@ -8,7 +8,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React from 'react';
 import { Address } from 'src/model/address';
 import CompanyProfilePage from 'src/pages/Company/CompanyProfilePage';
-import ProfilImage from './ProfilImage';
+import ProfileHeaderDevice from './ProfileHeaderDevice';
+import ProfileImage from './ProfileImage';
 
 export interface ProfileHeaderProps {
 	firstName: string;
@@ -49,15 +50,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, comp
 					justify-content: center;
 				`}
 			>
-				<ProfilImage />
-				<div
-					css={css`
-						text-align: ${isMobile ? '-webkit-center' : ''};
-						align-self: ${isMobile ? '' : 'center'};
-						margin-top: ${isMobile ? '20px' : '0'};
-						margin-bottom: ${isMobile ? '20px' : '0'};
-					`}
-				>
+				<ProfileImage />
+				<ProfileHeaderDevice>
 					<UiTypography variant="h4">
 						{firstName} {lastName} {companyName}
 					</UiTypography>
@@ -76,7 +70,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, comp
 						<UiFontAwesomeIcon icon={faMapMarkerAlt} />
 						{address}
 					</UiTypography>
-				</div>
+				</ProfileHeaderDevice>
 			</Grid>
 			<CompanyProfilePage />
 		</Grid>
