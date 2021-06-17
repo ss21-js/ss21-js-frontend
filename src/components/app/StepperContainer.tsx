@@ -1,10 +1,10 @@
-import styled from '@emotion/styled';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '@material-ui/core/Button';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import AdditionalDataCompany from 'src/pages/Company/AdditionalDataCompany';
@@ -12,17 +12,19 @@ import ProfileInformtion from 'src/pages/Company/ProfileInformtion';
 import Center from '../layout/Center';
 import ProfileImageUpload from './ProfileImageUpload';
 
+//const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
+
 const StepperWrapper = styled(Stepper)`
 	padding-top: 3rem;
 	background-color: white;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled('div')`
 	padding-top: 3rem;
 	background-color: white;
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled('div')`
 	padding-top: 3rem;
 	padding-bottom: 3rem;
 	padding-left: 11rem;
