@@ -1,4 +1,4 @@
-export interface Address {
+interface Address {
 	street1: string;
 	street2: string;
 	zip: number;
@@ -6,3 +6,5 @@ export interface Address {
 	state: string;
 	country: string;
 }
+
+export default Address;
