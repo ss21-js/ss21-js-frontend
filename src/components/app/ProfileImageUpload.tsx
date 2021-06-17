@@ -1,13 +1,18 @@
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { Alert, Typography } from '@material-ui/core';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 import React from 'react';
 import Center from 'src/components/layout/Center';
 import ProfilImage from '../profile/ProfilImage';
 
+const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
+
 const Image = styled(ProfilImage)`
 	margin-top: 0;
 	margin-right: 70px;
+	${(props) => props.theme.breakpoints.down(mobileBreakpoint)} {
+		margin-right: 0;
+	}
 `;
 
 const CenterContainer = styled(Center)`

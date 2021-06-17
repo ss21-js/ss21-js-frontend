@@ -1,18 +1,24 @@
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { TextField, Typography } from '@material-ui/core';
+import { TextField, Theme, Typography, useMediaQuery } from '@material-ui/core';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import InfoAlert from 'src/components/app/InfoAlert';
 import Center from 'src/components/layout/Center';
 
+const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
+
 const Container = styled(Center)`
 	display: grid;
 	height: 100%;
+	${(props) => props.theme.breakpoints.down(mobileBreakpoint)} {
+		padding: 0 1rem 0 1rem;
+	}
 `;
 
 const ProfileInformtion: React.FC = () => {
 	const { register } = useForm();
+	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 	return (
 		<Container>
 			<>
@@ -20,7 +26,9 @@ const ProfileInformtion: React.FC = () => {
 				{/* TODO: Fill defaultValue with BE */}
 				<form
 					css={css`
-						width: 64rem;
+						width: ${isMobile ? 'auto' : '64rem'};
+						padding: ${isMobile ? '0 1rem 0 1rem' : '0'};
+						}
 					`}
 				>
 					<Typography
