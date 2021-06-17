@@ -6,13 +6,11 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import AdditionalDataCompany from 'pages/Company/AdditionalDataCompany';
+import ProfileInformtion from 'pages/Company/ProfileInformtion';
 import React from 'react';
-import AdditionalDataCompany from 'src/pages/Company/AdditionalDataCompany';
-import ProfileInformtion from 'src/pages/Company/ProfileInformtion';
 import Center from '../layout/Center';
-import ProfileImageUpload from './ProfileImageUpload';
-
-//const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
+import ProfileImageUpload from '../profile/ProfileImageUpload';
 
 const StepperWrapper = styled(Stepper)`
 	padding-top: 3rem;

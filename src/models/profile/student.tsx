@@ -1,6 +1,6 @@
-import { Address } from '../address';
-import { University } from '../university';
+import Address from '../address';
 import { JobHistory } from '../jobHistory';
+import { University } from '../university';
 
 export interface Student {
 	email: string;

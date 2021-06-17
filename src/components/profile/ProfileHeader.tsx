@@ -5,10 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Address } from 'models/address';
+import Address from 'models/address';
 import CompanyProfilePage from 'pages/Company/CompanyProfilePage';
 import React from 'react';
-import ProfilImage from './ProfilImage';
+import ProfilImage from './ProfileImage';
 
 export interface ProfileHeaderProps {
 	firstName: string;

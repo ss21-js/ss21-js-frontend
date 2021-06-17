@@ -2,10 +2,10 @@ import { css } from '@emotion/react';
 import { Typography, useMediaQuery } from '@material-ui/core';
 import { experimentalStyled as styled, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import InfoAlert from 'components/app/InfoAlert';
+import Center from 'components/layout/Center';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import InfoAlert from 'src/components/app/InfoAlert';
-import Center from 'src/components/layout/Center';
 
 const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
 
