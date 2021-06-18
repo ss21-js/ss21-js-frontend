@@ -27,7 +27,6 @@ const GithubSection: React.FC<ProfileGithubProps> = ({ username, languages }) =>
 	const fillLabels = languages.map((language) => language.name);
 	const fillStats = languages.map((language) => language.count);
 
-
 	const colors = ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'];
 
 	const data = {
@@ -75,7 +74,8 @@ const GithubSection: React.FC<ProfileGithubProps> = ({ username, languages }) =>
 
 	return (
 		<Container>
-			<RoundedBox marginTop={16}
+			<RoundedBox
+				marginTop={16}
 				css={css`
 					width: 350px;
 					border: solid ${theme.palette.divider} 1px;
@@ -93,10 +93,14 @@ const GithubSection: React.FC<ProfileGithubProps> = ({ username, languages }) =>
 					<Doughnut data={data} type={Doughnut} options={option} />
 				</Box>
 			</RoundedBox>
-			<RoundedBox padding={3} marginTop={3} css={css`
-              width: 350px;
-              border: solid ${theme.palette.divider} 1px;
-			`}>
+			<RoundedBox
+				padding={3}
+				marginTop={3}
+				css={css`
+					width: 350px;
+					border: solid ${theme.palette.divider} 1px;
+				`}
+			>
 				<Box marginTop={1} marginBottom={0.5}>
 					<Typography variant="h6">{username}'s GitHub Stats</Typography>
 				</Box>

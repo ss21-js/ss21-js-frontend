@@ -11,8 +11,7 @@ import { css } from '@emotion/react';
 import Grid from '@material-ui/core/Grid';
 import TagBox from '../../../components/TagBox';
 
-
-const AboutMeSection: React.FC<StudentenProfilProps> = ( { student} ) => {
+const AboutMeSection: React.FC<StudentenProfilProps> = ({ student }) => {
 	const theme = useTheme();
 
 	const tags = [
@@ -40,38 +39,52 @@ const AboutMeSection: React.FC<StudentenProfilProps> = ( { student} ) => {
 					<Typography variant="body1">Rosenheim, Bayern</Typography>
 					<Box flexGrow={1} />
 				</Stack>
-				<RoundedBox padding={3} css={css`
-				border: solid ${theme.palette.divider} 1px;`}>
+				<RoundedBox
+					padding={3}
+					css={css`
+						border: solid ${theme.palette.divider} 1px;
+					`}
+				>
 					<InfoContainerGroup
 						items={[
 							{
 								title: 'Arbeitsbereich',
-								content: "Frontend Developer",
+								content: 'Frontend Developer',
 							},
 							{
 								title: 'Arbeitserfahrung',
-								content: student.yearsOfExperience + " Jahr(e)",
+								content: student.yearsOfExperience + ' Jahr(e)',
 							},
 							{
 								title: 'Programmierlevel',
-								content: "Anfänger",
+								content: 'Anfänger',
 							},
 							{
 								title: 'Arbeitszeit',
-								content: "Teilzeit",
+								content: 'Teilzeit',
 							},
 						]}
 					/>
 				</RoundedBox>
-				<RoundedBox padding={3} marginTop={3} css={css`
-				border: solid ${theme.palette.divider} 1px;`}>
+				<RoundedBox
+					padding={3}
+					marginTop={3}
+					css={css`
+						border: solid ${theme.palette.divider} 1px;
+					`}
+				>
 					<Typography marginTop={3} variant="h5" component="h4" gutterBottom>
 						Beschreibung
 					</Typography>
 					<Typography>{student.description}</Typography>
 				</RoundedBox>
-				<RoundedBox padding={3} marginTop={3} css={css`
-				border: solid ${theme.palette.divider} 1px;`}>
+				<RoundedBox
+					padding={3}
+					marginTop={3}
+					css={css`
+						border: solid ${theme.palette.divider} 1px;
+					`}
+				>
 					<Box marginTop={1} marginBottom={0.5}>
 						<Typography variant="h6">Skills</Typography>
 					</Box>
