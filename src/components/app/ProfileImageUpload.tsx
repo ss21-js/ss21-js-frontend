@@ -3,7 +3,7 @@ import { Alert, Typography } from '@material-ui/core';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import React from 'react';
 import Center from 'src/components/layout/Center';
-import ProfilImage from '../profile/ProfilImage';
+import ProfilImage from '../profile/ProfileImage';
 
 const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
 
