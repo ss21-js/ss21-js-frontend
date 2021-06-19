@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '@material-ui/core/Button';
@@ -81,7 +82,15 @@ const StepperContainer: React.FC = () => {
 	};
 
 	return (
-		<div>
+		<div
+			css={css`
+				margin-left: auto;
+				margin-right: auto;
+				max-width: 1280px;
+				padding-left: 24px;
+				padding-right: 24px;
+			`}
+		>
 			<StepperWrapper activeStep={activeStep} alternativeLabel>
 				{steps.map((label) => (
 					<Step key={label}>
