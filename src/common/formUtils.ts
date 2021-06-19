@@ -1,6 +1,7 @@
 import { Control, Path, useController, UseFormRegisterReturn } from 'react-hook-form';
 
 type UseFormRegisterMaterialReturn = Omit<UseFormRegisterReturn, 'ref'> & {
+	id: string;
 	inputRef: React.Ref<any>;
 	error: boolean;
 	helperText?: string;
@@ -15,6 +16,7 @@ export const useMaterialRegister = <T>(
 
 	let re: UseFormRegisterMaterialReturn = {
 		inputRef: controller.field.ref,
+		id: controller.field.name,
 		name: controller.field.name,
 		onBlur: async () => controller.field.onBlur(),
 		onChange: async (e) => controller.field.onChange(e),

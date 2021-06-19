@@ -7,21 +7,20 @@ import Typography from '@material-ui/core/Typography';
 import UndrawDeveloperActivity from 'assets/undraw_developer_activity.svg';
 import UndrawMeetTheTeam from 'assets/undraw_meet_the_team.svg';
 import RoundedBox from 'components/RoundedBox';
+import StyledButton from 'components/StyledButton';
 import React from 'react';
 import { useHistory } from 'react-router';
 import router from 'Router';
+import { signOut } from 'store/auth';
 
 const OnboardingButton = styled(Button)`
 	text-transform: none;
 	color: inherit;
 	height: 100%;
-
-	& .MuiButton-label {
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: ${(props) => props.theme.spacing(2)};
 `;
 
 const Root = styled(Container)`
@@ -42,10 +41,11 @@ const OnboardingPage: React.FC = () => {
 		<Root maxWidth="lg">
 			<RoundedBox padding={4}>
 				<Grid container spacing={6}>
-					<Grid item xs={12}>
-						<Typography component="h1" variant="h4">
+					<Grid item xs={12} display="flex">
+						<Typography flexGrow={1} component="h1" variant="h4">
 							Willkommen bei StudentNinja
 						</Typography>
+						<StyledButton onClick={signOut}>Ausloggen</StyledButton>
 					</Grid>
 					<Grid item sm xs={12}>
 						<OnboardingButton onClick={handleStudent}>

@@ -9,11 +9,11 @@ import React from 'react';
 import { OptionsRouter, Redirect, RouteMiddleware, stringParser } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
 import { currentFirebaseUser } from 'store/auth';
-import { currentUser } from 'store/user';
+import { currentUserAtom } from 'store/user';
 
 const AuthMiddleware: RouteMiddleware = (next) => {
 	const firebaseUser = useRecoilValue(currentFirebaseUser);
-	const user = useRecoilValue(currentUser);
+	const user = useRecoilValue(currentUserAtom);
 
 	if (firebaseUser === null) {
 		return () => <Redirect to={router.login()} />;
@@ -36,7 +36,7 @@ const LoginMiddleware: RouteMiddleware = (Next) => {
 
 const OnboardingMiddleware: RouteMiddleware = (next) => {
 	const firebaseUser = useRecoilValue(currentFirebaseUser);
-	const user = useRecoilValue(currentUser);
+	const user = useRecoilValue(currentUserAtom);
 
 	if (firebaseUser === null) {
 		return () => <Redirect to={router.login()} />;

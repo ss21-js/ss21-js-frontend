@@ -28,7 +28,6 @@ const ProfileInformtion: React.FC = () => {
 					css={css`
 						width: ${isMobile ? 'auto' : '64rem'};
 						padding: ${isMobile ? '0 1rem 0 1rem' : '0'};
-						}
 					`}
 				>
 					<Typography

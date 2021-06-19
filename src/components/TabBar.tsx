@@ -2,15 +2,18 @@ import { css } from '@emotion/react';
 import { useTheme } from '@material-ui/core';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import { TabContent } from 'models/tab';
 import React, { useState } from 'react';
 import TabContentPanel from './TabContentPanel';
-
-interface TabProps {
-	tab: TabContent[];
+export interface TabBarTab {
+	title: string;
+	component: React.ReactNode;
 }
 
-const TabBar: React.FC<TabProps> = ({ tab }) => {
+interface TabProps {
+	tabs: TabBarTab[];
+}
+
+const TabBar: React.FC<TabProps> = ({ tabs }) => {
 	const theme = useTheme();
 	const initialTabIndex = 0;
 	const [value, setValue] = useState(initialTabIndex);
@@ -38,14 +41,13 @@ const TabBar: React.FC<TabProps> = ({ tab }) => {
 				css={css`
 					box-shadow: 1px 1px 5px lightgrey;
 					border-radius: 0.6rem;
-					margin-bottom: 2rem;
 					background-color: ${theme.palette.primary.contrastText};
 				`}
 			>
-				{tab.map((TabContent, index) => (
+				{tabs.map((TabContent, index) => (
 					<Tab
 						key={index}
-						label={TabContent.tabTitle}
+						label={TabContent.title}
 						{...Props(index)}
 						css={css`
 							font-weight: bold;
@@ -53,9 +55,9 @@ const TabBar: React.FC<TabProps> = ({ tab }) => {
 					/>
 				))}
 			</Tabs>
-			{tab.map((TabContent, index) => (
+			{tabs.map((TabContent, index) => (
 				<TabContentPanel key={index} value={value} index={index}>
-					{TabContent.tabContent}
+					{TabContent.component}
 				</TabContentPanel>
 			))}
 		</>

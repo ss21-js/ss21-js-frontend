@@ -51,18 +51,30 @@ export const jobSearchTo = atom<Date>({
 	default: add(new Date(), { months: 3 }),
 });
 
-export const jobSearchJobs = selector<Job[] | null>({
+export const jobSearchLimit = atom<number>({
+	key: 'jobSearchLimit',
+	default: 0,
+});
+
+export const jobSearchSkip = atom<number>({
+	key: 'jobSearchSkip',
+	default: 0,
+});
+
+export const jobSearchQuery = selector<Job[] | null>({
 	key: 'jobSearchJobs',
 	get: async ({ get }) => {
 		const config = get(authenticatedApiConfiguration);
 
-		const languages = get(jobSearchLanguages);
 		const searchString = get(jobSearchSearchString);
-		const skills = get(jobSearchSkills);
 		const workArea = get(jobSearchWorkArea);
 		const workBasis = get(jobSearchWorkBasis);
+		const languages = get(jobSearchLanguages);
+		const skills = get(jobSearchSkills);
 		const from = get(jobSearchFrom);
 		const to = get(jobSearchTo);
+		const skip = get(jobSearchSkip);
+		const limit = get(jobSearchLimit);
 
 		if (config == null) {
 			return null;
@@ -78,6 +90,8 @@ export const jobSearchJobs = selector<Job[] | null>({
 					workBasis,
 					from,
 					to,
+					skip,
+					limit,
 				},
 			})
 			.then((value) => value as Job[])

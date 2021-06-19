@@ -10,27 +10,21 @@ const GridContainer = styled(Grid)`
 	width: -webkit-fill-available;
 `;
 
-const Container = styled.div`
-	margin-bottom: 40px;
-`;
-
 const CompanyProfilePage: React.FC = () => {
 	return (
 		<GridContainer>
-			<Container>
-				<TabBar
-					tab={[
-						{
-							tabTitle: 'Jobangebote',
-							tabContent: <OpenJobOffers />,
-						},
-						{
-							tabTitle: 'Über uns',
-							tabContent: <AboutUsCompany />,
-						},
-					]}
-				/>
-			</Container>
+			<TabBar
+				tabs={[
+					{
+						title: 'Jobangebote',
+						component: <OpenJobOffers />,
+					},
+					{
+						title: 'Über uns',
+						component: <AboutUsCompany />,
+					},
+				]}
+			/>
 		</GridContainer>
 	);
 };

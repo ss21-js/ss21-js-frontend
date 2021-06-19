@@ -3,7 +3,6 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faDollarSign, faMapMarkerAlt, faSearch, faSuitcase } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMediaQuery } from '@material-ui/core';
-import Autocomplete from '@material-ui/core/Autocomplete';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import InputBase from '@material-ui/core/InputBase';
@@ -120,29 +119,15 @@ const JobSearchBar: React.FC<JobSearchBarProps> = ({ onClick }) => {
 		<SearchContainer>
 			<SearchFieldContainer>
 				<FontAwesomeIcon icon={faSearch} color="#0B77BF" />
-				<Autocomplete
-					multiple
-					id="search"
-					options={[]}
-					defaultValue={[]}
-					limitTags={1}
-					freeSolo
-					color="primary"
+				<TextField
+					variant="standard"
+					placeholder="Suchen ..."
 					css={css`
 						flex: 1 1 100%;
+						padding-left: 8px;
+						padding-right: 10px;
+						min-width: 14rem;
 					`}
-					renderInput={(params) => (
-						<TextField
-							{...params}
-							variant="standard"
-							placeholder="Suchen ..."
-							css={css`
-								padding-left: 8px;
-								padding-right: 10px;
-								min-width: 14rem;
-							`}
-						/>
-					)}
 				/>
 			</SearchFieldContainer>
 			<Divider orientation={isMobile ? 'horizontal' : 'vertical'} flexItem />

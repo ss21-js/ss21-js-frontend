@@ -5,7 +5,7 @@ import React, { createRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import router from 'Router';
-import { jobSearchJobs } from 'store/jobs';
+import { jobSearchQuery } from 'store/jobs';
 import JobCard from './JobCard';
 import JobCardSkeleton from './JobCardSkeleton';
 import JobDetailsCard from './JobDetailsCard';
@@ -62,7 +62,7 @@ const NoJobsContainer = () => {
 };
 
 const AsyncJobsGrid: React.FC<JobsGridProps> = ({ jobId }) => {
-	const jobs = useRecoilValue(jobSearchJobs);
+	const jobs = useRecoilValue(jobSearchQuery);
 
 	const gridRef = createRef<HTMLDivElement>();
 	useEffect(() => {
@@ -90,8 +90,6 @@ const AsyncJobsGrid: React.FC<JobsGridProps> = ({ jobId }) => {
 				jobs.map((job, i) => {
 					const Wrapper = jobId === i.toString() ? JobDetailsWrapper : JobWrapper;
 
-					console.log(job);
-
 					return (
 						<Wrapper key={i}>
 							{jobId === i.toString() ? (
@@ -99,8 +97,7 @@ const AsyncJobsGrid: React.FC<JobsGridProps> = ({ jobId }) => {
 									job={{
 										title: 'UI/UX Designer',
 										companyName: 'Patreon',
-										companyLogoUrl:
-											'https://preview.redd.it/iraq6sc6o3qz.jpg?auto=webp&s=dc0dfa00121359da7129d4efd9fbfc64635eac20',
+										companyLogoUrl: '',
 										headerImageUrl:
 											'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80',
 										description:
@@ -115,9 +112,9 @@ const AsyncJobsGrid: React.FC<JobsGridProps> = ({ jobId }) => {
 								/>
 							) : (
 								<JobCard
-									title="UI/UX Designer"
-									description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et"
-									image="https://preview.redd.it/iraq6sc6o3qz.jpg?auto=webp&s=dc0dfa00121359da7129d4efd9fbfc64635eac20"
+									title={job.jobName}
+									description={job.jobDescription}
+									image={''}
 									tags={['Full-Time', '1 year Experience']}
 									selected={jobId === i.toString()}
 									onClick={() => handleJobClick(i.toString())}

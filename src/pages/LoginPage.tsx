@@ -1,11 +1,11 @@
 import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { experimentalStyled as styled, makeStyles, Theme } from '@material-ui/core';
-import Button from '@material-ui/core/Button/Button';
+import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container/Container';
 import Grid from '@material-ui/core/Grid/Grid';
 import Link from '@material-ui/core/Link/Link';
+import styled from '@material-ui/core/styles/styled';
 import TextField from '@material-ui/core/TextField/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography/Typography';
@@ -18,22 +18,10 @@ import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import { authState, OAuthProvider, SignInWithEmail, useSignIn, useSignInWith } from 'store/auth';
 
-const useStyles = makeStyles((theme: Theme) => ({
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-	social: {
-		margin: theme.spacing(3, 0, 0, 0),
-	},
-}));
+const Form = styled('form')`
+	width: '100%';
+	margin-top: ${(props) => props.theme.spacing(1)};
+`;
 
 const Root = styled(Container)`
 	display: flex;
@@ -57,8 +45,6 @@ const loginSchema = Joi.object<SignInWithEmail>({
 });
 
 const LoginPage: React.FC = () => {
-	const classes = useStyles();
-
 	const signIn = useSignIn();
 	const signInWith = useSignInWith();
 	const { loading, error } = useRecoilValue(authState);
@@ -80,10 +66,10 @@ const LoginPage: React.FC = () => {
 	return (
 		<Root maxWidth="sm">
 			<RoundedBox padding={3}>
-				<Typography component="h1" variant="h5">
+				<Typography component="h1" variant="h5" gutterBottom>
 					Login
 				</Typography>
-				<Grid container justifyContent="space-evenly" className={classes.social}>
+				<Grid container justifyContent="space-evenly" margin={[3, 0, 0, 0]}>
 					<Grid item>
 						<Tooltip title="Weiter mit Google">
 							<span>
@@ -121,7 +107,7 @@ const LoginPage: React.FC = () => {
 						</Tooltip>
 					</Grid>
 				</Grid>
-				<form className={classes.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+				<Form onSubmit={handleSubmit(onSubmit)} noValidate>
 					<TextField
 						{...emailField}
 						variant="outlined"
@@ -146,16 +132,11 @@ const LoginPage: React.FC = () => {
 						autoComplete="current-password"
 						disabled={loading}
 					/>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-						disabled={loading}
-					>
-						Login
-					</Button>
+					<Box marginY={2}>
+						<StyledButton type="submit" fullWidth variant="contained" color="primary" disabled={loading}>
+							Login
+						</StyledButton>
+					</Box>
 					{error && (
 						<Typography variant="body1" color="error" gutterBottom>
 							{error}
@@ -173,7 +154,7 @@ const LoginPage: React.FC = () => {
 							</Link>
 						</Grid>
 					</Grid>
-				</form>
+				</Form>
 			</RoundedBox>
 		</Root>
 	);

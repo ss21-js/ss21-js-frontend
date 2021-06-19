@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '@material-ui/core/Box';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Stack from '@material-ui/core/Stack';
-import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
+import styled from '@material-ui/core/styles/styled';
+import useTheme from '@material-ui/core/styles/useTheme';
 import Typography from '@material-ui/core/Typography';
+import CompanyLogo from 'components/company/CompanyLogo';
 import Job from 'models/job';
 import React from 'react';
 import InfoContainerGroup from '../app/InfoContainerGroup';
@@ -38,17 +40,6 @@ const CompanyLogoContainer = styled('div')`
 	left: 6%;
 	bottom: -64px;
 	transform: translate(-50% -50%);
-	border-radius: ${(props) => props.theme.shape.borderRadius};
-	background-color: ${(props) => props.theme.palette.background.paper};
-	width: 128px;
-	height: 128px;
-	padding: 8px;
-`;
-
-const CompanyLogo = styled('img')`
-	width: 100%;
-	height: 100%;
-	border-radius: ${(props) => props.theme.shape.borderRadius};
 `;
 
 const ButtonRow = styled('div')`
