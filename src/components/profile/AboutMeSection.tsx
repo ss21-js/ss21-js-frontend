@@ -3,13 +3,13 @@ import Container from '@material-ui/core/Container/Container';
 import { Typography } from '@material-ui/core';
 import Stack from '@material-ui/core/Stack';
 import Box from '@material-ui/core/Box';
-import RoundedBox from '../../../components/RoundedBox';
-import InfoContainerGroup from '../../../components/app/InfoContainerGroup';
+import RoundedBox from '../RoundedBox';
+import InfoContainerGroup from '../app/InfoContainerGroup';
 import { useTheme } from '@material-ui/core/styles';
-import { StudentenProfilProps } from '../StudentenProfil';
+import { StudentenProfilProps } from '../../pages/Student/StudentenProfil';
 import { css } from '@emotion/react';
 import Grid from '@material-ui/core/Grid';
-import TagBox from '../../../components/TagBox';
+import TagBox from '../TagBox';
 
 const AboutMeSection: React.FC<StudentenProfilProps> = ({ student }) => {
 	const theme = useTheme();

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Student } from '../../model/profile/student';
-import GithubSection from './Sections/GithubSection';
+import GithubSection from '../../components/profile/GithubSection';
 import Box from '@material-ui/core/Box';
-import AboutMeSection from './Sections/AboutMeSection';
-import ProfileHeaderSection from './Sections/ProfileHeaderSection';
+import AboutMeSection from '../../components/profile/AboutMeSection';
+import ProfileHeaderSection from '../../components/profile/ProfileHeaderSection';
 import Grid from '@material-ui/core/Grid';
 import { css } from '@emotion/react';
 

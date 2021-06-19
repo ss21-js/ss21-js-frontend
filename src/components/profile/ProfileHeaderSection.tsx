@@ -1,10 +1,8 @@
 import React from 'react';
 import Container from '@material-ui/core/Container/Container';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import StyledIconButton from '../../../components/app/StyledIconButton';
+import StyledIconButton from '../app/StyledIconButton';
 import { faGithub } from '@fortawesome/free-brands-svg-icons/faGithub';
-import Box from '@material-ui/core/Box';
-import { faShareSquare } from '@fortawesome/free-regular-svg-icons';
 import placeholder from 'src/assets/HeaderPicture.jpeg';
 
 const HeaderImage = styled('img')`
@@ -35,7 +33,7 @@ const CompanyLogo = styled('img')`
 const Header = styled('div')`
 	position: relative;
 	width: 100%;
-	height: 150px;
+	height: 350px;
 `;
 const ButtonRow = styled('div')`
 	display: flex;
@@ -45,10 +43,6 @@ const ButtonRow = styled('div')`
 
 const ProfileHeaderSection: React.FC = () => {
 	const handleSave = () => {
-		//
-	};
-
-	const handleShare = () => {
 		//
 	};
 	return (
@@ -65,8 +59,6 @@ const ProfileHeaderSection: React.FC = () => {
 			</Header>
 			<ButtonRow>
 				<StyledIconButton icon={faGithub} onClick={handleSave} />
-				<Box width={16} />
-				<StyledIconButton icon={faShareSquare} onClick={handleShare} />
 			</ButtonRow>
 		</Container>
 	);

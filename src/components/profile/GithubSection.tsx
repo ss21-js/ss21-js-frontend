@@ -3,7 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import Container from '@material-ui/core/Container/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import RoundedBox from '../../../components/RoundedBox';
+import RoundedBox from '../RoundedBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar';
 import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory';
@@ -16,12 +16,12 @@ export interface LanguageStat {
 	name: string;
 	count: number;
 }
-interface ProfileGithubProps {
+interface GithubSectionProps {
 	username: string;
 	languages: LanguageStat[];
 }
 
-const GithubSection: React.FC<ProfileGithubProps> = ({ username, languages }) => {
+const GithubSection: React.FC<GithubSectionProps> = ({ username, languages }) => {
 	const theme = useTheme();
 
 	const fillLabels = languages.map((language) => language.name);
