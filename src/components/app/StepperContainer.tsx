@@ -11,6 +11,7 @@ import AdditionalDataCompany from 'src/pages/Company/AdditionalDataCompany';
 import ProfileInformtion from 'src/pages/Company/ProfileInformtion';
 import Center from '../layout/Center';
 import ProfileImageUpload from './ProfileImageUpload';
+import { css } from '@emotion/react';
 
 //const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
 
@@ -83,7 +84,15 @@ const StepperContainer: React.FC = () => {
 	};
 
 	return (
-		<div>
+		<div
+			css={css`
+				margin-left: auto;
+				margin-right: auto;
+				max-width: 1280px;
+				padding-left: 24px;
+				padding-right: 24px;
+			`}
+		>
 			<StepperWrapper activeStep={activeStep} alternativeLabel>
 				{steps.map((label) => (
 					<Step key={label}>
