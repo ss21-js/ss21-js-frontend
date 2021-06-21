@@ -16,7 +16,6 @@ const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
 	const theme = useTheme();
 	const backdropOpen = useRecoilValue(globalLoading);
 
-
 	return (
 		<>
 			<AppBar />
