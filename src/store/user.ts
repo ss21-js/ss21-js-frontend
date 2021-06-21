@@ -2,7 +2,7 @@ import { AuthApi, CompaniesApi, Company, CompanyDto, Student, UserResponse } fro
 import { atom, selector, useRecoilValue } from 'recoil';
 import { authenticatedApiConfiguration } from './api';
 
-export const userResponseQuery = selector<UserResponse | null>({
+const userResponseQuery = selector<UserResponse | null>({
 	key: 'userResponseQuery',
 	get: async ({ get }) => {
 		const config = get(authenticatedApiConfiguration);
@@ -18,11 +18,10 @@ export const userResponseQuery = selector<UserResponse | null>({
 	},
 });
 
-export const userDataQuery = selector<Student | Company | null>({
+const userDataQuery = selector<Student | Company | null>({
 	key: 'userDataQuery',
 	get: async ({ get }) => {
 		const userResponse = get(userResponseQuery);
-		console.log(userResponse);
 		return userResponse?.userData ?? null;
 	},
 });
@@ -32,7 +31,7 @@ export enum UserType {
 	COMPANY,
 }
 
-export const userTypeQuery = selector<UserType | null>({
+const userTypeQuery = selector<UserType | null>({
 	key: 'userTypeQuery',
 	get: async ({ get }) => {
 		const userResponse = get(userResponseQuery);
@@ -53,6 +52,11 @@ export const userTypeQuery = selector<UserType | null>({
 export const currentUserAtom = atom<Company | Student | null>({
 	key: 'currentUserAtom',
 	default: userDataQuery,
+});
+
+export const currentUserTypeAtom = atom<UserType | null>({
+	key: 'currentUserTypeAtom',
+	default: userTypeQuery,
 });
 
 export const useUpdateCompany = () => {

@@ -1,6 +1,7 @@
 import JobsPage from 'pages/JobsPage';
 import LandingPage from 'pages/LandingPage';
 import LoginPage from 'pages/LoginPage';
+import OnboardingCompanyPage from 'pages/OnboardingCompanyPage';
 import OnboardingPage from 'pages/OnboardingPage';
 import OnboardingStudentPage from 'pages/OnboardingStudentPage';
 import ProfilePage from 'pages/ProfilePage';
@@ -87,7 +88,7 @@ const router = OptionsRouter(routeOptions, (route) => ({
 				component: OnboardingStudentPage,
 			}),
 			company: route('unternehmen', {
-				component: OnboardingStudentPage,
+				component: OnboardingCompanyPage,
 			}),
 		})
 	),

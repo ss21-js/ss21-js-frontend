@@ -9,17 +9,14 @@ import styled from '@material-ui/core/styles/styled';
 import useTheme from '@material-ui/core/styles/useTheme';
 import Typography from '@material-ui/core/Typography';
 import CompanyLogo from 'components/company/CompanyLogo';
-import Job from 'models/job';
+import Center from 'components/layout/Center';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { jobByIdQuery } from 'store/jobs';
 import InfoContainerGroup from '../app/InfoContainerGroup';
 import StyledIconButton from '../app/StyledIconButton';
 import RoundedBox from '../RoundedBox';
 import UnorderedList from '../UnorderedList';
-
-export interface JobDetailsCardProps {
-	job: Job;
-	handleClose?: () => void;
-}
 
 const Header = styled('div')`
 	position: relative;
@@ -52,8 +49,25 @@ const Root = styled(RoundedBox)`
 	height: 100%;
 `;
 
-const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose }) => {
+const JobDetailsCardSkeleton: React.FC = () => {
+	// TODO: Skeleton
+
+	return (
+		<Root>
+			<Center>Loading...</Center>
+		</Root>
+	);
+};
+
+export interface JobDetailsCardProps {
+	jobId: string;
+	handleClose?: () => void;
+}
+
+const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ jobId, handleClose }) => {
 	const theme = useTheme();
+
+	const job = useRecoilValue(jobByIdQuery(jobId));
 
 	const handleSave = () => {
 		//
@@ -63,12 +77,16 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose }) => 
 		//
 	};
 
+	if (job === null) {
+		return <Root>Job nicht gefunden.</Root>;
+	}
+
 	return (
 		<Root>
 			<Header>
 				<HeaderImage src={job.headerImageUrl} />
 				<CompanyLogoContainer>
-					<CompanyLogo src={job.companyLogoUrl} />
+					<CompanyLogo src={job.publisher.companyProfileImageUrl} alt={job.publisher.name} />
 				</CompanyLogoContainer>
 				{handleClose && (
 					<ButtonBase
@@ -97,11 +115,11 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose }) => 
 			</ButtonRow>
 			<Box padding={4}>
 				<Typography variant="h4" component="h3" flexGrow={1}>
-					{job.title}
+					{job.jobName}
 				</Typography>
 				<Stack direction="row" alignItems="baseline" marginBottom={3} flexWrap="wrap">
 					<Typography variant="h6" color={theme.palette.primary.main}>
-						{job.companyName}
+						{job.publisher.name}
 					</Typography>
 					<Typography variant="body1" marginX={1}>
 						•
@@ -115,31 +133,23 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose }) => 
 					items={[
 						{
 							title: 'Experience',
-							content: job.experience,
+							content: job.workBasis === 1 ? 'Teilzeit' : 'Vollzeit',
 						},
 						{
-							title: 'Work Level',
-							content: job.workLevel,
-						},
-						{
-							title: 'Employee Type',
-							content: job.employeeType,
-						},
-						{
-							title: 'Offer Salary',
-							content: job.offerSalary,
+							title: 'Arbeitsbereich',
+							content: job.workArea,
 						},
 					]}
 				/>
 				<Typography variant="h5" component="h4" gutterBottom>
 					Overview
 				</Typography>
-				<Typography>{job.description}</Typography>
+				<Typography>{job.jobDescription}</Typography>
 				<Typography variant="h5" component="h4" gutterBottom marginTop={2}>
 					Qualifications
 				</Typography>
 				<UnorderedList>
-					{job.qualifications.map((qualification, i) => (
+					{job.jobQualifications.map((qualification, i) => (
 						<Typography key={i} variant="body1" component="li" marginY={1}>
 							{qualification}
 						</Typography>
@@ -150,4 +160,12 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ job, handleClose }) => 
 	);
 };
 
-export default JobDetailsCard;
+const AsyncJobDetailsCard: React.FC<JobDetailsCardProps> = (props) => {
+	return (
+		<React.Suspense fallback={<JobDetailsCardSkeleton />}>
+			<JobDetailsCard {...props} />
+		</React.Suspense>
+	);
+};
+
+export default AsyncJobDetailsCard;

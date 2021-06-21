@@ -1,14 +1,14 @@
-import React from 'react';
-import Container from '@material-ui/core/Container/Container';
-import { Typography } from '@material-ui/core';
-import Stack from '@material-ui/core/Stack';
-import Box from '@material-ui/core/Box';
-import RoundedBox from '../RoundedBox';
-import InfoContainerGroup from '../app/InfoContainerGroup';
-import { useTheme } from '@material-ui/core/styles';
-import { StudentenProfilProps } from '../../pages/Student/StudentenProfil';
 import { css } from '@emotion/react';
+import { Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container/Container';
 import Grid from '@material-ui/core/Grid';
+import Stack from '@material-ui/core/Stack';
+import { useTheme } from '@material-ui/core/styles';
+import React from 'react';
+import { StudentenProfilProps } from '../../pages/Student/StudentenProfil';
+import InfoContainerGroup from '../app/InfoContainerGroup';
+import RoundedBox from '../RoundedBox';
 import TagBox from '../TagBox';
 
 const AboutMeSection: React.FC<StudentenProfilProps> = ({ student }) => {
@@ -27,7 +27,7 @@ const AboutMeSection: React.FC<StudentenProfilProps> = ({ student }) => {
 		<Container>
 			<Box padding={4}>
 				<Typography variant="h4" component="h3" flexGrow={1}>
-					{student.firstname} {student.lastname}
+					{student.firstName} {student.lastName}
 				</Typography>
 				<Stack direction="row" alignItems="baseline" marginBottom={3} flexWrap="wrap">
 					<Typography variant="h6" color={theme.palette.primary.main}>

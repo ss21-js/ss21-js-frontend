@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import AboutMeSection from 'components/profile/AboutMeSection';
 import GithubSection from 'components/profile/GithubSection';
 import ProfileHeaderSection from 'components/profile/ProfileHeaderSection';
-import { Student } from 'models/profile/student';
+import { Student } from 'js-api-client';
 import React from 'react';
 
 export interface StudentenProfilProps {
@@ -30,7 +30,7 @@ const StudentenProfil: React.FC<StudentenProfilProps> = ({ student }) => {
 				</Grid>
 				<Grid item lg={4} md={3} sm={4} xs={12}>
 					<GithubSection
-						username={student.githubusername}
+						username={student.githubUrl}
 						languages={[
 							{ name: 'Python', count: 12 },
 							{ name: 'JavaScript', count: 19 },

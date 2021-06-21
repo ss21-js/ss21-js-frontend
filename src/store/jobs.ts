@@ -1,5 +1,5 @@
 import { add } from 'date-fns';
-import { Job, JobsApi } from 'js-api-client';
+import { JobsApi, JobWithCompany } from 'js-api-client';
 import { atom, selector, selectorFamily } from 'recoil';
 import { authenticatedApiConfiguration } from './api';
 
@@ -61,7 +61,7 @@ export const jobSearchSkip = atom<number>({
 	default: 0,
 });
 
-export const jobSearchQuery = selector<Job[] | null>({
+export const jobSearchQuery = selector<JobWithCompany[] | null>({
 	key: 'jobSearchJobs',
 	get: async ({ get }) => {
 		const config = get(authenticatedApiConfiguration);
@@ -80,6 +80,8 @@ export const jobSearchQuery = selector<Job[] | null>({
 			return null;
 		}
 
+		await new Promise((r) => setTimeout(r, 3000));
+
 		return new JobsApi(config)
 			.jobsControllerSearchJobs({
 				searchJobDto: {
@@ -94,13 +96,13 @@ export const jobSearchQuery = selector<Job[] | null>({
 					limit,
 				},
 			})
-			.then((value) => value as Job[])
+			.then((value) => value as JobWithCompany[])
 			.catch(() => null);
 	},
 });
 
-export const singlejob = selectorFamily<Job | null, string>({
-	key: 'singlejob',
+export const jobByIdQuery = selectorFamily<JobWithCompany | null, string>({
+	key: 'jobByIdQuery',
 	get:
 		(id) =>
 		async ({ get }) => {
@@ -112,7 +114,7 @@ export const singlejob = selectorFamily<Job | null, string>({
 
 			return new JobsApi(config)
 				.jobsControllerGetJobById({ id })
-				.then((value) => value as Job)
+				.then((value) => value as JobWithCompany)
 				.catch(() => null);
 		},
 });

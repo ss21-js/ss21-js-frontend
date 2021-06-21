@@ -5,10 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Address from 'models/address';
+import { Address } from 'js-api-client';
 import CompanyProfilePage from 'pages/Company/CompanyProfilePage';
 import React from 'react';
-import ProfilImage from './ProfileImage';
 
 export interface ProfileHeaderProps {
 	firstName: string;
@@ -49,7 +48,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, comp
 					justify-content: center;
 				`}
 			>
-				<ProfilImage />
+				{/* <ProfilImage /> */}
 				<div
 					css={css`
 						text-align: ${isMobile ? '-webkit-center' : ''};

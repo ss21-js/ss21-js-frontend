@@ -1,11 +1,14 @@
-import { css } from '@emotion/react';
+import Scrollable from 'components/app/Scrollable';
+import CenterContainer from 'components/layout/CenterContainer';
 import React from 'react';
 
 const OnboardingStudentPage: React.FC = () => {
 	return (
-		<div css={css``}>
-			<div />
-		</div>
+		<Scrollable>
+			<CenterContainer>
+				<div />
+			</CenterContainer>
+		</Scrollable>
 	);
 };
 

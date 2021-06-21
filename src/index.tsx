@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import initializeFirebase from './common/initializeFirebase';
 import Root from './Root';
 
-export const { firebaseAuth } = initializeFirebase();
+export const { firebaseAuth, firebaseStorage } = initializeFirebase();
 
 const rootEl = document.getElementById('root');
 

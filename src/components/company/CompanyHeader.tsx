@@ -3,20 +3,9 @@ import styled from '@material-ui/core/styles/styled';
 import Tooltip from '@material-ui/core/Tooltip';
 import React from 'react';
 
-const CompanyLogoContainer = styled('div')`
+const CompanyHeaderContainer = styled('div')`
 	border-radius: ${(props) => props.theme.shape.borderRadius};
 	background-color: ${(props) => props.theme.palette.background.paper};
-	width: 128px;
-	height: 128px;
-	padding: 8px;
-`;
-
-const CompanyLogoImg = styled('img')`
-	width: 100%;
-	height: 100%;
-	border-radius: ${(props) => props.theme.shape.borderRadius};
-	object-fit: cover;
-	object-position: center;
 `;
 
 const EditButton = styled(Button)`
@@ -25,9 +14,18 @@ const EditButton = styled(Button)`
 	width: 100%;
 	height: 100%;
 	border-radius: 0;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
 `;
 
-interface CompanyLogoProps {
+const CompanyHeaderImg = styled('img')`
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+	object-fit: cover;
+	object-position: center;
+`;
+
+export interface CompanyHeaderProps {
 	src: string;
 	alt: string;
 	width?: string | number;
@@ -35,7 +33,7 @@ interface CompanyLogoProps {
 	onImageChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const CompanyLogo: React.FC<CompanyLogoProps> = ({ src, alt, width, height, onImageChange }) => {
+const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, alt, width, height, onImageChange }) => {
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	const handleEdit = () => {
@@ -43,17 +41,12 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ src, alt, width, height, onIm
 	};
 
 	return (
-		<CompanyLogoContainer
-			sx={{
-				width: width,
-				height: height,
-			}}
-		>
+		<CompanyHeaderContainer>
 			{onImageChange !== undefined ? (
 				<>
-					<Tooltip title="Profilbild bearbeiten">
+					<Tooltip title="Header bearbeiten">
 						<EditButton onClick={handleEdit}>
-							<CompanyLogoImg src={src} alt={alt} width={width} height={height} />
+							<CompanyHeaderImg src={src} alt={alt} width={width} height={height} />
 						</EditButton>
 					</Tooltip>
 					<input
@@ -67,10 +60,10 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ src, alt, width, height, onIm
 					/>
 				</>
 			) : (
-				<CompanyLogoImg src={src} alt={alt} width={width} height={height} />
+				<CompanyHeaderImg src={src} alt={alt} width={width} height={height} />
 			)}
-		</CompanyLogoContainer>
+		</CompanyHeaderContainer>
 	);
 };
 
-export default CompanyLogo;
+export default CompanyHeader;

@@ -6,11 +6,11 @@ import Center from 'components/layout/Center';
 import { Company } from 'js-api-client';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom, UserType, userTypeQuery } from 'store/user';
+import { currentUserAtom, currentUserTypeAtom, UserType } from 'store/user';
 
 const AsyncCurrentUserProfile: React.FC = () => {
 	const currentUser = useRecoilValue(currentUserAtom);
-	const userType = useRecoilValue(userTypeQuery);
+	const userType = useRecoilValue(currentUserTypeAtom);
 
 	if (currentUser === null) {
 		return (

@@ -5,6 +5,7 @@ type UseFormRegisterMaterialReturn = Omit<UseFormRegisterReturn, 'ref'> & {
 	inputRef: React.Ref<any>;
 	error: boolean;
 	helperText?: string;
+	defaultValue: string;
 };
 
 export const useMaterialRegister = <T>(
@@ -21,6 +22,7 @@ export const useMaterialRegister = <T>(
 		onBlur: async () => controller.field.onBlur(),
 		onChange: async (e) => controller.field.onChange(e),
 		error: controller.fieldState.error !== undefined,
+		defaultValue: controller.field.value as string,
 	};
 
 	if (includeHelperText) {

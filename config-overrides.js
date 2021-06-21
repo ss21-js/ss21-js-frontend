@@ -11,5 +11,8 @@ module.exports = override(
 		['store']: path.resolve(__dirname, './src/store'),
 		['common']: path.resolve(__dirname, './src/common'),
 		['Router']: path.resolve(__dirname, './src/Router.tsx'),
+		['RootRouter']: path.resolve(__dirname, './src/RootRouter.tsx'),
+		['Theme']: path.resolve(__dirname, './src/Theme.tsx'),
+		['index']: path.resolve(__dirname, './src/index.tsx'),
 	})
 );

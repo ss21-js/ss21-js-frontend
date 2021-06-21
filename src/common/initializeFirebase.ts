@@ -1,25 +1,28 @@
-import firebase from 'firebase';
+import { initializeApp, SDK_VERSION } from 'firebase/app';
+import { getAuth, useAuthEmulator } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 import { firebaseConfig, isProd } from './config';
 
 const useEmulators = false;
 
 const initializeFirebase = () => {
 	// Initialize Firebase
-	const app = firebase.initializeApp(firebaseConfig);
-
-	// Set default language Code
-	firebase.auth().languageCode = 'de';
+	initializeApp(firebaseConfig);
 
 	if (!isProd) {
-		console.info(`Firebase-APP created ${firebase.SDK_VERSION}`);
+		console.info(`Firebase-APP created ${SDK_VERSION}`);
 	}
 
-	let firebaseAuth = app.auth();
+	const firebaseAuth = getAuth();
+	firebaseAuth.languageCode = 'de';
+
+	const firebaseStorage = getStorage();
 
 	if (useEmulators) {
-		firebaseAuth.useEmulator('http://localhost:9099');
+		/* eslint-disable react-hooks/rules-of-hooks */
+		useAuthEmulator(firebaseAuth, 'http://localhost:9099');
 	}
 
-	return { firebaseAuth };
+	return { firebaseAuth, firebaseStorage };
 };
 export default initializeFirebase;

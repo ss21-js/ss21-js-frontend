@@ -60,7 +60,7 @@ const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose
 					<StyledButton variant="text" onClick={handleClose}>
 						Abbrechen
 					</StyledButton>
-					<StyledButton type="submit" color="primary" disabled={loading}>
+					<StyledButton type="submit" color="primary" loading={loading}>
 						Speichern
 					</StyledButton>
 				</DialogActions>

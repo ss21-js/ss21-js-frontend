@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import { TextField, Theme, Typography, useMediaQuery } from '@material-ui/core';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
+import InfoAlert from 'components/app/InfoAlert';
+import Center from 'components/layout/Center';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import InfoAlert from 'src/components/app/InfoAlert';
-import Center from 'src/components/layout/Center';
 
 const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
 
@@ -28,7 +28,6 @@ const StepTwoStudent: React.FC = () => {
 					css={css`
 						width: ${isMobile ? 'auto' : '64rem'};
 						padding: ${isMobile ? '0 1rem 0 1rem' : '0'};
-						}
 					`}
 				>
 					<Typography

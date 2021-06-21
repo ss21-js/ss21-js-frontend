@@ -1,5 +1,4 @@
 import { joiResolver } from '@hookform/resolvers/joi';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -8,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { useMaterialRegister } from 'common/formUtils';
+import StyledButton from 'components/StyledButton';
 import Joi from 'joi';
 import { CreateJobDto } from 'js-api-client';
 import React from 'react';
@@ -76,10 +76,10 @@ const CreateJobDialog: React.FC<CreateJobDialogProps> = ({ open, handleClose }) 
 					</Grid>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose}>Abbrechen</Button>
-					<Button type="submit" fullWidth variant="contained" color="primary" disabled={loading}>
+					<StyledButton onClick={handleClose}>Abbrechen</StyledButton>
+					<StyledButton type="submit" fullWidth variant="contained" color="primary" loading={loading}>
 						Erstellen
-					</Button>
+					</StyledButton>
 				</DialogActions>
 			</form>
 		</Dialog>
