@@ -20,21 +20,7 @@ const OnboardingCompanyPage: React.FC = () => {
 	const firebaseUser = useRecoilValue(currentFirebaseUser);
 
 	const [loading, setLoading] = React.useState(false);
-	const [company, setCompany] = React.useState<Partial<Company>>({
-		name: 'Testunternehmen',
-		companyInfo:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Convallis tellus id interdum velit laoreet id donec ultrices. Diam vulputate ut pharetra sit amet aliquam. Aliquet eget sit amet tellus cras. Augue mauris augue neque gravida in fermentum. Id donec ultrices tincidunt arcu non. Sit amet justo donec enim diam vulputate ut. Diam vulputate ut pharetra sit amet aliquam id diam maecenas. Ornare lectus sit amet est placerat in. Varius duis at consectetur lorem donec massa sapien faucibus. Semper feugiat nibh sed pulvinar proin. Eu feugiat pretium nibh ipsum consequat nisl vel pretium.',
-		homepage: 'example.com',
-		email: 'hello@example.com',
-		address: {
-			city: 'Rosenheim',
-			country: 'Deutschland',
-			state: 'Bayern',
-			zip: 83022,
-			street1: 'Teststraße 12',
-			street2: '',
-		},
-	});
+	const [company, setCompany] = React.useState<Partial<Company>>({});
 	const [headerFile, setHeaderFile] = React.useState<File | null>(null);
 	const [profileFile, setProfileFile] = React.useState<File | null>(null);
 
