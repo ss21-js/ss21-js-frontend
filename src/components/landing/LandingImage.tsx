@@ -20,6 +20,7 @@ const LandingImage: React.FC = () => {
 					  `
 			}
 			src={UndrawFeelingProud}
+			alt=""
 		/>
 	);
 };

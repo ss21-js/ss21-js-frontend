@@ -1,34 +1,34 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import styled from '@material-ui/core/styles/styled';
+import RoundedBox from 'components/RoundedBox';
+import StyledButton from 'components/StyledButton';
 import React from 'react';
-import AdditionalDataCompany from 'src/pages/Company/AdditionalDataCompany';
-import ProfileInformtion from 'src/pages/Company/ProfileInformtion';
 import Center from '../layout/Center';
-import ProfileImageUpload from './ProfileImageUpload';
-import { css } from '@emotion/react';
 
-//const mobileBreakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
-
-const StepperWrapper = styled(Stepper)`
-	padding-top: 3rem;
-	background-color: white;
+const Root = styled(Box)`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 `;
 
-const Wrapper = styled('div')`
-	padding-top: 3rem;
-	background-color: white;
+const StepWrapper = styled(RoundedBox)`
+	margin-top: ${(props) => props.theme.spacing(3)};
 `;
 
 const ButtonWrapper = styled('div')`
-	padding-top: 3rem;
-	padding-bottom: 3rem;
-	padding-left: 11rem;
+	display: flex;
+	margin-top: ${(props) => props.theme.spacing(2)};
+	justify-content: flex-end;
+`;
+
+const ButtonSpacer = styled('div')`
+	width: ${(props) => props.theme.spacing(2)};
 `;
 
 const ButtonContainer = styled(Button)`
@@ -44,38 +44,29 @@ const CenterContainer = styled(Center)`
 	height: 30rem;
 `;
 
-function getSteps(steps: string[]) {
-	return steps;
+export interface StepContent {
+	label: string;
+	component: React.ReactNode;
 }
 
-//In order to use this for students, one can intercept the switch case with an if-query
-function getStepContent(
-	stepIndex: number,
-	stepOne?: React.ReactNode,
-	stepTwo?: React.ReactNode,
-	stepThree?: React.ReactNode
-) {
-	switch (stepIndex) {
-		case 0:
-			return stepOne;
-		case 1:
-			return stepTwo;
-		case 2:
-			return stepThree;
-		default:
-			return 'Kein gültiger Schrittindex';
-	}
+export interface StepperContainerProps {
+	steps: StepContent[];
+	next: (from: number, to: number) => Promise<boolean>;
 }
 
-const StepperContainer: React.FC = () => {
-	const [activeStep, setActiveStep] = React.useState(0);
-	const steps = getSteps(['Profil Daten', 'zusätzliche Daten', 'Profilbild']);
+const StepperContainer: React.FC<StepperContainerProps> = ({ steps, next }) => {
+	const [loading, setLoading] = React.useState(false);
+	const [activeStep, setActiveStep] = React.useState(2);
 
-	const handleNext = () => {
-		setActiveStep((prevActiveStep) => prevActiveStep + 1);
+	const handleNext = async () => {
+		setLoading(true);
+		if (await next(activeStep, activeStep + 1)) {
+			setActiveStep((prevActiveStep) => prevActiveStep + 1);
+		}
+		setLoading(false);
 	};
 
-	const handleBack = () => {
+	const handleBack = async () => {
 		setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};
 
@@ -84,53 +75,42 @@ const StepperContainer: React.FC = () => {
 	};
 
 	return (
-		<div
-			css={css`
-				margin-left: auto;
-				margin-right: auto;
-				max-width: 1280px;
-				padding-left: 24px;
-				padding-right: 24px;
-			`}
-		>
-			<StepperWrapper activeStep={activeStep} alternativeLabel>
-				{steps.map((label) => (
-					<Step key={label}>
-						<StepLabel>{label}</StepLabel>
+		<Root>
+			<Stepper activeStep={activeStep} alternativeLabel>
+				{steps.map((step) => (
+					<Step key={step.label}>
+						<StepLabel>{step.label}</StepLabel>
 					</Step>
 				))}
-			</StepperWrapper>
-			<div>
+			</Stepper>
+			<StepWrapper padding={4}>
 				{activeStep === steps.length ? (
-					<Wrapper>
+					<>
 						<CenterContainer>
 							Erfolgreich registriert! <Icon icon={faCheck} size="lg" color="primary" />
 						</CenterContainer>
 						<ButtonContainer onClick={handleReset}>Zurücksetzen</ButtonContainer>
-					</Wrapper>
+					</>
 				) : (
-					<Wrapper>
-						<Typography>
-							{getStepContent(
-								activeStep,
-								//TODO: This is where the respective classes of the pages go
-								<ProfileInformtion />,
-								<AdditionalDataCompany />,
-								<ProfileImageUpload />
-							)}
-						</Typography>
+					<>
+						{steps[activeStep].component}
 						<ButtonWrapper>
-							<Button disabled={activeStep === 0} onClick={handleBack}>
-								Zurück
-							</Button>
-							<Button variant="contained" color="primary" onClick={handleNext}>
-								{activeStep === steps.length - 1 ? 'Abgeschlossen' : 'Nächster Schritt'}
-							</Button>
+							{activeStep !== 0 && (
+								<>
+									<StyledButton variant="text" onClick={handleBack} disabled={loading}>
+										Zurück
+									</StyledButton>
+									<ButtonSpacer />
+								</>
+							)}
+							<StyledButton onClick={handleNext} loading={loading}>
+								{activeStep === steps.length - 1 ? 'Abschließen' : 'Nächster Schritt'}
+							</StyledButton>
 						</ButtonWrapper>
-					</Wrapper>
+					</>
 				)}
-			</div>
-		</div>
+			</StepWrapper>
+		</Root>
 	);
 };
 

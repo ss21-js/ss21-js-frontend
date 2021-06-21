@@ -1,8 +1,8 @@
-import { CssBaseline } from '@material-ui/core';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import createTheme from '@material-ui/core/styles/createTheme';
+import ThemeProvider from '@material-ui/core/styles/ThemeProvider';
 import * as React from 'react';
-import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ThemeMode, themeModeAtom } from './store/general';
 
@@ -22,6 +22,7 @@ const paletteLight: PaletteOptions = {
 	},
 	text: {
 		primary: '#000',
+		secondary: '#1b1b1b',
 	},
 	background: {
 		default: '#efefef',
@@ -50,6 +51,7 @@ const paletteDark: PaletteOptions = {
 	},
 	text: {
 		primary: '#fff',
+		secondary: '#f1f1f1',
 	},
 	divider: '#434961',
 	background: {
@@ -72,7 +74,7 @@ interface Props {
 const ThemeWrapper: React.FC<Props> = ({ children }) => {
 	const mode = useRecoilValue(themeModeAtom);
 
-	const theme = useMemo(() => {
+	const theme = React.useMemo(() => {
 		switch (mode) {
 			case ThemeMode.LIGHT:
 				return themeLight;

@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import InfoAlert from 'components/app/InfoAlert';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import InfoAlert from 'src/components/app/InfoAlert';
 
 const AboutUsCompany: React.FC = () => {
 	const { register } = useForm();

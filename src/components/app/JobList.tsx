@@ -6,8 +6,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { Job } from 'js-api-client';
 import React from 'react';
-import Job from 'src/model/job';
 
 interface JobListProps {
 	counter: number;
@@ -30,7 +30,7 @@ const JobList: React.FC<JobListProps> = ({ counter, jobs }) => {
 					<ListItemIcon>
 						<Checkbox color="primary" />
 					</ListItemIcon>
-					<ListItemText primary={job.title} />
+					<ListItemText primary={job.jobName} />
 					{/* TODO: counter-Function ergänzen, sobald es vom BE verfügbar ist */}
 					<Chip label={counter} />
 				</ListItem>

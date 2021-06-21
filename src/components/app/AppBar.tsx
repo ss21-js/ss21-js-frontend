@@ -8,8 +8,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useRecoilState } from 'recoil';
-import { signOut } from 'src/store/auth';
-import { drawerOpen } from 'src/store/general';
+import { signOut } from 'store/auth';
+import { drawerOpen } from 'store/general';
 import CurrentUser from '../CurrentUser';
 import Logo from '../Logo';
 import Navigation from './Navigation';
@@ -59,7 +59,7 @@ const AppBar = () => {
 					`}
 				>
 					<CurrentUser avatarOnly={isMobile} />
-					<Tooltip title="Sign out">
+					<Tooltip title="Ausloggen">
 						<span>
 							<IconButton
 								aria-label="delete"

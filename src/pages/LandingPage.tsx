@@ -1,20 +1,20 @@
 import { css } from '@emotion/react';
 import { Theme, useMediaQuery } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import LandingCallToAction from 'components/landing/LandingCallToAction';
+import LandingImage from 'components/landing/LandingImage';
+import Logo from 'components/Logo';
+import StyledButton from 'components/StyledButton';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import LandingCallToAction from 'src/components/landing/LandingCallToAction';
-import LandingImage from 'src/components/landing/LandingImage';
-import Logo from 'src/components/Logo';
-import StyledButton from 'src/components/StyledButton';
-import router from 'src/Router';
-import { currentUserId } from 'src/store/auth';
+import router from 'Router';
+import { currentFirebaseUser } from 'store/auth';
 
 const LandingPage: React.FC = () => {
 	const history = useHistory();
 
-	const userId = useRecoilValue(currentUserId);
+	const firebaseUser = useRecoilValue(currentFirebaseUser);
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
 	const handleToApp = () => history.push(router.app().jobs({}).$);
@@ -30,9 +30,9 @@ const LandingPage: React.FC = () => {
 					css={css`
 						font-size: ${isMobile ? 1 : 1.5}rem;
 					`}
-					onClick={userId ? handleToApp : handleLogin}
+					onClick={firebaseUser ? handleToApp : handleLogin}
 				>
-					{userId ? 'To App' : 'Login'}
+					{firebaseUser ? 'To App' : 'Login'}
 				</StyledButton>
 			</Box>
 			<div

@@ -7,11 +7,10 @@ export interface SearchFiltersProps {
 	isMobile: boolean;
 }
 
-const SearchFilters: React.FC<SearchFiltersProps> = ({ isMobile }) => {
+const SearchFilters: React.FC<SearchFiltersProps> = () => {
 	const theme = useTheme();
 
 	// TODO: Mobile version
-	isMobile;
 
 	return (
 		<div

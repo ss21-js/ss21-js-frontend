@@ -1,6 +1,6 @@
+import AppFrame from 'components/app/AppFrame';
+import Center from 'components/layout/Center';
 import React from 'react';
-import AppFrame from 'src/components/app/AppFrame';
-import Center from 'src/components/layout/Center';
 
 const SavedPage: React.FC = () => {
 	return (

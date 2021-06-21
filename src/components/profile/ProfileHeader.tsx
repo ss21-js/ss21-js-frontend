@@ -5,11 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Address } from 'js-api-client';
+import CompanyProfilePage from 'pages/Company/CompanyProfilePage';
 import React from 'react';
-import { Address } from 'src/model/address';
-import CompanyProfilePage from 'src/pages/Company/CompanyProfilePage';
-import ProfileHeaderDevice from './ProfileHeaderDevice';
-import ProfileImage from './ProfileImage';
 
 export interface ProfileHeaderProps {
 	firstName: string;
@@ -50,8 +48,15 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, comp
 					justify-content: center;
 				`}
 			>
-				<ProfileImage />
-				<ProfileHeaderDevice>
+				{/* <ProfilImage /> */}
+				<div
+					css={css`
+						text-align: ${isMobile ? '-webkit-center' : ''};
+						align-self: ${isMobile ? '' : 'center'};
+						margin-top: ${isMobile ? '20px' : '0'};
+						margin-bottom: ${isMobile ? '20px' : '0'};
+					`}
+				>
 					<UiTypography variant="h4">
 						{firstName} {lastName} {companyName}
 					</UiTypography>
@@ -70,7 +75,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, comp
 						<UiFontAwesomeIcon icon={faMapMarkerAlt} />
 						{address}
 					</UiTypography>
-				</ProfileHeaderDevice>
+				</div>
 			</Grid>
 			<CompanyProfilePage />
 		</Grid>

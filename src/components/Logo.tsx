@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import { useTheme } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import logo from 'assets/logo.svg';
 import React from 'react';
-import logo from 'src/assets/logo.svg';
 
 export interface LogoProps {
 	hideText?: boolean;
@@ -21,7 +21,7 @@ const Logo: React.FC<LogoProps> = ({ hideText, large }) => {
 				flex-direction: row;
 			`}
 		>
-			<img src={logo} width={`${size}px`} height={`${size}px`} />
+			<img src={logo} width={`${size}px`} height={`${size}px`} alt="Student Ninja Logo" />
 			<Typography
 				component="h1"
 				variant={large ? 'h4' : 'h6'}

@@ -1,9 +1,25 @@
-import firebase from 'firebase';
-import { atom, useSetRecoilState } from 'recoil';
-import { auth } from 'src';
+import {
+	AuthError,
+	AuthProvider,
+	GithubAuthProvider,
+	GoogleAuthProvider,
+	OAuthProvider,
+	signInWithEmailAndPassword,
+	signInWithPopup,
+} from 'firebase/auth';
+import { AuthApi, CompanyDto } from 'js-api-client';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { firebaseAuth } from '..';
+import { authenticatedApiConfiguration } from './api';
+import { currentUserAtom, currentUserTypeAtom, UserType } from './user';
 
-export const currentUserId = atom<string | null>({
-	key: 'currentUser',
+export interface CurrentUser {
+	id: string;
+	idToken: string;
+}
+
+export const currentFirebaseUser = atom<CurrentUser | null>({
+	key: 'currentFirebaseUser',
 	default: null,
 });
 
@@ -32,13 +48,13 @@ export const useSignIn = () => {
 			error: null,
 		});
 
-		auth.signInWithEmailAndPassword(arg.email, arg.password)
+		signInWithEmailAndPassword(firebaseAuth, arg.email, arg.password)
 			.then(() => setAuthState({ loading: false, error: null }))
-			.catch((error: firebase.auth.AuthError) => setAuthState({ loading: false, error: error.message }));
+			.catch((error: AuthError) => setAuthState({ loading: false, error: error.message }));
 	};
 };
 
-export enum OAuthProvider {
+export enum ThirdPartyAuthProvider {
 	Google,
 	Apple,
 	Microsoft,
@@ -47,39 +63,63 @@ export enum OAuthProvider {
 export const useSignInWith = () => {
 	const setAuthState = useSetRecoilState(authState);
 
-	return async (provider: OAuthProvider) => {
+	return async (provider: ThirdPartyAuthProvider) => {
 		setAuthState({
 			loading: true,
 			error: null,
 		});
 
-		let firebaseAuthProvider: firebase.auth.AuthProvider;
+		let firebaseAuthProvider: AuthProvider;
 
-		if (provider == OAuthProvider.Google) {
-			firebaseAuthProvider = new firebase.auth.GoogleAuthProvider();
-		} else if (provider == OAuthProvider.Apple) {
-			const appleProvider = new firebase.auth.OAuthProvider('apple.com');
+		if (provider === ThirdPartyAuthProvider.Google) {
+			firebaseAuthProvider = new GoogleAuthProvider();
+		} else if (provider === ThirdPartyAuthProvider.Apple) {
+			const appleProvider = new OAuthProvider('apple.com');
 
 			appleProvider.addScope('email');
 			appleProvider.addScope('name');
 
 			firebaseAuthProvider = appleProvider;
-		} else if (provider == OAuthProvider.Microsoft) {
-			const microsoftProvider = new firebase.auth.OAuthProvider('microsoft.com');
+		} else if (provider === ThirdPartyAuthProvider.Microsoft) {
+			const microsoftProvider = new OAuthProvider('microsoft.com');
 
 			microsoftProvider.addScope('mail.read');
 
 			firebaseAuthProvider = microsoftProvider;
-		} else if (provider == OAuthProvider.Github) {
-			firebaseAuthProvider = new firebase.auth.GithubAuthProvider();
+		} else if (provider === ThirdPartyAuthProvider.Github) {
+			firebaseAuthProvider = new GithubAuthProvider();
 		} else {
 			return;
 		}
 
-		auth.signInWithPopup(firebaseAuthProvider)
+		signInWithPopup(firebaseAuth, firebaseAuthProvider)
 			.then(() => setAuthState({ loading: false, error: null }))
-			.catch((error: firebase.auth.AuthError) => setAuthState({ loading: false, error: error.message }));
+			.catch((error: AuthError) => setAuthState({ loading: false, error: error.message }));
 	};
 };
 
-export const signOut = () => auth.signOut();
+// TODO: Update currentuser atom immediately and refresh
+export const signOut = () => firebaseAuth.signOut();
+
+export const useSignUpCompany = () => {
+	const config = useRecoilValue(authenticatedApiConfiguration);
+	const setCurrentUser = useSetRecoilState(currentUserAtom);
+	const setCurrentUserType = useSetRecoilState(currentUserTypeAtom);
+
+	if (config == null) {
+		return null;
+	}
+
+	return (company: CompanyDto): Promise<boolean> => {
+		return new AuthApi(config)
+			.companiesControllerSignup({
+				companyDto: company,
+			})
+			.then((response) => {
+				setCurrentUser(response);
+				setCurrentUserType(UserType.COMPANY);
+				return true;
+			})
+			.catch(() => false);
+	};
+};

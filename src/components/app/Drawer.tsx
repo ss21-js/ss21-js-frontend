@@ -3,7 +3,7 @@ import { useMediaQuery } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { drawerOpen } from 'src/store/general';
+import { drawerOpen } from 'store/general';
 import Navigation from './Navigation';
 
 const Drawer: React.FC = () => {

@@ -1,13 +1,12 @@
-import React from 'react';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { IconDefinition } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Container from '@material-ui/core/Container/Container';
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition } from '@fortawesome/free-brands-svg-icons';
-import Container from '@material-ui/core/Container/Container';
-
-import styled from '@emotion/styled';
+import React from 'react';
 import StyledButton from '../StyledButton';
-import { css } from '@emotion/react';
 
 export interface Icon {
 	title: string;
