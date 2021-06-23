@@ -3,7 +3,8 @@ import AppFrame from 'components/app/AppFrame';
 import CompanyProfile from 'components/company/CompanyProfile';
 import FullScreenLoading from 'components/FullScreenLoading';
 import Center from 'components/layout/Center';
-import { Company } from 'js-api-client';
+import StudentProfile from 'components/student/StudentProfile';
+import { Company, Student } from 'js-api-client';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { currentUserAtom, currentUserTypeAtom, UserType } from 'store/user';
@@ -24,7 +25,7 @@ const AsyncCurrentUserProfile: React.FC = () => {
 		return <CompanyProfile company={currentUser as Company} editable />;
 	}
 
-	return <div />;
+	return <StudentProfile student={currentUser as Student} editable />;
 };
 
 const ProfilePage: React.FC = () => {

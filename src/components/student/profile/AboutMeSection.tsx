@@ -5,13 +5,18 @@ import Container from '@material-ui/core/Container/Container';
 import Grid from '@material-ui/core/Grid';
 import Stack from '@material-ui/core/Stack';
 import { useTheme } from '@material-ui/core/styles';
+import { Student } from 'js-api-client';
 import React from 'react';
-import { StudentenProfilProps } from '../../pages/Student/StudentenProfil';
-import InfoContainerGroup from '../app/InfoContainerGroup';
-import RoundedBox from '../RoundedBox';
-import TagBox from '../TagBox';
+import { WorkArea, WorkBasis } from 'store/jobs';
+import InfoContainerGroup from '../../app/InfoContainerGroup';
+import RoundedBox from '../../RoundedBox';
+import TagBox from '../../TagBox';
 
-const AboutMeSection: React.FC<StudentenProfilProps> = ({ student }) => {
+export interface AboutMeSectionProps {
+	student: Student;
+}
+
+const AboutMeSection: React.FC<AboutMeSectionProps> = ({ student }) => {
 	const theme = useTheme();
 
 	const tags = [
@@ -36,7 +41,9 @@ const AboutMeSection: React.FC<StudentenProfilProps> = ({ student }) => {
 					<Typography variant="body1" marginX={1}>
 						•
 					</Typography>
-					<Typography variant="body1">Rosenheim, Bayern</Typography>
+					<Typography variant="body1">
+						{student.address.city}, {student.address.state} {student.address.country}
+					</Typography>
 					<Box flexGrow={1} />
 				</Stack>
 				<RoundedBox
@@ -49,19 +56,25 @@ const AboutMeSection: React.FC<StudentenProfilProps> = ({ student }) => {
 						items={[
 							{
 								title: 'Arbeitsbereich',
-								content: 'Frontend Developer',
+								content:
+									student.workArea === WorkArea.NONE
+										? 'Keine Präferenz'
+										: `${student.workArea
+												.substring(0, 1)
+												.toUpperCase()}${student.workArea.substring(1)}`,
 							},
 							{
 								title: 'Arbeitserfahrung',
 								content: student.yearsOfExperience + ' Jahr(e)',
 							},
 							{
-								title: 'Programmierlevel',
-								content: 'Anfänger',
-							},
-							{
 								title: 'Arbeitszeit',
-								content: 'Teilzeit',
+								content:
+									student.workBasis === WorkBasis.NONE
+										? 'Keine Präferenz'
+										: student.workBasis === WorkBasis.FULL_TIME
+										? 'Vollzeit'
+										: 'Teilzeit',
 							},
 						]}
 					/>

@@ -1,16 +1,16 @@
+import { css } from '@emotion/react';
+import { faGitAlt } from '@fortawesome/free-brands-svg-icons/faGitAlt';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
+import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory';
+import { faStar } from '@fortawesome/free-solid-svg-icons/faStar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container/Container';
+import { useTheme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import Container from '@material-ui/core/Container/Container';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import RoundedBox from '../RoundedBox';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons/faStar';
-import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
-import { faGitAlt } from '@fortawesome/free-brands-svg-icons/faGitAlt';
-import { css } from '@emotion/react';
-import { useTheme } from '@material-ui/core/styles';
+import RoundedBox from '../../RoundedBox';
 
 export interface LanguageStat {
 	name: string;
