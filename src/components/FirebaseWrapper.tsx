@@ -15,6 +15,7 @@ const FirebaseWrapper: React.FC = ({ children }) => {
 					setCurrentFirebaseUser({
 						id: user.uid,
 						idToken: value,
+						email: user.email,
 					});
 					setLoading(false);
 				});

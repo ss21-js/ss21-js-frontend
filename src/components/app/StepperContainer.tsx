@@ -1,17 +1,24 @@
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Theme, useMediaQuery } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import MobileStepper from '@material-ui/core/MobileStepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
 import styled from '@material-ui/core/styles/styled';
+import CenterContainer from 'components/layout/CenterContainer';
+import FullSizeContainer from 'components/layout/FullSizeContainer';
 import RoundedBox from 'components/RoundedBox';
 import StyledButton from 'components/StyledButton';
 import React from 'react';
-import Center from '../layout/Center';
+import Scrollable from './Scrollable';
 
 const Root = styled(Box)`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+`;
+
+const MobileRoot = styled(FullSizeContainer)`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -31,17 +38,16 @@ const ButtonSpacer = styled('div')`
 	width: ${(props) => props.theme.spacing(2)};
 `;
 
-const ButtonContainer = styled(Button)`
-	margin-bottom: 3rem;
-	margin-left: 11rem;
+const MobileStepperContent = styled('div')`
+	height: 100%;
+	padding: ${(props) => props.theme.spacing(2)};
+	overflow-y: scroll;
+	background-color: ${(props) => props.theme.palette.background.default};
 `;
 
-const Icon = styled(FontAwesomeIcon)`
-	margin-left: 10px;
-`;
-
-const CenterContainer = styled(Center)`
-	height: 30rem;
+const StyledMobileStepper = styled(MobileStepper)`
+	color: ${(props) => props.theme.palette.background.paper};
+	background-color: ${(props) => props.theme.palette.background.paper};
 `;
 
 export interface StepContent {
@@ -55,8 +61,9 @@ export interface StepperContainerProps {
 }
 
 const StepperContainer: React.FC<StepperContainerProps> = ({ steps, next }) => {
+	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 	const [loading, setLoading] = React.useState(false);
-	const [activeStep, setActiveStep] = React.useState(2);
+	const [activeStep, setActiveStep] = React.useState(0);
 
 	const handleNext = async () => {
 		setLoading(true);
@@ -70,29 +77,41 @@ const StepperContainer: React.FC<StepperContainerProps> = ({ steps, next }) => {
 		setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};
 
-	const handleReset = () => {
-		setActiveStep(0);
-	};
+	if (isMobile) {
+		return (
+			<MobileRoot>
+				<MobileStepperContent>{steps[activeStep].component}</MobileStepperContent>
+				<StyledMobileStepper
+					steps={steps.length}
+					position="static"
+					activeStep={activeStep}
+					nextButton={
+						<StyledButton onClick={handleNext} loading={loading}>
+							{activeStep === steps.length - 1 ? 'Fertig' : 'Weiter'}
+						</StyledButton>
+					}
+					backButton={
+						<StyledButton variant="text" onClick={handleBack} disabled={loading || activeStep === 0}>
+							Zurück
+						</StyledButton>
+					}
+				/>
+			</MobileRoot>
+		);
+	}
 
 	return (
-		<Root>
-			<Stepper activeStep={activeStep} alternativeLabel>
-				{steps.map((step) => (
-					<Step key={step.label}>
-						<StepLabel>{step.label}</StepLabel>
-					</Step>
-				))}
-			</Stepper>
-			<StepWrapper padding={4}>
-				{activeStep === steps.length ? (
-					<>
-						<CenterContainer>
-							Erfolgreich registriert! <Icon icon={faCheck} size="lg" color="primary" />
-						</CenterContainer>
-						<ButtonContainer onClick={handleReset}>Zurücksetzen</ButtonContainer>
-					</>
-				) : (
-					<>
+		<Scrollable>
+			<CenterContainer maxWidth="md">
+				<Root>
+					<Stepper activeStep={activeStep} alternativeLabel>
+						{steps.map((step) => (
+							<Step key={step.label}>
+								<StepLabel>{step.label}</StepLabel>
+							</Step>
+						))}
+					</Stepper>
+					<StepWrapper padding={4}>
 						{steps[activeStep].component}
 						<ButtonWrapper>
 							{activeStep !== 0 && (
@@ -104,13 +123,13 @@ const StepperContainer: React.FC<StepperContainerProps> = ({ steps, next }) => {
 								</>
 							)}
 							<StyledButton onClick={handleNext} loading={loading}>
-								{activeStep === steps.length - 1 ? 'Abschließen' : 'Nächster Schritt'}
+								{activeStep === steps.length - 1 ? 'Fertig' : 'Weiter'}
 							</StyledButton>
 						</ButtonWrapper>
-					</>
-				)}
-			</StepWrapper>
-		</Root>
+					</StepWrapper>
+				</Root>
+			</CenterContainer>
+		</Scrollable>
 	);
 };
 

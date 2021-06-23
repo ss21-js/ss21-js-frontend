@@ -20,6 +20,6 @@ const { persistAtom } = recoilPersist();
 
 export const themeModeAtom = atom<ThemeMode>({
 	key: 'themeMode',
-	default: ThemeMode.LIGHT,
+	default: window.matchMedia('(prefers-color-scheme: dark)') ? ThemeMode.DARK : ThemeMode.LIGHT,
 	effects_UNSTABLE: [persistAtom],
 });

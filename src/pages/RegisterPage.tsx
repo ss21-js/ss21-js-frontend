@@ -20,7 +20,7 @@ import { useForm } from 'react-hook-form';
 import { Link as RouterLink } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
 import router from 'Router';
-import { AuthEmailPassword, authState, ThirdPartyAuthProvider, useSignIn, useSignInWith } from 'store/auth';
+import { AuthEmailPassword, authState, ThirdPartyAuthProvider, useSignInWith, useSignUp } from 'store/auth';
 
 const Form = styled('form')`
 	width: '100%';
@@ -34,25 +34,36 @@ const IconButton = styled(StyledButton)`
 	height: 42px;
 `;
 
-const loginSchema = Joi.object<AuthEmailPassword>({
+type AuthEmailPasswordRepeat = AuthEmailPassword & {
+	passwordRepeat: string;
+};
+
+const registerSchema = Joi.object<AuthEmailPasswordRepeat>({
 	email: Joi.string()
 		.email({ tlds: { allow: false } })
 		.required()
 		.label('Email'),
 	password: Joi.string().min(6).max(32).required().label('Passwort'),
+	passwordRepeat: Joi.any()
+		.valid(Joi.ref('password'))
+		.required()
+		.messages({
+			'any.only': 'Die Passwörter müssen übereinstimmen',
+		})
+		.label('Passwort wiederholen'),
 }).messages(germanJoiMessages);
 
-const LoginPage: React.FC = () => {
-	const { loading, error } = useRecoilValue(authState);
-
-	const signIn = useSignIn();
+const RegisterPage: React.FC = () => {
+	const signUp = useSignUp();
 	const signInWith = useSignInWith();
 
-	const { control, handleSubmit } = useForm<AuthEmailPassword>({
-		resolver: joiResolver(loginSchema),
+	const { loading, error } = useRecoilValue(authState);
+
+	const { control, handleSubmit } = useForm<AuthEmailPasswordRepeat>({
+		resolver: joiResolver(registerSchema),
 	});
 
-	const onSubmit = (data: AuthEmailPassword) => signIn(data);
+	const onSubmit = (data: AuthEmailPassword) => signUp(data);
 
 	const handleGoogle = () => signInWith(ThirdPartyAuthProvider.Google);
 	const handleApple = () => signInWith(ThirdPartyAuthProvider.Apple);
@@ -61,13 +72,14 @@ const LoginPage: React.FC = () => {
 
 	const emailField = useMaterialRegister(control, 'email');
 	const passwordField = useMaterialRegister(control, 'password');
+	const passwordRepeatField = useMaterialRegister(control, 'passwordRepeat');
 
 	return (
 		<Scrollable>
 			<CenterContainer maxWidth="sm">
 				<RoundedBox padding={3}>
 					<Typography component="h1" variant="h5" gutterBottom>
-						Login
+						Registrieren
 					</Typography>
 					<Grid container justifyContent="space-evenly" margin={[3, 0, 0, 0]}>
 						<Grid item>
@@ -132,15 +144,21 @@ const LoginPage: React.FC = () => {
 							autoComplete="current-password"
 							disabled={loading}
 						/>
+						<TextField
+							{...passwordRepeatField}
+							variant="outlined"
+							margin="normal"
+							required
+							fullWidth
+							label="Passwort wiederholen"
+							type="password"
+							id="passwordRepeat"
+							autoComplete="repeat-password"
+							disabled={loading}
+						/>
 						<Box marginY={2}>
-							<StyledButton
-								type="submit"
-								fullWidth
-								variant="contained"
-								color="primary"
-								disabled={loading}
-							>
-								Login
+							<StyledButton type="submit" fullWidth variant="contained" color="primary" loading={loading}>
+								Account erstellen
 							</StyledButton>
 						</Box>
 						{error && (
@@ -149,14 +167,9 @@ const LoginPage: React.FC = () => {
 							</Typography>
 						)}
 						<Grid container>
-							{/* <Grid item xs>
-							<Link href="#" variant="body2">
-								Forgot password?
-							</Link>
-						</Grid> */}
 							<Grid item>
-								<Link component={RouterLink} to={router.register()} variant="body2">
-									Noch kein Konto? Account erstellen
+								<Link component={RouterLink} to={router.login()} variant="body2">
+									Bereits registriert? Einloggen
 								</Link>
 							</Grid>
 						</Grid>
@@ -167,4 +180,4 @@ const LoginPage: React.FC = () => {
 	);
 };
 
-export default LoginPage;
+export default RegisterPage;

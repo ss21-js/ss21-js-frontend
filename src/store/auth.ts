@@ -1,13 +1,14 @@
 import {
 	AuthError,
 	AuthProvider,
+	createUserWithEmailAndPassword,
 	GithubAuthProvider,
 	GoogleAuthProvider,
 	OAuthProvider,
 	signInWithEmailAndPassword,
 	signInWithPopup,
 } from 'firebase/auth';
-import { AuthApi, CompanyDto } from 'js-api-client';
+import { AuthApi, CompanyDto, StudentDto } from 'js-api-client';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { firebaseAuth } from '..';
 import { authenticatedApiConfiguration } from './api';
@@ -16,6 +17,7 @@ import { currentUserAtom, currentUserTypeAtom, UserType } from './user';
 export interface CurrentUser {
 	id: string;
 	idToken: string;
+	email: string | null;
 }
 
 export const currentFirebaseUser = atom<CurrentUser | null>({
@@ -35,20 +37,35 @@ export const authState = atom<AuthState>({
 	},
 });
 
-export interface SignInWithEmail {
+export interface AuthEmailPassword {
 	email: string;
 	password: string;
 }
 export const useSignIn = () => {
 	const setAuthState = useSetRecoilState(authState);
 
-	return async (arg: SignInWithEmail) => {
+	return async (arg: AuthEmailPassword) => {
 		setAuthState({
 			loading: true,
 			error: null,
 		});
 
 		signInWithEmailAndPassword(firebaseAuth, arg.email, arg.password)
+			.then(() => setAuthState({ loading: false, error: null }))
+			.catch((error: AuthError) => setAuthState({ loading: false, error: error.message }));
+	};
+};
+
+export const useSignUp = () => {
+	const setAuthState = useSetRecoilState(authState);
+
+	return async (arg: AuthEmailPassword) => {
+		setAuthState({
+			loading: true,
+			error: null,
+		});
+
+		createUserWithEmailAndPassword(firebaseAuth, arg.email, arg.password)
 			.then(() => setAuthState({ loading: false, error: null }))
 			.catch((error: AuthError) => setAuthState({ loading: false, error: error.message }));
 	};
@@ -98,8 +115,10 @@ export const useSignInWith = () => {
 	};
 };
 
-// TODO: Update currentuser atom immediately and refresh
-export const signOut = () => firebaseAuth.signOut();
+export const signOut = () => {
+	firebaseAuth.signOut();
+	window.location.reload();
+};
 
 export const useSignUpCompany = () => {
 	const config = useRecoilValue(authenticatedApiConfiguration);
@@ -110,16 +129,35 @@ export const useSignUpCompany = () => {
 		return null;
 	}
 
-	return (company: CompanyDto): Promise<boolean> => {
-		return new AuthApi(config)
-			.companiesControllerSignup({
-				companyDto: company,
-			})
-			.then((response) => {
-				setCurrentUser(response);
-				setCurrentUserType(UserType.COMPANY);
-				return true;
-			})
-			.catch(() => false);
+	return async (companyDto: CompanyDto): Promise<boolean> => {
+		try {
+			const response = await new AuthApi(config).companiesControllerSignup({ companyDto });
+			setCurrentUser(response);
+			setCurrentUserType(UserType.COMPANY);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	};
+};
+
+export const useSignUpStudent = () => {
+	const config = useRecoilValue(authenticatedApiConfiguration);
+	const setCurrentUser = useSetRecoilState(currentUserAtom);
+	const setCurrentUserType = useSetRecoilState(currentUserTypeAtom);
+
+	if (config == null) {
+		return null;
+	}
+
+	return async (studentDto: StudentDto): Promise<boolean> => {
+		try {
+			const response = await new AuthApi(config).studentsControllerSignup({ studentDto });
+			setCurrentUser(response);
+			setCurrentUserType(UserType.STUDENT);
+			return true;
+		} catch (e) {
+			return false;
+		}
 	};
 };

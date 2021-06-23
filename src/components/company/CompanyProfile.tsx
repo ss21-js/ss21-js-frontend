@@ -1,6 +1,7 @@
 import { faEnvelope, faGlobe, faMapPin } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Theme, useTheme } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import styled from '@material-ui/core/styles/styled';
 import Typography from '@material-ui/core/Typography';
@@ -116,26 +117,28 @@ const CompanyProfile: React.FC<CompanyProfileProps> = ({ company, editable }) =>
 					</HeaderActions>
 				)}
 			</Header>
-			<Grid
-				container
-				padding={{
-					xs: 2,
-					md: 4,
-				}}
-				spacing={2}
-			>
-				<Grid item md={6} xs={12}>
-					<RoundedBox padding={3}>
-						{isMobile && <InfoContainer company={company} />}
-						<Typography component="h2" variant="h5" gutterBottom>
-							{company.name}
-						</Typography>
-						<Typography component="p" variant="body1" gutterBottom>
-							{company.companyInfo}
-						</Typography>
-					</RoundedBox>
+			<Container maxWidth="lg">
+				<Grid
+					container
+					padding={{
+						xs: 2,
+						md: 4,
+					}}
+					spacing={2}
+				>
+					<Grid item xs={12}>
+						<RoundedBox padding={3}>
+							{isMobile && <InfoContainer company={company} />}
+							<Typography component="h2" variant="h5" gutterBottom>
+								{company.name}
+							</Typography>
+							<Typography component="p" variant="body1" gutterBottom>
+								{company.companyInfo}
+							</Typography>
+						</RoundedBox>
+					</Grid>
 				</Grid>
-			</Grid>
+			</Container>
 			<EditCompanyDialog open={editOpen} handleClose={handleCloseEdit} />
 		</>
 	);

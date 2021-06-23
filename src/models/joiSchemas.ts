@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { Address, Company, Student, University } from 'js-api-client';
 
-const germanJoiMessages: Joi.LanguageMessages = {
+export const germanJoiMessages: Joi.LanguageMessages = {
 	'any.required': '{{#label}} ist ein Pflichtfeld',
 	'string.alphanum': '{{#label}} darf nur aus alpha-numerischen Zeichen bestehen',
 	'string.base': '{{#label}} muss eine Zeichenfolge sein',
@@ -73,4 +73,8 @@ export const studentSchema = Joi.object<Student>({
 	email: Joi.string().email({ tlds: false }).required().label('E-Mail'),
 	githubUrl: Joi.string().allow('').label('Github Nutzername'),
 	university: universitySchema,
+	semester: Joi.number().required().label('Semester'),
+	languages: Joi.array().label('Programmiersprachen'),
+	workArea: Joi.string().required().label('Arbeitsbereich'),
+	workBasis: Joi.number().required().label('Anstellungsart'),
 }).messages(germanJoiMessages);

@@ -5,6 +5,7 @@ import OnboardingCompanyPage from 'pages/OnboardingCompanyPage';
 import OnboardingPage from 'pages/OnboardingPage';
 import OnboardingStudentPage from 'pages/OnboardingStudentPage';
 import ProfilePage from 'pages/ProfilePage';
+import RegisterPage from 'pages/RegisterPage';
 import SavedPage from 'pages/SavedPage';
 import React from 'react';
 import { OptionsRouter, Redirect, RouteMiddleware, stringParser } from 'react-typesafe-routes';
@@ -66,8 +67,7 @@ const router = OptionsRouter(routeOptions, (route) => ({
 	}),
 	register: route('register', {
 		middleware: LoginMiddleware,
-		// TODO: Replace with RegisterPage
-		component: LoginPage,
+		component: RegisterPage,
 		options: {
 			showAppBar: false,
 			showDrawer: false,

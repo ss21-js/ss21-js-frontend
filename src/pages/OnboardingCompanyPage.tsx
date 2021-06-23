@@ -1,10 +1,8 @@
 import { joiResolver } from '@hookform/resolvers/joi';
-import Scrollable from 'components/app/Scrollable';
 import StepperContainer from 'components/app/StepperContainer';
 import CompanyFormAddress from 'components/company/CompanyFormAddress';
 import CompanyFormGeneral from 'components/company/CompanyFormGeneral';
 import OnboardingCompanyProfile from 'components/company/OnboardingCompanyProfile';
-import CenterContainer from 'components/layout/CenterContainer';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { firebaseStorage } from 'index';
 import { Address, Company, CompanyDto } from 'js-api-client';
@@ -51,7 +49,7 @@ const OnboardingCompanyPage: React.FC = () => {
 		setCompany((company) => ({
 			...company,
 			address: values.address,
-			name: company.name,
+			name: values.name,
 			companyInfo: values.companyInfo,
 			email: values.email,
 			homepage: values.homepage,
@@ -117,33 +115,29 @@ const OnboardingCompanyPage: React.FC = () => {
 	};
 
 	return (
-		<Scrollable>
-			<CenterContainer maxWidth="md">
-				<StepperContainer
-					steps={[
-						{
-							label: 'Unternehmen',
-							component: <CompanyFormGeneral control={control} disabled={loading} />,
-						},
-						{
-							label: 'Adresse',
-							component: <CompanyFormAddress control={control} disabled={loading} />,
-						},
-						{
-							label: 'Profilbilder',
-							component: (
-								<OnboardingCompanyProfile
-									company={company}
-									headerImageChanged={handleHeaderImage}
-									profileImageChanged={handleProfileImage}
-								/>
-							),
-						},
-					]}
-					next={handleNext}
-				/>
-			</CenterContainer>
-		</Scrollable>
+		<StepperContainer
+			steps={[
+				{
+					label: 'Unternehmen',
+					component: <CompanyFormGeneral control={control} disabled={loading} />,
+				},
+				{
+					label: 'Adresse',
+					component: <CompanyFormAddress control={control} disabled={loading} />,
+				},
+				{
+					label: 'Profilbilder',
+					component: (
+						<OnboardingCompanyProfile
+							company={company}
+							headerImageChanged={handleHeaderImage}
+							profileImageChanged={handleProfileImage}
+						/>
+					),
+				},
+			]}
+			next={handleNext}
+		/>
 	);
 };
 
