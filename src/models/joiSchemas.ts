@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { Address, Company, Student, University } from 'js-api-client';
+import { Address, Company, CreateJobDto, Student, University } from 'js-api-client';
 
 export const germanJoiMessages: Joi.LanguageMessages = {
 	'any.required': '{{#label}} ist ein Pflichtfeld',
@@ -82,4 +82,9 @@ export const studentSchema = Joi.object<Student>({
 	toAvailable: Joi.date().required().label('Verfügbar bis'),
 	identities: Joi.any(),
 	jobsMarkedIds: Joi.any(),
+}).messages(germanJoiMessages);
+
+export const createJobDtoSchema = Joi.object<CreateJobDto>({
+	jobName: Joi.string().min(10).max(50).required().label('Jobtitel'),
+	jobDescription: Joi.string().min(30).required().label('Beschreibung'),
 }).messages(germanJoiMessages);

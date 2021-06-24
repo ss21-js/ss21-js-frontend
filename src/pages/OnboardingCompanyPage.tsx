@@ -11,13 +11,14 @@ import { companySchema } from 'models/joiSchemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
-import { currentFirebaseUser, useSignUpCompany } from 'store/auth';
+import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
+import { useSignUpCompany } from 'store/auth/useSignUpCompany';
 
 const OnboardingCompanyPage: React.FC = () => {
 	const toast = useToast();
 	const signUpCompany = useSignUpCompany();
 
-	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 
 	const [loading, setLoading] = React.useState(false);
 	const [company, setCompany] = React.useState<Partial<Company>>({

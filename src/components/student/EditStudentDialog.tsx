@@ -10,7 +10,8 @@ import { studentSchema } from 'models/joiSchemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom, useUpdateStudent } from 'store/user';
+import currentUserState from 'store/user/currentUserState';
+import useUpdateStudent from 'store/user/useUpdateStudent';
 import StudentForm from './StudentForm';
 
 export interface EditStudentDialogProps {
@@ -21,13 +22,14 @@ export interface EditStudentDialogProps {
 const EditStudentDialog: React.FC<EditStudentDialogProps> = ({ open, handleClose }) => {
 	const toast = useToast();
 	const [loading, setLoading] = React.useState(false);
-	const student = useRecoilValue(currentUserAtom);
+	const student = useRecoilValue(currentUserState);
 
 	const updateStudent = useUpdateStudent();
 
 	const { control, handleSubmit, reset } = useForm<Student>({
 		resolver: joiResolver(studentSchema),
 		defaultValues: student as Student,
+		mode: 'all',
 	});
 
 	React.useEffect(() => {

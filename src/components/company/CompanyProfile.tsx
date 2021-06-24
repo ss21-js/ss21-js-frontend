@@ -13,7 +13,7 @@ import { ref, uploadBytes } from 'firebase/storage';
 import { firebaseStorage } from 'index';
 import { Company } from 'js-api-client';
 import React from 'react';
-import { useUpdateCompany } from 'store/user';
+import useUpdateCompany from 'store/user/useUpdateCompany';
 import CompanyImages from './CompanyImages';
 import EditCompanyDialog from './EditCompanyDialog';
 

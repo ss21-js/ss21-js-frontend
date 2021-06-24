@@ -12,7 +12,7 @@ import StyledButton from 'components/StyledButton';
 import React from 'react';
 import { useHistory } from 'react-router';
 import router from 'Router';
-import { signOut } from 'store/auth';
+import signOut from 'store/auth/signOut';
 
 const OnboardingButton = styled(Button)`
 	text-transform: none;

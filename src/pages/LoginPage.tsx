@@ -20,7 +20,10 @@ import { useForm } from 'react-hook-form';
 import { Link as RouterLink } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
 import router from 'Router';
-import { AuthEmailPassword, authState, ThirdPartyAuthProvider, useSignIn, useSignInWith } from 'store/auth';
+import authState from 'store/auth/authState';
+import EmailPassword from 'store/auth/emailPassword';
+import useSignIn from 'store/auth/useSignIn';
+import useSignInWith, { SignInWithProvider } from 'store/auth/useSignUpWith';
 
 const Form = styled('form')`
 	width: '100%';
@@ -34,7 +37,7 @@ const IconButton = styled(StyledButton)`
 	height: 42px;
 `;
 
-const loginSchema = Joi.object<AuthEmailPassword>({
+const loginSchema = Joi.object<EmailPassword>({
 	email: Joi.string()
 		.email({ tlds: { allow: false } })
 		.required()
@@ -48,16 +51,17 @@ const LoginPage: React.FC = () => {
 	const signIn = useSignIn();
 	const signInWith = useSignInWith();
 
-	const { control, handleSubmit } = useForm<AuthEmailPassword>({
+	const { control, handleSubmit } = useForm<EmailPassword>({
 		resolver: joiResolver(loginSchema),
+		mode: 'all',
 	});
 
-	const onSubmit = (data: AuthEmailPassword) => signIn(data);
+	const onSubmit = (data: EmailPassword) => signIn(data);
 
-	const handleGoogle = () => signInWith(ThirdPartyAuthProvider.Google);
-	const handleApple = () => signInWith(ThirdPartyAuthProvider.Apple);
-	const handleMicrosoft = () => signInWith(ThirdPartyAuthProvider.Microsoft);
-	const handleGithub = () => signInWith(ThirdPartyAuthProvider.Github);
+	const handleGoogle = () => signInWith(SignInWithProvider.Google);
+	const handleApple = () => signInWith(SignInWithProvider.Apple);
+	const handleMicrosoft = () => signInWith(SignInWithProvider.Microsoft);
+	const handleGithub = () => signInWith(SignInWithProvider.Github);
 
 	const emailField = useMaterialRegister(control, 'email');
 	const passwordField = useMaterialRegister(control, 'password');

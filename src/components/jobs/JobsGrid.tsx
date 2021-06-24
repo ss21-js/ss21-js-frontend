@@ -5,7 +5,7 @@ import React, { createRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import router from 'Router';
-import { jobSearchQuery } from 'store/jobs';
+import jobSearchQuery from 'store/jobs/jobSearchQuery';
 import JobCard from './JobCard';
 import JobCardSkeleton from './JobCardSkeleton';
 import JobDetailsCard from './JobDetailsCard';

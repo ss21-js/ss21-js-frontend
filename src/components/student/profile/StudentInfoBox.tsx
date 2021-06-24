@@ -1,8 +1,9 @@
 import InfoContainerGroup from 'components/app/InfoContainerGroup';
 import RoundedBox from 'components/RoundedBox';
 import { Student } from 'js-api-client';
+import WorkArea from 'models/workArea';
+import WorkBasis from 'models/workBasis';
 import React from 'react';
-import { WorkArea, WorkBasis } from 'store/jobs';
 
 export interface StudentInfoBoxProps {
 	student: Student;

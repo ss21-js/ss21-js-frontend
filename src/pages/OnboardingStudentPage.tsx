@@ -6,16 +6,18 @@ import StudentFormJob from 'components/student/StudentFormJob';
 import StudentFormUniversity from 'components/student/StudentFormUniversity';
 import { Address, Student, StudentDto, University } from 'js-api-client';
 import { studentSchema } from 'models/joiSchemas';
+import WorkArea from 'models/workArea';
+import WorkBasis from 'models/workBasis';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
-import { currentFirebaseUser, useSignUpStudent } from 'store/auth';
-import { WorkArea, WorkBasis } from 'store/jobs';
+import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
+import { useSignUpStudent } from 'store/auth/useSignUpStudent';
 
 const OnboardingStudentPage: React.FC = () => {
 	const signUpStudent = useSignUpStudent();
 
-	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 
 	const [loading, setLoading] = React.useState(false);
 	const [student, setStudent] = React.useState<Partial<Student>>({

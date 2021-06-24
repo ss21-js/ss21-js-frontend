@@ -5,13 +5,15 @@ import FullScreenLoading from 'components/FullScreenLoading';
 import Center from 'components/layout/Center';
 import StudentProfile from 'components/student/StudentProfile';
 import { Company, Student } from 'js-api-client';
+import UserType from 'models/userType';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom, currentUserTypeAtom, UserType } from 'store/user';
+import currentUserState from 'store/user/currentUserState';
+import currentUserTypeState from 'store/user/currentUserTypeState';
 
 const AsyncCurrentUserProfile: React.FC = () => {
-	const currentUser = useRecoilValue(currentUserAtom);
-	const userType = useRecoilValue(currentUserTypeAtom);
+	const currentUser = useRecoilValue(currentUserState);
+	const userType = useRecoilValue(currentUserTypeState);
 
 	if (currentUser === null) {
 		return (

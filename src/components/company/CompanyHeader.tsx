@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Center from 'components/layout/Center';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { firebaseImage } from 'store/user';
+import firebaseStorageQuery from 'store/general/firebaseStorageQuery';
 
 const CompanyHeaderContainer = styled('div')`
 	border-radius: ${(props) => props.theme.shape.borderRadius};
@@ -69,7 +69,7 @@ const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, width, height, onIma
 };
 
 const CompanyHeaderFirebaseProxy: React.FC<CompanyHeaderProps> = (props) => {
-	const url = useRecoilValue(firebaseImage(props.src));
+	const url = useRecoilValue(firebaseStorageQuery(props.src));
 	return <CompanyHeader {...props} src={url ?? ''} />;
 };
 
@@ -83,7 +83,11 @@ const AsyncCompanyHeader: React.FC<CompanyHeaderProps> = (props) => {
 					</Center>
 				}
 			>
-				{props.disableFirebase ? <CompanyHeader {...props} /> : <CompanyHeaderFirebaseProxy {...props} />}
+				{props.disableFirebase || props.src.length === 0 ? (
+					<CompanyHeader {...props} />
+				) : (
+					<CompanyHeaderFirebaseProxy {...props} />
+				)}
 			</React.Suspense>
 		</CompanyHeaderContainer>
 	);

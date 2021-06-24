@@ -8,20 +8,19 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useRecoilState } from 'recoil';
-import { signOut } from 'store/auth';
-import { drawerOpen } from 'store/general';
+import signOut from 'store/auth/signOut';
+import drawerOpenState from 'store/general/drawerOpenState';
 import CurrentUser from '../CurrentUser';
 import Logo from '../Logo';
 import Navigation from './Navigation';
 
 const AppBar = () => {
 	const theme = useTheme();
-	const [isDrawerOpen, setDrawerOpen] = useRecoilState(drawerOpen);
+	const [isDrawerOpen, setDrawerOpen] = useRecoilState(drawerOpenState);
 
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
 	const handleMenuToggle = () => setDrawerOpen(!isDrawerOpen);
-
 	const handleSignOut = () => signOut();
 
 	return (

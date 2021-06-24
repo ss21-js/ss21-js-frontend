@@ -1,12 +1,12 @@
 import FullScreenLoading from 'components/FullScreenLoading';
 import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { currentFirebaseUser } from 'store/auth';
+import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
 import { firebaseAuth } from '..';
 
 const FirebaseWrapper: React.FC = ({ children }) => {
 	const [loading, setLoading] = useState(true);
-	const setCurrentFirebaseUser = useSetRecoilState(currentFirebaseUser);
+	const setCurrentFirebaseUser = useSetRecoilState(currentFirebaseUserState);
 
 	useEffect(() => {
 		firebaseAuth.onIdTokenChanged((user) => {

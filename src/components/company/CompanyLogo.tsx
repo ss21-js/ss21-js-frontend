@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Center from 'components/layout/Center';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { firebaseImage } from 'store/user';
+import firebaseStorageQuery from 'store/general/firebaseStorageQuery';
 
 const CompanyLogoContainer = styled('div')`
 	border-radius: ${(props) => props.theme.shape.borderRadius};
@@ -71,7 +71,7 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ src, width, height, onImageCh
 };
 
 const CompanyLogoFirebaseProxy: React.FC<CompanyLogoProps> = (props) => {
-	const url = useRecoilValue(firebaseImage(props.src));
+	const url = useRecoilValue(firebaseStorageQuery(props.src));
 	return <CompanyLogo {...props} src={url ?? ''} />;
 };
 
@@ -90,7 +90,11 @@ const AsyncCompanyLogo: React.FC<CompanyLogoProps> = (props) => {
 					</Center>
 				}
 			>
-				{props.disableFirebase ? <CompanyLogo {...props} /> : <CompanyLogoFirebaseProxy {...props} />}
+				{props.disableFirebase || props.src.length === 0 ? (
+					<CompanyLogo {...props} />
+				) : (
+					<CompanyLogoFirebaseProxy {...props} />
+				)}
 			</React.Suspense>
 		</CompanyLogoContainer>
 	);

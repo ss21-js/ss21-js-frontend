@@ -13,9 +13,10 @@ import { Student } from 'js-api-client';
 import { omit } from 'lodash';
 import langMap from 'models/langMap';
 import programmingLanguages from 'models/programmingLanguages';
+import WorkArea from 'models/workArea';
+import WorkBasis from 'models/workBasis';
 import React from 'react';
 import { Control } from 'react-hook-form';
-import { WorkArea, WorkBasis } from 'store/jobs';
 
 const Spacer = styled('div')`
 	height: ${(props) => props.theme.spacing(3)};

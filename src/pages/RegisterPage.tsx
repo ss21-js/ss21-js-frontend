@@ -20,7 +20,10 @@ import { useForm } from 'react-hook-form';
 import { Link as RouterLink } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
 import router from 'Router';
-import { AuthEmailPassword, authState, ThirdPartyAuthProvider, useSignInWith, useSignUp } from 'store/auth';
+import authState from 'store/auth/authState';
+import EmailPassword from 'store/auth/emailPassword';
+import useSignUp from 'store/auth/useSignUp';
+import useSignInWith, { SignInWithProvider } from 'store/auth/useSignUpWith';
 
 const Form = styled('form')`
 	width: '100%';
@@ -34,11 +37,11 @@ const IconButton = styled(StyledButton)`
 	height: 42px;
 `;
 
-type AuthEmailPasswordRepeat = AuthEmailPassword & {
+type EmailPasswordRepeat = EmailPassword & {
 	passwordRepeat: string;
 };
 
-const registerSchema = Joi.object<AuthEmailPasswordRepeat>({
+const registerSchema = Joi.object<EmailPasswordRepeat>({
 	email: Joi.string()
 		.email({ tlds: { allow: false } })
 		.required()
@@ -59,16 +62,17 @@ const RegisterPage: React.FC = () => {
 
 	const { loading, error } = useRecoilValue(authState);
 
-	const { control, handleSubmit } = useForm<AuthEmailPasswordRepeat>({
+	const { control, handleSubmit } = useForm<EmailPasswordRepeat>({
 		resolver: joiResolver(registerSchema),
+		mode: 'all',
 	});
 
-	const onSubmit = (data: AuthEmailPassword) => signUp(data);
+	const onSubmit = (data: EmailPassword) => signUp(data);
 
-	const handleGoogle = () => signInWith(ThirdPartyAuthProvider.Google);
-	const handleApple = () => signInWith(ThirdPartyAuthProvider.Apple);
-	const handleMicrosoft = () => signInWith(ThirdPartyAuthProvider.Microsoft);
-	const handleGithub = () => signInWith(ThirdPartyAuthProvider.Github);
+	const handleGoogle = () => signInWith(SignInWithProvider.Google);
+	const handleApple = () => signInWith(SignInWithProvider.Apple);
+	const handleMicrosoft = () => signInWith(SignInWithProvider.Microsoft);
+	const handleGithub = () => signInWith(SignInWithProvider.Github);
 
 	const emailField = useMaterialRegister(control, 'email');
 	const passwordField = useMaterialRegister(control, 'password');

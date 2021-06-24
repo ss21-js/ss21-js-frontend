@@ -4,7 +4,7 @@ import createTheme from '@material-ui/core/styles/createTheme';
 import ThemeProvider from '@material-ui/core/styles/ThemeProvider';
 import * as React from 'react';
 import { useRecoilValue } from 'recoil';
-import { ThemeMode, themeModeAtom } from './store/general';
+import themeModeState, { ThemeMode } from './store/general/themeModeState';
 
 export const theme = {};
 
@@ -72,7 +72,7 @@ interface Props {
 }
 
 const ThemeWrapper: React.FC<Props> = ({ children }) => {
-	const mode = useRecoilValue(themeModeAtom);
+	const mode = useRecoilValue(themeModeState);
 
 	const theme = React.useMemo(() => {
 		switch (mode) {

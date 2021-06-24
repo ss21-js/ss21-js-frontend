@@ -5,9 +5,11 @@ import Skeleton from '@material-ui/core/Skeleton';
 import useTheme from '@material-ui/core/styles/useTheme';
 import Typography from '@material-ui/core/Typography';
 import { Company, Student } from 'js-api-client';
+import UserType from 'models/userType';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom, currentUserTypeAtom, UserType } from 'store/user';
+import currentUserState from 'store/user/currentUserState';
+import currentUserTypeState from 'store/user/currentUserTypeState';
 
 export interface CurrentUserProps {
 	avatarOnly?: boolean;
@@ -21,8 +23,8 @@ const Row = styled.div`
 
 const AsyncCurrentUser: React.FC<CurrentUserProps> = ({ avatarOnly }) => {
 	const theme = useTheme();
-	const user = useRecoilValue(currentUserAtom);
-	const userType = useRecoilValue(currentUserTypeAtom);
+	const user = useRecoilValue(currentUserState);
+	const userType = useRecoilValue(currentUserTypeState);
 
 	if (user === null || userType === null) {
 		return <CurrentUserSkeleton />;

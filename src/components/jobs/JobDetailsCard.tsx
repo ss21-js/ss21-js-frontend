@@ -12,7 +12,7 @@ import CompanyLogo from 'components/company/CompanyLogo';
 import Center from 'components/layout/Center';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { jobByIdQuery } from 'store/jobs';
+import jobByIdQuery from 'store/jobs/jobByIdQuerty';
 import InfoContainerGroup from '../app/InfoContainerGroup';
 import StyledIconButton from '../app/StyledIconButton';
 import RoundedBox from '../RoundedBox';

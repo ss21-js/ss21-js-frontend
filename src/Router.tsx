@@ -1,3 +1,4 @@
+import CreateJobPage from 'pages/CreateJobPage';
 import JobsPage from 'pages/JobsPage';
 import LandingPage from 'pages/LandingPage';
 import LoginPage from 'pages/LoginPage';
@@ -10,12 +11,12 @@ import SavedPage from 'pages/SavedPage';
 import React from 'react';
 import { OptionsRouter, Redirect, RouteMiddleware, stringParser } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
-import { currentFirebaseUser } from 'store/auth';
-import { currentUserAtom } from 'store/user';
+import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
+import currentUserState from 'store/user/currentUserState';
 
 const AuthMiddleware: RouteMiddleware = (next) => {
-	const firebaseUser = useRecoilValue(currentFirebaseUser);
-	const user = useRecoilValue(currentUserAtom);
+	const firebaseUser = useRecoilValue(currentFirebaseUserState);
+	const user = useRecoilValue(currentUserState);
 
 	if (firebaseUser === null) {
 		return () => <Redirect to={router.login()} />;
@@ -29,7 +30,7 @@ const AuthMiddleware: RouteMiddleware = (next) => {
 };
 
 const LoginMiddleware: RouteMiddleware = (Next) => {
-	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 	if (firebaseUser !== null) {
 		return () => <Redirect to={router.onboarding()} />;
 	}
@@ -37,8 +38,8 @@ const LoginMiddleware: RouteMiddleware = (Next) => {
 };
 
 const OnboardingMiddleware: RouteMiddleware = (next) => {
-	const firebaseUser = useRecoilValue(currentFirebaseUser);
-	const user = useRecoilValue(currentUserAtom);
+	const firebaseUser = useRecoilValue(currentFirebaseUserState);
+	const user = useRecoilValue(currentUserState);
 
 	if (firebaseUser === null) {
 		return () => <Redirect to={router.login()} />;
@@ -104,6 +105,9 @@ const router = OptionsRouter(routeOptions, (route) => ({
 				params: {
 					jobId: stringParser,
 				},
+			}),
+			createJob: route('job-erstellen', {
+				component: CreateJobPage,
 			}),
 			saved: route('saved', {
 				component: SavedPage,

@@ -7,7 +7,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { globalLoading, ThemeMode, themeModeAtom } from 'store/general';
+import globalLoadingState from 'store/general/globalLoadingState';
+import themeModeState, { ThemeMode } from 'store/general/themeModeState';
 import AppBar from './AppBar';
 import Drawer from './Drawer';
 export interface AppFrameProps {
@@ -16,9 +17,9 @@ export interface AppFrameProps {
 
 const AppFrame: React.FC<AppFrameProps> = ({ children }) => {
 	const theme = useTheme();
-	const backdropOpen = useRecoilValue(globalLoading);
+	const backdropOpen = useRecoilValue(globalLoadingState);
 
-	const [themeMode, setThemeMode] = useRecoilState(themeModeAtom);
+	const [themeMode, setThemeMode] = useRecoilState(themeModeState);
 	const handleThemeChange = () => setThemeMode(themeMode === ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.DARK);
 
 	return (

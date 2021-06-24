@@ -5,10 +5,10 @@ import Center from 'components/layout/Center';
 import { Company } from 'js-api-client';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom } from 'store/user';
+import currentUserState from 'store/user/currentUserState';
 
 const AsyncCurrentCompanyProfile: React.FC = () => {
-	const currentUser = useRecoilValue(currentUserAtom);
+	const currentUser = useRecoilValue(currentUserState);
 	const company = currentUser as Company | undefined;
 
 	if (company === undefined) {

@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
 import { useRecoilValue } from 'recoil';
-import { ThemeMode, themeModeAtom } from 'store/general';
+import themeModeState, { ThemeMode } from 'store/general/themeModeState';
 
 const darkStyles = {
 	style: {
@@ -20,7 +20,7 @@ type ToastPromiseMsgs<T> = {
 };
 
 const useToast = () => {
-	const theme = useRecoilValue(themeModeAtom);
+	const theme = useRecoilValue(themeModeState);
 	const options = {
 		...(theme === ThemeMode.DARK ? darkStyles : undefined),
 		duration: 5000,

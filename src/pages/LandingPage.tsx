@@ -9,12 +9,12 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import router from 'Router';
-import { currentFirebaseUser } from 'store/auth';
+import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
 
 const LandingPage: React.FC = () => {
 	const history = useHistory();
 
-	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
 	const handleToApp = () => history.push(router.app().jobs({}).$);

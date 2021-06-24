@@ -10,7 +10,8 @@ import { companySchema } from 'models/joiSchemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom, useUpdateCompany } from 'store/user';
+import currentUserState from 'store/user/currentUserState';
+import useUpdateCompany from 'store/user/useUpdateCompany';
 import CompanyForm from './CompanyForm';
 
 export interface EditCompanyDialogProps {
@@ -21,13 +22,14 @@ export interface EditCompanyDialogProps {
 const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose }) => {
 	const toast = useToast();
 	const [loading, setLoading] = React.useState(false);
-	const company = useRecoilValue(currentUserAtom);
+	const company = useRecoilValue(currentUserState);
 
 	const updateCompany = useUpdateCompany();
 
 	const { control, handleSubmit, reset } = useForm<Company>({
 		resolver: joiResolver(companySchema),
 		defaultValues: company as Company,
+		mode: 'all',
 	});
 
 	React.useEffect(() => {
