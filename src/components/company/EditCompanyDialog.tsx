@@ -38,16 +38,11 @@ const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose
 		if (!updateCompany) return;
 
 		setLoading(true);
-
 		toast
 			.promise(updateCompany(company))
-			.then(() => {
-				setLoading(false);
-			})
-			.catch((e) => {
-				console.error(e);
-				setLoading(false);
-			});
+			.then(() => handleClose())
+			.catch()
+			.finally(() => setLoading(false));
 	};
 
 	return (
