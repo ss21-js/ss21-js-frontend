@@ -1,9 +1,10 @@
 import { joiResolver } from '@hookform/resolvers/joi';
+import useToast from 'common/useToast';
 import StepperContainer from 'components/app/StepperContainer';
 import CompanyFormAddress from 'components/company/CompanyFormAddress';
 import CompanyFormGeneral from 'components/company/CompanyFormGeneral';
 import OnboardingCompanyProfile from 'components/company/OnboardingCompanyProfile';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { ref, uploadBytes } from 'firebase/storage';
 import { firebaseStorage } from 'index';
 import { Address, Company, CompanyDto } from 'js-api-client';
 import { companySchema } from 'models/joiSchemas';
@@ -13,12 +14,15 @@ import { useRecoilValue } from 'recoil';
 import { currentFirebaseUser, useSignUpCompany } from 'store/auth';
 
 const OnboardingCompanyPage: React.FC = () => {
+	const toast = useToast();
 	const signUpCompany = useSignUpCompany();
 
 	const firebaseUser = useRecoilValue(currentFirebaseUser);
 
 	const [loading, setLoading] = React.useState(false);
-	const [company, setCompany] = React.useState<Partial<Company>>({});
+	const [company, setCompany] = React.useState<Partial<Company>>({
+		email: firebaseUser?.email ?? undefined,
+	});
 	const [headerFile, setHeaderFile] = React.useState<File | null>(null);
 	const [profileFile, setProfileFile] = React.useState<File | null>(null);
 
@@ -78,13 +82,13 @@ const OnboardingCompanyPage: React.FC = () => {
 			if (headerFile) {
 				const headerRef = ref(firebaseStorage, `images/${firebaseUser?.id}/${headerFile.name}`);
 				await uploadBytes(headerRef, headerFile);
-				headerUrl = await getDownloadURL(headerRef);
+				headerUrl = `images/${firebaseUser?.id}/${headerFile.name}`;
 			}
 
 			if (profileFile) {
 				const profileRef = ref(firebaseStorage, `images/${firebaseUser?.id}/${profileFile.name}`);
 				await uploadBytes(profileRef, profileFile);
-				profileUrl = await getDownloadURL(profileRef);
+				profileUrl = `images/${firebaseUser?.id}/${profileFile.name}`;
 			}
 
 			const address: Address = {
@@ -106,7 +110,7 @@ const OnboardingCompanyPage: React.FC = () => {
 				companyProfileImageUrl: profileUrl,
 			};
 
-			const result = (await signUpCompany?.(companyDto)) ?? false;
+			const result = toast.promise(signUpCompany!(companyDto));
 			setLoading(false);
 			return result;
 		}
