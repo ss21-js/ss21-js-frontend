@@ -36,10 +36,10 @@ interface CompanyLogoProps {
 	width?: string | number;
 	height?: string | number;
 	onImageChange?: React.ChangeEventHandler<HTMLInputElement>;
+	disableFirebase?: boolean;
 }
 
 const CompanyLogo: React.FC<CompanyLogoProps> = ({ src, width, height, onImageChange }) => {
-	const url = useRecoilValue(firebaseImage(src));
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	const handleEdit = () => {
@@ -51,7 +51,7 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ src, width, height, onImageCh
 			<>
 				<Tooltip title="Profilbild bearbeiten">
 					<EditButton onClick={handleEdit}>
-						<CompanyLogoImg src={url} alt={''} width={width} height={height} />
+						<CompanyLogoImg src={src} alt={''} width={width} height={height} />
 					</EditButton>
 				</Tooltip>
 				<input
@@ -67,7 +67,12 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ src, width, height, onImageCh
 		);
 	}
 
-	return <CompanyLogoImg src={url} alt={''} width={width} height={height} />;
+	return <CompanyLogoImg src={src} alt={''} width={width} height={height} />;
+};
+
+const CompanyLogoFirebaseProxy: React.FC<CompanyLogoProps> = (props) => {
+	const url = useRecoilValue(firebaseImage(props.src));
+	return <CompanyLogo {...props} src={url ?? ''} />;
 };
 
 const AsyncCompanyLogo: React.FC<CompanyLogoProps> = (props) => {
@@ -85,7 +90,7 @@ const AsyncCompanyLogo: React.FC<CompanyLogoProps> = (props) => {
 					</Center>
 				}
 			>
-				<CompanyLogo {...props} />
+				{props.disableFirebase ? <CompanyLogo {...props} /> : <CompanyLogoFirebaseProxy {...props} />}
 			</React.Suspense>
 		</CompanyLogoContainer>
 	);

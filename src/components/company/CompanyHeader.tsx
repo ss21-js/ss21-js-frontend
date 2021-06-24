@@ -31,14 +31,13 @@ const CompanyHeaderImg = styled('img')`
 
 export interface CompanyHeaderProps {
 	src: string;
-	alt: string;
 	width?: string | number;
 	height?: string | number;
 	onImageChange?: React.ChangeEventHandler<HTMLInputElement>;
+	disableFirebase?: boolean;
 }
 
-const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, alt, width, height, onImageChange }) => {
-	const url = useRecoilValue(firebaseImage(src));
+const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, width, height, onImageChange }) => {
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	const handleEdit = () => {
@@ -50,7 +49,7 @@ const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, alt, width, height, 
 			<>
 				<Tooltip title="Header bearbeiten">
 					<EditButton onClick={handleEdit}>
-						<CompanyHeaderImg src={url} alt={alt} width={width} height={height} />
+						<CompanyHeaderImg src={src} width={width} height={height} />
 					</EditButton>
 				</Tooltip>
 				<input
@@ -66,7 +65,12 @@ const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, alt, width, height, 
 		);
 	}
 
-	return <CompanyHeaderImg src={url} alt={alt} width={width} height={height} />;
+	return <CompanyHeaderImg src={src} width={width} height={height} />;
+};
+
+const CompanyHeaderFirebaseProxy: React.FC<CompanyHeaderProps> = (props) => {
+	const url = useRecoilValue(firebaseImage(props.src));
+	return <CompanyHeader {...props} src={url ?? ''} />;
 };
 
 const AsyncCompanyHeader: React.FC<CompanyHeaderProps> = (props) => {
@@ -79,7 +83,7 @@ const AsyncCompanyHeader: React.FC<CompanyHeaderProps> = (props) => {
 					</Center>
 				}
 			>
-				<CompanyHeader {...props} />
+				{props.disableFirebase ? <CompanyHeader {...props} /> : <CompanyHeaderFirebaseProxy {...props} />}
 			</React.Suspense>
 		</CompanyHeaderContainer>
 	);

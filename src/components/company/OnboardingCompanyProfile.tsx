@@ -73,6 +73,7 @@ const OnboardingCompanyProfile: React.FC<OnboardingCompanyProfileProps> = ({
 				profileImageUrl={company.companyProfileImageUrl}
 				profileImageChanged={profileImageChanged}
 				infoComponent={!isMobile && <InfoContainer company={company} />}
+				disableFirebase
 			/>
 			{isMobile && <InfoContainer company={company} />}
 			<Typography component="h2" variant="h5" gutterBottom>

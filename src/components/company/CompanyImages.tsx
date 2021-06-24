@@ -35,30 +35,24 @@ export type CompanyImagesProps = LargeLogoProps & {
 	profileImageUrl?: string;
 	profileImageChanged: (file: File, url: string) => void;
 	infoComponent?: React.ReactNode;
+	disableFirebase?: boolean;
 };
 
 const CompanyImages: React.FC<CompanyImagesProps> = (props) => {
-	const { headerImageUrl, headerImageChanged, profileImageUrl, profileImageChanged, infoComponent, largeLogo } =
-		props;
-
-	const [header, setHeader] = React.useState({
-		src: headerImageUrl ?? '',
-		alt: 'Header auswählen',
-	});
-
-	const [profile, setProfile] = React.useState({
-		src: profileImageUrl ?? '',
-		alt: 'Header auswählen',
-	});
+	const {
+		headerImageUrl,
+		headerImageChanged,
+		profileImageUrl,
+		profileImageChanged,
+		infoComponent,
+		largeLogo,
+		disableFirebase,
+	} = props;
 
 	const handleHeader = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e?.target?.files?.[0]) {
 			const url = URL.createObjectURL(e.target.files[0]);
 			headerImageChanged(e.target.files[0], url);
-			setHeader({
-				src: url,
-				alt: e.target.files[0].name,
-			});
 		}
 	};
 
@@ -66,22 +60,25 @@ const CompanyImages: React.FC<CompanyImagesProps> = (props) => {
 		if (e?.target?.files?.[0]) {
 			const url = URL.createObjectURL(e.target.files[0]);
 			profileImageChanged(e.target.files[0], url);
-			setProfile({
-				src: url,
-				alt: e.target.files[0].name,
-			});
 		}
 	};
 
 	return (
 		<ImageContainer largeLogo={largeLogo}>
-			<CompanyHeader src={header.src} alt={header.alt} width="100%" height="250px" onImageChange={handleHeader} />
+			<CompanyHeader
+				src={headerImageUrl ?? ''}
+				width="100%"
+				height="250px"
+				onImageChange={handleHeader}
+				disableFirebase={disableFirebase}
+			/>
 			<CompanyLogoContainer largeLogo={largeLogo}>
 				<CompanyLogo
-					src={profile.src}
+					src={profileImageUrl ?? ''}
 					width={largeLogo ? 192 : 128}
 					height={largeLogo ? 192 : 128}
 					onImageChange={handleProfile}
+					disableFirebase={disableFirebase}
 				/>
 			</CompanyLogoContainer>
 			{infoComponent && <InfoComponentWrapper largeLogo={largeLogo}>{infoComponent}</InfoComponentWrapper>}
