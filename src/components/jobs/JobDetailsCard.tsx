@@ -86,7 +86,7 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ jobId, handleClose }) =
 			<Header>
 				<HeaderImage src={job.headerImageUrl} />
 				<CompanyLogoContainer>
-					<CompanyLogo src={job.publisher.companyProfileImageUrl} alt={job.publisher.name} />
+					<CompanyLogo src={job.publisher.companyProfileImageUrl} />
 				</CompanyLogoContainer>
 				{handleClose && (
 					<ButtonBase
