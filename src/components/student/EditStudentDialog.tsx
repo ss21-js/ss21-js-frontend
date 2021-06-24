@@ -29,7 +29,6 @@ const EditStudentDialog: React.FC<EditStudentDialogProps> = ({ open, handleClose
 	const { control, handleSubmit, reset } = useForm<Student>({
 		resolver: joiResolver(studentSchema),
 		defaultValues: student as Student,
-		mode: 'all',
 	});
 
 	React.useEffect(() => {

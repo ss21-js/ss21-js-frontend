@@ -64,7 +64,6 @@ const RegisterPage: React.FC = () => {
 
 	const { control, handleSubmit } = useForm<EmailPasswordRepeat>({
 		resolver: joiResolver(registerSchema),
-		mode: 'all',
 	});
 
 	const onSubmit = (data: EmailPassword) => signUp(data);

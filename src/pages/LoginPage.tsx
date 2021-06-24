@@ -53,7 +53,6 @@ const LoginPage: React.FC = () => {
 
 	const { control, handleSubmit } = useForm<EmailPassword>({
 		resolver: joiResolver(loginSchema),
-		mode: 'all',
 	});
 
 	const onSubmit = (data: EmailPassword) => signIn(data);

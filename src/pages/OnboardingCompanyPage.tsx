@@ -30,7 +30,6 @@ const OnboardingCompanyPage: React.FC = () => {
 	const { control, getValues, trigger } = useForm<Company>({
 		resolver: joiResolver(companySchema),
 		defaultValues: company,
-		mode: 'all',
 	});
 
 	const handleHeaderImage = (file: File, url: string) => {

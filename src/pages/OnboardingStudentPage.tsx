@@ -30,7 +30,6 @@ const OnboardingStudentPage: React.FC = () => {
 	const { control, getValues, trigger } = useForm<Student>({
 		resolver: joiResolver(studentSchema),
 		defaultValues: student,
-		mode: 'all',
 	});
 
 	const handleNext = async (from: number, to: number) => {

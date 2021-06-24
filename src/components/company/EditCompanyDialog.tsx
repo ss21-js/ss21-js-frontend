@@ -29,7 +29,6 @@ const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose
 	const { control, handleSubmit, reset } = useForm<Company>({
 		resolver: joiResolver(companySchema),
 		defaultValues: company as Company,
-		mode: 'all',
 	});
 
 	React.useEffect(() => {
