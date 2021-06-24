@@ -1,7 +1,11 @@
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from '@material-ui/core/styles/styled';
 import Tooltip from '@material-ui/core/Tooltip';
+import Center from 'components/layout/Center';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { firebaseImage } from 'store/user';
 
 const CompanyHeaderContainer = styled('div')`
 	border-radius: ${(props) => props.theme.shape.borderRadius};
@@ -34,36 +38,51 @@ export interface CompanyHeaderProps {
 }
 
 const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, alt, width, height, onImageChange }) => {
+	const url = useRecoilValue(firebaseImage(src));
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	const handleEdit = () => {
 		inputRef.current?.click();
 	};
 
+	if (onImageChange !== undefined) {
+		return (
+			<>
+				<Tooltip title="Header bearbeiten">
+					<EditButton onClick={handleEdit}>
+						<CompanyHeaderImg src={url} alt={alt} width={width} height={height} />
+					</EditButton>
+				</Tooltip>
+				<input
+					ref={inputRef}
+					type="file"
+					id="profile"
+					name="profile"
+					style={{ display: 'none' }}
+					accept="image/*"
+					onChange={onImageChange}
+				/>
+			</>
+		);
+	}
+
+	return <CompanyHeaderImg src={url} alt={alt} width={width} height={height} />;
+};
+
+const AsyncCompanyHeader: React.FC<CompanyHeaderProps> = (props) => {
 	return (
 		<CompanyHeaderContainer>
-			{onImageChange !== undefined ? (
-				<>
-					<Tooltip title="Header bearbeiten">
-						<EditButton onClick={handleEdit}>
-							<CompanyHeaderImg src={src} alt={alt} width={width} height={height} />
-						</EditButton>
-					</Tooltip>
-					<input
-						ref={inputRef}
-						type="file"
-						id="profile"
-						name="profile"
-						style={{ display: 'none' }}
-						accept="image/*"
-						onChange={onImageChange}
-					/>
-				</>
-			) : (
-				<CompanyHeaderImg src={src} alt={alt} width={width} height={height} />
-			)}
+			<React.Suspense
+				fallback={
+					<Center>
+						<CircularProgress />
+					</Center>
+				}
+			>
+				<CompanyHeader {...props} />
+			</React.Suspense>
 		</CompanyHeaderContainer>
 	);
 };
 
-export default CompanyHeader;
+export default AsyncCompanyHeader;

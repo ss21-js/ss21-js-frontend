@@ -1,5 +1,4 @@
 import { styled } from '@material-ui/core';
-import HeaderPlaceholder from 'assets/HeaderPlaceholder.svg';
 import React from 'react';
 import CompanyHeader from './CompanyHeader';
 import CompanyLogo from './CompanyLogo';
@@ -43,12 +42,12 @@ const CompanyImages: React.FC<CompanyImagesProps> = (props) => {
 		props;
 
 	const [header, setHeader] = React.useState({
-		src: headerImageUrl ?? HeaderPlaceholder,
+		src: headerImageUrl ?? '',
 		alt: 'Header auswählen',
 	});
 
 	const [profile, setProfile] = React.useState({
-		src: profileImageUrl ?? HeaderPlaceholder,
+		src: profileImageUrl ?? '',
 		alt: 'Header auswählen',
 	});
 
@@ -80,7 +79,6 @@ const CompanyImages: React.FC<CompanyImagesProps> = (props) => {
 			<CompanyLogoContainer largeLogo={largeLogo}>
 				<CompanyLogo
 					src={profile.src}
-					alt={profile.alt}
 					width={largeLogo ? 192 : 128}
 					height={largeLogo ? 192 : 128}
 					onImageChange={handleProfile}
