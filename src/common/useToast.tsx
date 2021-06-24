@@ -1,13 +1,8 @@
+import useTheme from '@material-ui/core/styles/useTheme';
 import toast from 'react-hot-toast';
+import { ToastOptions } from 'react-hot-toast/dist/core/types';
 import { useRecoilValue } from 'recoil';
 import themeModeState, { ThemeMode } from 'store/general/themeModeState';
-
-const darkStyles = {
-	style: {
-		background: '#333',
-		color: '#fff',
-	},
-};
 
 declare type Renderable = JSX.Element | string | null;
 declare type ValueFunction<TValue, TArg> = (arg: TArg) => TValue;
@@ -20,11 +15,20 @@ type ToastPromiseMsgs<T> = {
 };
 
 const useToast = () => {
-	const theme = useRecoilValue(themeModeState);
-	const options = {
-		...(theme === ThemeMode.DARK ? darkStyles : undefined),
-		duration: 5000,
-	};
+	const theme = useTheme();
+	const themeMode = useRecoilValue(themeModeState);
+	let options: ToastOptions;
+
+	if (themeMode === ThemeMode.DARK) {
+		options = {
+			style: {
+				background: '#333',
+				color: '#fff',
+				border: `solid ${theme.palette.divider} 1px`,
+			},
+			duration: 3000,
+		};
+	}
 
 	function promise<T>(
 		promise: Promise<T>,
