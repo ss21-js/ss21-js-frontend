@@ -3,6 +3,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import useToast from 'common/useToast';
 import StyledButton from 'components/StyledButton';
 import { Company } from 'js-api-client';
 import { companySchema } from 'models/joiSchemas';
@@ -18,6 +19,7 @@ export interface EditCompanyDialogProps {
 }
 
 const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose }) => {
+	const toast = useToast();
 	const [loading, setLoading] = React.useState(false);
 	const [company, setCompany] = useRecoilState(currentUserAtom);
 
@@ -37,9 +39,9 @@ const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose
 
 		setLoading(true);
 
-		updateCompany(company)
+		toast
+			.promise(updateCompany(company))
 			.then((newCompany) => {
-				// TODO: Show notification
 				setCompany(newCompany);
 				setLoading(false);
 			})
