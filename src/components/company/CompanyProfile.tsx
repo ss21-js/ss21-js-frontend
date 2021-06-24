@@ -6,10 +6,14 @@ import Grid from '@material-ui/core/Grid';
 import styled from '@material-ui/core/styles/styled';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import useToast from 'common/useToast';
 import RoundedBox from 'components/RoundedBox';
 import StyledButton from 'components/StyledButton';
+import { ref, uploadBytes } from 'firebase/storage';
+import { firebaseStorage } from 'index';
 import { Company } from 'js-api-client';
 import React from 'react';
+import { useUpdateCompany } from 'store/user';
 import CompanyImages from './CompanyImages';
 import EditCompanyDialog from './EditCompanyDialog';
 
@@ -53,19 +57,23 @@ const InfoContainer: React.FC<InfoContainerProps> = ({ company }) => {
 
 	return (
 		<InfoRow>
-			<Typography color={theme.palette.text.primary} component="p" variant="body1" gutterBottom>
-				<FontAwesomeIcon icon={faGlobe} size="lg" />
-				&nbsp;{company.homepage}
-			</Typography>
-			<InfoSpacer />
+			{company.homepage && (
+				<>
+					<Typography color={theme.palette.text.primary} component="p" variant="body1" gutterBottom>
+						<FontAwesomeIcon icon={faGlobe} size="lg" />
+						&nbsp;&nbsp;{company.homepage}
+					</Typography>
+					<InfoSpacer />
+				</>
+			)}
 			<Typography color={theme.palette.text.primary} component="p" variant="body1">
 				<FontAwesomeIcon icon={faEnvelope} size="lg" />
-				&nbsp;{company.email}
+				&nbsp;&nbsp;{company.email}
 			</Typography>
 			<InfoSpacer />
 			<Typography color={theme.palette.text.primary} component="p" variant="body1" gutterBottom>
 				<FontAwesomeIcon icon={faMapPin} size="lg" />
-				&nbsp;{company.address?.street1}
+				&nbsp;&nbsp;{company.address?.street1}
 				{company.address?.street2 ? ` ${company.address?.street2}` : ''}, {company.address?.zip}{' '}
 				{company.address?.city}
 			</Typography>
@@ -82,14 +90,24 @@ const CompanyProfile: React.FC<CompanyProfileProps> = ({ company, editable }) =>
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 	const [editOpen, setEditOpen] = React.useState(false);
 
+	console.log(company);
+
+	const toast = useToast();
+	const updateCompany = useUpdateCompany();
+
+	const uploadFileAndUpdateUrl = async (file: File, key: keyof Company) => {
+		const refString = `images/${company.id}/${file.name}`;
+		const fileRef = ref(firebaseStorage, refString);
+		await uploadBytes(fileRef, file);
+		return updateCompany!({ ...company, [key]: refString });
+	};
+
 	const headerImageChanged = (file: File) => {
-		// Upload and update
-		console.log(file);
+		toast.promise(uploadFileAndUpdateUrl(file, 'companyHeaderImageUrl'));
 	};
 
 	const profileImageChanged = (file: File) => {
-		// Upload and update
-		console.log(file);
+		toast.promise(uploadFileAndUpdateUrl(file, 'companyProfileImageUrl'));
 	};
 
 	const handleOpenEdit = () => {
