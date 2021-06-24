@@ -60,6 +60,14 @@ const userTypeQuery = selector<UserType | null>({
 	},
 });
 
+export const firebaseImage = selectorFamily<string | undefined, string>({
+	key: 'firebaseImage',
+	get: (file) => async () => {
+		const fileRef = ref(firebaseStorage, file);
+		return getDownloadURL(fileRef);
+	},
+});
+
 export const currentUserAtom = atom<Company | Student | null>({
 	key: 'currentUserAtom',
 	default: userDataQuery,
