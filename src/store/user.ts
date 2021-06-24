@@ -1,5 +1,16 @@
-import { AuthApi, CompaniesApi, Company, CompanyDto, Student, UserResponse } from 'js-api-client';
-import { atom, selector, useRecoilValue } from 'recoil';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { firebaseStorage } from 'index';
+import {
+	AuthApi,
+	CompaniesApi,
+	Company,
+	CompanyDto,
+	Student,
+	StudentsApi,
+	UpdateStudentDto,
+	UserResponse,
+} from 'js-api-client';
+import { atom, selector, selectorFamily, useRecoilValue } from 'recoil';
 import { authenticatedApiConfiguration } from './api';
 
 const userResponseQuery = selector<UserResponse | null>({
@@ -69,6 +80,20 @@ export const useUpdateCompany = () => {
 	return (company: CompanyDto) => {
 		return new CompaniesApi(config).companiesControllerUpdateProfile({
 			companyDto: company,
+		});
+	};
+};
+
+export const useUpdateStudent = () => {
+	const config = useRecoilValue(authenticatedApiConfiguration);
+
+	if (config == null) {
+		return null;
+	}
+
+	return (updateStudentDto: UpdateStudentDto) => {
+		return new StudentsApi(config).studentsControllerUpdateProfile({
+			updateStudentDto,
 		});
 	};
 };
