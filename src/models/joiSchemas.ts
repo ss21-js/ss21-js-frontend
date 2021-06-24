@@ -86,8 +86,8 @@ export const studentSchema = Joi.object<Student>({
 }).messages(germanJoiMessages);
 
 export const createJobDtoSchema = Joi.object<CreateJobDto>({
-	jobName: Joi.string().min(10).max(50).required().label('Jobtitel'),
-	jobDescription: Joi.string().min(30).required().label('Beschreibung'),
+	jobName: Joi.string().min(5).max(200).required().label('Jobtitel'),
+	jobDescription: Joi.string().min(1).min(500).required().label('Beschreibung'),
 	workArea: Joi.string().required().label('Arbeitsbereich'),
 	workBasis: Joi.number().required().label('Anstellungsart'),
 	languages: Joi.array().min(1).required().label('Sprachen'),
