@@ -1,5 +1,5 @@
 import { JobsApi, JobWithCompany } from 'js-api-client';
-import { selector } from 'recoil';
+import { atom, selector } from 'recoil';
 import authenticatedApiConfigurationSelector from 'store/api/authenticatedApiConfigurationSelector';
 import jobSearchFromState from './jobSearch/jobSearchFromState';
 import jobSearchLanguagesState from './jobSearch/jobSearchLanguagesState';
@@ -11,9 +11,16 @@ import jobSearchToState from './jobSearch/jobSearchToState';
 import jobSearchWorkAreaState from './jobSearch/jobSearchWorkAreaState';
 import jobSearchWorkBasisState from './jobSearch/jobSearchWorkBasisState';
 
+export const jobSeachQueryKeyState = atom({
+	key: 'jobSeachKeyState',
+	default: new Date(),
+});
+
 const jobSearchQuery = selector<JobWithCompany[] | null>({
 	key: 'jobSearchJobs',
 	get: async ({ get }) => {
+		get(jobSeachQueryKeyState);
+
 		const config = get(authenticatedApiConfigurationSelector);
 
 		const searchString = get(jobSearchSearchStringState);
