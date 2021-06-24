@@ -1,25 +1,23 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import styled from '@material-ui/core/styles/styled';
-import AboutMeSection from 'components/student/profile/AboutMeSection';
-import GithubSection from 'components/student/profile/GithubSection';
 import StyledButton from 'components/StyledButton';
 import { Student } from 'js-api-client';
 import React from 'react';
+import EditStudentDialog from './EditStudentDialog';
+import GithubLanguagesBox from './profile/GithubLanguagesBox';
+import GithubStatsBox from './profile/GithubStatsBox';
+import StudentAbout from './profile/StudentAbout';
+import StudentDescriptionBox from './profile/StudentDescriptionBox';
+import StudentInfoBox from './profile/StudentInfoBox';
+import StudentSkillsBox from './profile/StudentSkillsBox';
 
 const Header = styled('div')`
 	position: relative;
 	width: 100%;
-	color: white;
-`;
-const HeaderImageContainer = styled('div')`
-	border-radius: ${(props) => props.theme.shape.borderRadius};
-	background-color: ${(props) => props.theme.palette.background.paper};
 `;
 
 const HeaderImg = styled('img')`
-	border-top-left-radius: inherit;
-	border-top-right-radius: inherit;
 	object-fit: cover;
 	object-position: center;
 `;
@@ -46,19 +44,19 @@ const StudentProfile: React.FC<StudentProfileProps> = ({ student, editable }) =>
 		setEditOpen(false);
 	};
 
+	const spacing = { xs: 2, md: 4 };
+
 	return (
 		<>
 			<Header>
-				<HeaderImageContainer>
-					<HeaderImg
-						src={
-							'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80'
-						}
-						alt="Header"
-						width="100%"
-						height="250px"
-					/>
-				</HeaderImageContainer>
+				<HeaderImg
+					src={
+						'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80'
+					}
+					alt="Header"
+					width="100%"
+					height="250px"
+				/>
 				{editable && (
 					<HeaderActions>
 						<StyledButton onClick={handleOpenEdit}>Profil bearbeiten</StyledButton>
@@ -72,26 +70,48 @@ const StudentProfile: React.FC<StudentProfileProps> = ({ student, editable }) =>
 						xs: 2,
 						md: 4,
 					}}
-					spacing={2}
+					spacing={spacing}
 				>
-					<Grid item lg={8} md={9} sm={8} xs={12}>
-						<AboutMeSection student={student} />
+					<Grid item xs={12}>
+						<StudentAbout student={student} />
 					</Grid>
-					<Grid item lg={4} md={3} sm={4} xs={12}>
-						<GithubSection
-							username={student.githubUrl}
-							languages={[
-								{ name: 'Python', count: 12 },
-								{ name: 'JavaScript', count: 19 },
-								{ name: 'Flutter', count: 3 },
-								{ name: 'TypeScript', count: 5 },
-								{ name: 'Dart', count: 2 },
-								{ name: 'Java', count: 3 },
-							]}
-						/>
+					<Grid item lg={8} md={7} sm={6} xs={12}>
+						<Grid container spacing={spacing}>
+							<Grid item xs={12}>
+								<StudentInfoBox student={student} />
+							</Grid>
+							<Grid item xs={12}>
+								<StudentDescriptionBox student={student} />
+							</Grid>
+							<Grid item xs={12}>
+								<StudentSkillsBox student={student} />
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid item lg={4} md={5} sm={6} xs={12}>
+						<Grid container spacing={spacing}>
+							<Grid item xs={12}>
+								<GithubLanguagesBox
+									languages={[
+										{ name: 'Python', count: 12 },
+										{ name: 'JavaScript', count: 19 },
+										{ name: 'Flutter', count: 3 },
+										{ name: 'TypeScript', count: 5 },
+										{ name: 'Dart', count: 2 },
+										{ name: 'Java', count: 3 },
+									]}
+								/>
+							</Grid>
+							{student.githubUrl && (
+								<Grid item xs={12}>
+									<GithubStatsBox username={student.githubUrl} />
+								</Grid>
+							)}
+						</Grid>
 					</Grid>
 				</Grid>
 			</Container>
+			<EditStudentDialog open={editOpen} handleClose={handleCloseEdit} />
 		</>
 	);
 };
