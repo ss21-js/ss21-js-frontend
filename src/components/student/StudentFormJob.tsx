@@ -86,7 +86,13 @@ const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) =>
 						filterSelectedOptions
 						disabled={disabled}
 						renderInput={(params) => (
-							<TextField {...params} label="Sprachen" placeholder="Sprachen auswählen" />
+							<TextField
+								{...params}
+								label="Sprachen"
+								placeholder="Sprachen auswählen"
+								error={languages.error}
+								helperText={languages.helperText}
+							/>
 						)}
 					/>
 				</Grid>
@@ -104,6 +110,8 @@ const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) =>
 								{...params}
 								label="Programmiersprachen"
 								placeholder="Programmiersprachen auswählen"
+								error={skills.error}
+								helperText={skills.helperText}
 							/>
 						)}
 					/>
@@ -116,6 +124,7 @@ const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) =>
 						value={fromAvailable.value}
 						label="Von"
 						onChange={(newValue) => fromAvailable.onChange(newValue)}
+						mask="__.__.____"
 						renderInput={(params) => <TextField {...params} fullWidth />}
 					/>
 				</Grid>
@@ -124,6 +133,7 @@ const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) =>
 						value={toAvailable.value}
 						label="Bis"
 						onChange={(newValue) => toAvailable.onChange(newValue)}
+						mask="__.__.____"
 						renderInput={(params) => <TextField {...params} fullWidth />}
 					/>
 				</Grid>
