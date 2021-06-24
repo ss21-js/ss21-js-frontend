@@ -77,6 +77,7 @@ const StudentFormGeneral: React.FC<StudentFormGeneralProps> = (props) => {
 						variant="outlined"
 						margin="normal"
 						label="Jahre Berufserfahrung"
+						type="number"
 						fullWidth
 						disabled={disabled}
 					/>
