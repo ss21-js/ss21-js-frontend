@@ -9,7 +9,7 @@ import { Company } from 'js-api-client';
 import { companySchema } from 'models/joiSchemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { currentUserAtom, useUpdateCompany } from 'store/user';
 import CompanyForm from './CompanyForm';
 
@@ -21,7 +21,7 @@ export interface EditCompanyDialogProps {
 const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose }) => {
 	const toast = useToast();
 	const [loading, setLoading] = React.useState(false);
-	const [company, setCompany] = useRecoilState(currentUserAtom);
+	const company = useRecoilValue(currentUserAtom);
 
 	const updateCompany = useUpdateCompany();
 
@@ -41,8 +41,7 @@ const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose
 
 		toast
 			.promise(updateCompany(company))
-			.then((newCompany) => {
-				setCompany(newCompany);
+			.then(() => {
 				setLoading(false);
 			})
 			.catch((e) => {

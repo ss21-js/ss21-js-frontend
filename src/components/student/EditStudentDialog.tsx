@@ -9,7 +9,7 @@ import { Student, UpdateStudentDto } from 'js-api-client';
 import { studentSchema } from 'models/joiSchemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { currentUserAtom, useUpdateStudent } from 'store/user';
 import StudentForm from './StudentForm';
 
@@ -21,7 +21,7 @@ export interface EditStudentDialogProps {
 const EditStudentDialog: React.FC<EditStudentDialogProps> = ({ open, handleClose }) => {
 	const toast = useToast();
 	const [loading, setLoading] = React.useState(false);
-	const [student, setStudent] = useRecoilState(currentUserAtom);
+	const student = useRecoilValue(currentUserAtom);
 
 	const updateStudent = useUpdateStudent();
 
@@ -31,7 +31,6 @@ const EditStudentDialog: React.FC<EditStudentDialogProps> = ({ open, handleClose
 	});
 
 	React.useEffect(() => {
-		console.log(student);
 		reset(student as Student);
 	}, [open, reset, student]);
 
@@ -47,8 +46,7 @@ const EditStudentDialog: React.FC<EditStudentDialogProps> = ({ open, handleClose
 
 		toast
 			.promise(updateStudent(updateStudentDto))
-			.then((newStudent) => {
-				setStudent(newStudent);
+			.then(() => {
 				setLoading(false);
 				handleClose();
 			})
