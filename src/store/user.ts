@@ -10,7 +10,7 @@ import {
 	UpdateStudentDto,
 	UserResponse,
 } from 'js-api-client';
-import { atom, selector, selectorFamily, useRecoilValue } from 'recoil';
+import { atom, selector, selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil';
 import { authenticatedApiConfiguration } from './api';
 
 const userResponseQuery = selector<UserResponse | null>({
@@ -80,28 +80,32 @@ export const currentUserTypeAtom = atom<UserType | null>({
 
 export const useUpdateCompany = () => {
 	const config = useRecoilValue(authenticatedApiConfiguration);
+	const setCurrentUser = useSetRecoilState(currentUserAtom);
 
 	if (config == null) {
 		return null;
 	}
 
-	return (company: CompanyDto) => {
-		return new CompaniesApi(config).companiesControllerUpdateProfile({
+	return async (company: CompanyDto) => {
+		const newCompany = await new CompaniesApi(config).companiesControllerUpdateProfile({
 			companyDto: company,
 		});
+		setCurrentUser(newCompany);
 	};
 };
 
 export const useUpdateStudent = () => {
 	const config = useRecoilValue(authenticatedApiConfiguration);
+	const setCurrentUser = useSetRecoilState(currentUserAtom);
 
 	if (config == null) {
 		return null;
 	}
 
-	return (updateStudentDto: UpdateStudentDto) => {
-		return new StudentsApi(config).studentsControllerUpdateProfile({
+	return async (updateStudentDto: UpdateStudentDto) => {
+		const newStudent = await new StudentsApi(config).studentsControllerUpdateProfile({
 			updateStudentDto,
 		});
+		setCurrentUser(newStudent);
 	};
 };
