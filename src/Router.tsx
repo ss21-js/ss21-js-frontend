@@ -66,7 +66,7 @@ const router = OptionsRouter(routeOptions, (route) => ({
 			showDrawer: false,
 		},
 	}),
-	register: route('register', {
+	register: route('registrieren', {
 		middleware: LoginMiddleware,
 		component: RegisterPage,
 		options: {
@@ -109,10 +109,10 @@ const router = OptionsRouter(routeOptions, (route) => ({
 			createJob: route('job-erstellen', {
 				component: CreateJobPage,
 			}),
-			saved: route('saved', {
+			saved: route('gespeichert', {
 				component: SavedPage,
 			}),
-			profile: route('profile', {
+			profile: route('profil', {
 				component: ProfilePage,
 			}),
 		})
