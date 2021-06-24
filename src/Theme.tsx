@@ -1,4 +1,3 @@
-import { createMuiTheme } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 import createTheme from '@material-ui/core/styles/createTheme';
@@ -31,7 +30,7 @@ const paletteLight: PaletteOptions = {
 	},
 };
 
-const themeLight = createMuiTheme({
+const themeLight = createTheme({
 	palette: paletteLight,
 	shape: {
 		borderRadius: '0.6rem',
