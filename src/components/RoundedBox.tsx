@@ -7,18 +7,4 @@ const RoundedBox = styled(Box)<Omit<BoxProps, 'borderRadius'>>`
 	border: solid ${(props) => props.theme.palette.divider} 1px;
 `;
 
-// const RoundedBox: React.FC<Omit<BoxProps, 'borderRadius'>> = (props) => {
-// 	const theme = useTheme();
-
-// 	return (
-// 		<Box
-// 			css={css`
-// 				background-color: ${theme.palette.background.paper};
-// 				border-radius: ${theme.shape.borderRadius};
-// 			`}
-// 			{...props}
-// 		/>
-// 	);
-// };
-
 export default RoundedBox;
