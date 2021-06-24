@@ -24,24 +24,15 @@ const Spacer = styled('div')`
 export interface StudentFormJobProps {
 	control: Control<Student>;
 	disabled: boolean;
-	fromAvailable?: Date | null;
-	fromAvailableChanged: (date: Date | null | undefined) => void;
-	toAvailable?: Date | null;
-	toAvailableChanged: (date: Date | null | undefined) => void;
 }
 
-const StudentFormJob: React.FC<StudentFormJobProps> = ({
-	control,
-	disabled,
-	fromAvailable,
-	fromAvailableChanged,
-	toAvailable,
-	toAvailableChanged,
-}) => {
+const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) => {
 	const workArea = useMaterialRegister(control, 'workArea');
 	const workBasis = useMaterialRegister(control, 'workBasis');
 	const languages = useMaterialRegister(control, 'languages');
 	const skills = useMaterialRegister(control, 'skills');
+	const fromAvailable = useMaterialRegister(control, 'fromAvailable', { includeValue: true });
+	const toAvailable = useMaterialRegister(control, 'toAvailable', { includeValue: true });
 
 	return (
 		<>
@@ -121,17 +112,17 @@ const StudentFormJob: React.FC<StudentFormJobProps> = ({
 				</Grid>
 				<Grid item md={6} xs={12}>
 					<DatePicker
-						value={fromAvailable}
+						value={fromAvailable.value}
 						label="Von"
-						onChange={(newValue) => fromAvailableChanged(newValue)}
+						onChange={(newValue) => fromAvailable.onChange(newValue)}
 						renderInput={(params) => <TextField {...params} fullWidth />}
 					/>
 				</Grid>
 				<Grid item md={6} xs={12}>
 					<DatePicker
-						value={toAvailable}
+						value={toAvailable.value}
 						label="Bis"
-						onChange={(newValue) => toAvailableChanged(newValue)}
+						onChange={(newValue) => toAvailable.onChange(newValue)}
 						renderInput={(params) => <TextField {...params} fullWidth />}
 					/>
 				</Grid>
