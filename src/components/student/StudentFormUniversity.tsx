@@ -35,6 +35,7 @@ const StudentFormUniversity: React.FC<StudentFormUniversityProps> = ({ control, 
 				variant="outlined"
 				margin="normal"
 				label="Aktuelles Semester"
+				type="number"
 				fullWidth
 				disabled={disabled}
 			/>
