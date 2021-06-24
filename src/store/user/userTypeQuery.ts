@@ -12,7 +12,11 @@ const userTypeQuery = selector<UserType | null>({
 			return null;
 		}
 
-		return UserType[userType as keyof typeof UserType];
+		if (userType === 'student') {
+			return UserType.STUDENT;
+		}
+
+		return UserType.COMPANY;
 	},
 });
 
