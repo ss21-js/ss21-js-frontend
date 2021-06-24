@@ -24,8 +24,6 @@ const OnboardingStudentPage: React.FC = () => {
 		workBasis: WorkBasis.NONE.valueOf(),
 		skills: [],
 	});
-	const [fromAvailable, setFromAvailable] = React.useState<Date | null>();
-	const [toAvailable, setToAvailable] = React.useState<Date | null>();
 
 	const { control, getValues, trigger } = useForm<Student>({
 		resolver: joiResolver(studentSchema),
@@ -34,25 +32,24 @@ const OnboardingStudentPage: React.FC = () => {
 	});
 
 	const handleNext = async (from: number, to: number) => {
-		const values = getValues();
-		console.log(values);
+		const formStudent = getValues();
 		setStudent((student) => ({
 			...student,
-			address: values.address,
-			firstName: values.firstName,
-			lastName: values.lastName,
-			description: values.description,
-			email: values.email,
-			university: values.university,
-			fromAvailable: fromAvailable ?? undefined,
-			toAvailable: toAvailable ?? undefined,
-			githubUrl: values.githubUrl,
-			languages: values.languages,
-			skills: values.skills,
-			workArea: values.workArea,
-			workBasis: values.workBasis,
-			semester: values.semester,
-			yearsOfExperience: values.yearsOfExperience,
+			address: formStudent.address,
+			firstName: formStudent.firstName,
+			lastName: formStudent.lastName,
+			description: formStudent.description,
+			email: formStudent.email,
+			university: formStudent.university,
+			fromAvailable: formStudent.fromAvailable,
+			toAvailable: formStudent.toAvailable,
+			githubUrl: formStudent.githubUrl,
+			languages: formStudent.languages,
+			skills: formStudent.skills,
+			workArea: formStudent.workArea,
+			workBasis: formStudent.workBasis,
+			semester: formStudent.semester,
+			yearsOfExperience: formStudent.yearsOfExperience,
 		}));
 
 		if (from === 0) {
@@ -84,41 +81,39 @@ const OnboardingStudentPage: React.FC = () => {
 			setLoading(true);
 
 			const address: Address = {
-				city: student.address?.city ?? '',
-				country: student.address?.country ?? '',
-				state: student.address?.state ?? '',
-				street1: student.address?.street1 ?? '',
-				street2: student.address?.street2 ?? '',
-				zip: student.address?.zip ?? 0,
+				city: formStudent.address?.city ?? '',
+				country: formStudent.address?.country ?? '',
+				state: formStudent.address?.state ?? '',
+				street1: formStudent.address?.street1 ?? '',
+				street2: formStudent.address?.street2 ?? '',
+				zip: formStudent.address?.zip ?? 0,
 			};
 
 			const university: University = {
-				name: student.university?.name ?? '',
-				homepage: student.university?.homepage ?? '',
+				name: formStudent.university?.name ?? '',
+				homepage: formStudent.university?.homepage ?? '',
 			};
 
 			const studentDto: StudentDto = {
 				// General
-				email: student.email ?? '',
-				firstName: student.firstName ?? '',
-				lastName: student.lastName ?? '',
-				description: student.description ?? '',
-				githubUrl: student.githubUrl ?? '',
-				yearsOfExperience: student.yearsOfExperience ?? 0,
+				email: formStudent.email ?? '',
+				firstName: formStudent.firstName ?? '',
+				lastName: formStudent.lastName ?? '',
+				description: formStudent.description ?? '',
+				githubUrl: formStudent.githubUrl ?? '',
+				yearsOfExperience: parseInt((formStudent.yearsOfExperience ?? 0).toString()),
 				university: university,
-				semester: parseInt((student.semester ?? 0).toString()),
+				semester: parseInt((formStudent.semester ?? 0).toString()),
 				// Address
 				address: address,
 				// Job
-				fromAvailable: fromAvailable ?? new Date(),
-				toAvailable: toAvailable ?? new Date(),
-				languages: student.languages ?? [],
-				skills: student.skills ?? [],
-				workArea: student.workArea ?? WorkArea.NONE.valueOf(),
-				workBasis: parseInt((student.workBasis ?? WorkBasis.NONE.valueOf()).toString()),
+				fromAvailable: formStudent.fromAvailable ?? new Date(),
+				toAvailable: formStudent.toAvailable ?? new Date(),
+				languages: formStudent.languages ?? [],
+				skills: formStudent.skills ?? [],
+				workArea: formStudent.workArea ?? WorkArea.NONE.valueOf(),
+				workBasis: parseInt((formStudent.workBasis ?? WorkBasis.NONE.valueOf()).toString()),
 			};
-
-			console.log(studentDto);
 
 			const result = (await signUpStudent?.(studentDto)) ?? false;
 			setLoading(false);
@@ -148,10 +143,10 @@ const OnboardingStudentPage: React.FC = () => {
 					component: (
 						<StudentFormJob
 							control={control}
-							fromAvailable={fromAvailable}
-							fromAvailableChanged={setFromAvailable}
-							toAvailable={toAvailable}
-							toAvailableChanged={setToAvailable}
+							// fromAvailable={fromAvailable}
+							// fromAvailableChanged={setFromAvailable}
+							// toAvailable={toAvailable}
+							// toAvailableChanged={setToAvailable}
 							disabled={loading}
 						/>
 					),
