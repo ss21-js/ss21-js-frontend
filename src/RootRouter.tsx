@@ -14,7 +14,13 @@ const RootRouter: React.FC = () => {
 				<FirebaseWrapper>
 					<React.Suspense fallback={<FullScreenLoading />}>
 						<RouterSwitch router={router} />
-						<Toaster position="top-right" reverseOrder={false} />
+						<Toaster
+							position="top-right"
+							reverseOrder={false}
+							containerStyle={{
+								marginTop: 64,
+							}}
+						/>
 					</React.Suspense>
 				</FirebaseWrapper>
 			</FullSizeContainer>
