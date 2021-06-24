@@ -3,7 +3,8 @@ import { faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MuiAppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
-import { Theme, useTheme } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core/styles';
+import styled from '@material-ui/core/styles/styled';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -14,8 +15,12 @@ import CurrentUser from '../CurrentUser';
 import Logo from '../Logo';
 import Navigation from './Navigation';
 
+const StyledAppBar = styled(MuiAppBar)`
+	background-color: ${(props) => props.theme.palette.background.paper};
+	border-bottom: 1px solid ${(props) => props.theme.palette.divider};
+`;
+
 const AppBar = () => {
-	const theme = useTheme();
 	const [isDrawerOpen, setDrawerOpen] = useRecoilState(drawerOpenState);
 
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
@@ -24,13 +29,7 @@ const AppBar = () => {
 	const handleSignOut = () => signOut();
 
 	return (
-		<MuiAppBar
-			position="fixed"
-			elevation={0}
-			css={css`
-				background-color: ${theme.palette.background.paper};
-			`}
-		>
+		<StyledAppBar position="fixed" elevation={0}>
 			<Toolbar
 				css={css`
 					display: flex;
@@ -73,7 +72,7 @@ const AppBar = () => {
 					</Tooltip>
 				</div>
 			</Toolbar>
-		</MuiAppBar>
+		</StyledAppBar>
 	);
 };
 export default AppBar;
