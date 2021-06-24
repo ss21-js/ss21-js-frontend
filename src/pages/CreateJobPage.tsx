@@ -40,6 +40,7 @@ const CreateJobPage: React.FC = () => {
 		resolver: joiResolver(createJobDtoSchema),
 		defaultValues: {
 			contactMail: company.email,
+			headerImageUrl: company.companyHeaderImageUrl,
 			from: new Date(),
 			to: add(new Date(), { months: 1 }),
 			workArea: WorkArea.NONE.valueOf(),
@@ -49,6 +50,7 @@ const CreateJobPage: React.FC = () => {
 
 	const name = useMaterialRegister(control, 'jobName');
 	const description = useMaterialRegister(control, 'jobDescription');
+	const qualifications = useMaterialRegister(control, 'jobQualifications', { includeValue: true });
 	const languages = useMaterialRegister(control, 'languages');
 	const skills = useMaterialRegister(control, 'skills');
 	const workArea = useMaterialRegister(control, 'workArea');
@@ -67,151 +69,189 @@ const CreateJobPage: React.FC = () => {
 	return (
 		<AppFrame>
 			<Scrollable>
-				<CenterContainer maxWidth="md">
+				<CenterContainer maxWidth="lg">
 					<RoundedBox padding={3}>
 						<form onSubmit={handleSubmit(onSubmit)} noValidate>
+							<Typography component="h1" variant="h4">
+								Neuen Job anlegen
+							</Typography>
 							<Grid
 								container
+								paddingY={2}
 								spacing={{
 									md: 4,
 									sm: 2,
 								}}
 							>
-								<Grid item xs={12}>
-									<Typography component="h1" variant="h4">
-										Neuen Job anlegen
-									</Typography>
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										{...name}
-										variant="outlined"
-										margin="normal"
-										required
-										fullWidth
-										label="Jobtitel"
-										disabled={loading}
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										{...description}
-										variant="outlined"
-										margin="normal"
-										required
-										multiline
-										rows={4}
-										fullWidth
-										label="Beschreibung"
-										disabled={loading}
-									/>
-								</Grid>
-								<Grid item md={6} xs={12} marginBottom={2}>
-									<Autocomplete
-										multiple
-										id="languages"
-										onChange={(_, data) => languages.onChange(data)}
-										options={langMap}
-										getOptionLabel={(option) => option}
-										filterSelectedOptions
-										disabled={loading}
-										renderInput={(params) => (
+								<Grid item md={6} xs={12}>
+									<Grid container>
+										<Grid item xs={12}>
 											<TextField
-												{...params}
-												label="Sprachen"
-												placeholder="Sprachen auswählen"
-												error={languages.error}
-												helperText={languages.helperText}
+												{...name}
+												variant="outlined"
+												margin="normal"
+												required
+												fullWidth
+												label="Jobtitel"
+												disabled={loading}
 											/>
-										)}
-									/>
-								</Grid>
-								<Grid item md={6} xs={12} marginBottom={2}>
-									<Autocomplete
-										multiple
-										id="skills"
-										onChange={(_, data) => skills.onChange(data)}
-										options={programmingLanguages}
-										getOptionLabel={(option) => option}
-										filterSelectedOptions
-										disabled={loading}
-										renderInput={(params) => (
+										</Grid>
+										<Grid item xs={12}>
 											<TextField
-												{...params}
-												label="Programmiersprachen"
-												placeholder="Programmiersprachen auswählen"
-												error={skills.error}
-												helperText={skills.helperText}
+												{...description}
+												variant="outlined"
+												margin="normal"
+												required
+												multiline
+												rows={4}
+												fullWidth
+												label="Beschreibung"
+												disabled={loading}
 											/>
-										)}
-									/>
+										</Grid>
+										<Grid item xs={12}>
+											<TextField
+												value={qualifications.value?.join('\n') ?? ''}
+												onChange={(e) =>
+													qualifications.onChange({
+														target: { value: e.target.value.split('\n') },
+													})
+												}
+												error={qualifications.error}
+												variant="outlined"
+												margin="normal"
+												required
+												multiline
+												rows={4}
+												fullWidth
+												label="Qualifikationen"
+												placeholder={`- Bachelorstudium Informatik oder Wirtschaftsinformatik mindestens im 4. Semester
+- Teamfähig
+													`}
+												helperText={
+													qualifications.error
+														? qualifications.helperText
+														: 'Stichpunkte mit "-" am Zeilenanfang'
+												}
+												disabled={loading}
+											/>
+										</Grid>
+									</Grid>
 								</Grid>
+								<Grid item md={6} xs={12} marginTop={2}>
+									<Grid
+										container
+										spacing={{
+											md: 4,
+											sm: 2,
+										}}
+									>
+										<Grid item md={6} xs={12} marginBottom={2}>
+											<Autocomplete
+												multiple
+												id="languages"
+												onChange={(_, data) => languages.onChange(data)}
+												options={langMap}
+												getOptionLabel={(option) => option}
+												filterSelectedOptions
+												disabled={loading}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														label="Sprachen"
+														placeholder="Sprachen auswählen"
+														error={languages.error}
+														helperText={languages.helperText}
+													/>
+												)}
+											/>
+										</Grid>
+										<Grid item md={6} xs={12} marginBottom={2}>
+											<Autocomplete
+												multiple
+												id="skills"
+												onChange={(_, data) => skills.onChange(data)}
+												options={programmingLanguages}
+												getOptionLabel={(option) => option}
+												filterSelectedOptions
+												disabled={loading}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														label="Programmiersprachen"
+														placeholder="Programmiersprachen auswählen"
+														error={skills.error}
+														helperText={skills.helperText}
+													/>
+												)}
+											/>
+										</Grid>
 
-								<Grid item md={6} xs={12}>
-									<FormControl fullWidth>
-										<InputLabel htmlFor="workArea">Bereich</InputLabel>
-										<Select
-											{...omit(workArea, 'helperText')}
-											id="workArea"
-											label="Bereich"
-											disabled={loading}
-											native
-										>
-											<option value={WorkArea.NONE}>Keine Präferenz</option>
-											<option value={WorkArea.FRONTEND}>Frontend</option>
-											<option value={WorkArea.BACKEND}>Backend</option>
-											<option value={WorkArea.FULLSTACK}>Fullstack</option>
-										</Select>
-										{workArea.helperText && <FormHelperText>{workArea.helperText}</FormHelperText>}
-									</FormControl>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<FormControl fullWidth>
-										<InputLabel htmlFor="workBasis">Anstellungsart</InputLabel>
-										<Select
-											{...omit(workBasis, 'helperText')}
-											id="workBasis"
-											variant="outlined"
-											label="Anstellungsart"
-											disabled={loading}
-											native
-										>
-											<option value={WorkBasis.NONE}>Keine Präferenz</option>
-											<option value={WorkBasis.PART_TIME}>Teilzeit</option>
-											<option value={WorkBasis.FULL_TIME}>Vollzeit</option>
-										</Select>
-										{workBasis.helperText && (
-											<FormHelperText>{workBasis.helperText}</FormHelperText>
-										)}
-									</FormControl>
-								</Grid>
-								<Grid item xs={12} marginTop={2} marginBottom={1}>
-									<Typography variant="h6">Zeitraum</Typography>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<DatePicker
-										value={from.value}
-										label="Von"
-										onChange={(newValue) => from.onChange(newValue)}
-										mask="__.__.____"
-										renderInput={(params) => <TextField {...params} fullWidth />}
-									/>
-								</Grid>
-								<Grid item md={6} xs={12}>
-									<DatePicker
-										value={to.value}
-										label="Bis"
-										onChange={(newValue) => to.onChange(newValue)}
-										mask="__.__.____"
-										renderInput={(params) => <TextField {...params} fullWidth />}
-									/>
-								</Grid>
-								<Grid item xs={12} marginTop={2} display="flex" justifyContent="center">
-									<StyledButton type="submit" variant="contained" color="primary" loading={loading}>
-										Erstellen
-									</StyledButton>
+										<Grid item md={6} xs={12} marginBottom={2}>
+											<FormControl fullWidth>
+												<InputLabel htmlFor="workArea">Bereich</InputLabel>
+												<Select
+													{...omit(workArea, 'helperText')}
+													id="workArea"
+													label="Bereich"
+													disabled={loading}
+													native
+												>
+													<option value={WorkArea.NONE}>Keine Präferenz</option>
+													<option value={WorkArea.FRONTEND}>Frontend</option>
+													<option value={WorkArea.BACKEND}>Backend</option>
+													<option value={WorkArea.FULLSTACK}>Fullstack</option>
+												</Select>
+												{workArea.helperText && (
+													<FormHelperText>{workArea.helperText}</FormHelperText>
+												)}
+											</FormControl>
+										</Grid>
+										<Grid item md={6} xs={12} marginBottom={2}>
+											<FormControl fullWidth>
+												<InputLabel htmlFor="workBasis">Anstellungsart</InputLabel>
+												<Select
+													{...omit(workBasis, 'helperText')}
+													id="workBasis"
+													variant="outlined"
+													label="Anstellungsart"
+													disabled={loading}
+													native
+												>
+													<option value={WorkBasis.NONE}>Keine Präferenz</option>
+													<option value={WorkBasis.PART_TIME}>Teilzeit</option>
+													<option value={WorkBasis.FULL_TIME}>Vollzeit</option>
+												</Select>
+												{workBasis.helperText && (
+													<FormHelperText>{workBasis.helperText}</FormHelperText>
+												)}
+											</FormControl>
+										</Grid>
+										<Grid item md={6} xs={12}>
+											<DatePicker
+												value={from.value}
+												label="Von"
+												onChange={(newValue) => from.onChange(newValue)}
+												mask="__.__.____"
+												renderInput={(params) => <TextField {...params} fullWidth />}
+											/>
+										</Grid>
+										<Grid item md={6} xs={12}>
+											<DatePicker
+												value={to.value}
+												label="Bis"
+												onChange={(newValue) => to.onChange(newValue)}
+												mask="__.__.____"
+												renderInput={(params) => <TextField {...params} fullWidth />}
+											/>
+										</Grid>
+									</Grid>
 								</Grid>
 							</Grid>
+
+							<StyledButton type="submit" variant="contained" color="primary" loading={loading}>
+								Erstellen
+							</StyledButton>
 						</form>
 					</RoundedBox>
 				</CenterContainer>
