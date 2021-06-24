@@ -4,14 +4,20 @@ type UseFormRegisterMaterialReturn<T> = Omit<UseFormRegisterReturn, 'ref'> & {
 	id: string;
 	inputRef: React.Ref<any>;
 	error: boolean;
+	value?: T;
 	helperText?: string;
 	defaultValue: T;
 };
 
+interface Options {
+	includeHelperText?: boolean;
+	includeValue?: boolean;
+}
+
 export const useMaterialRegister = <T, P extends FieldPath<T>>(
 	control: Control<T>,
 	name: P,
-	includeHelperText = true
+	options?: Options
 ): UseFormRegisterMaterialReturn<PathValue<T, P>> => {
 	const controller = useController({ name: name, control: control });
 
@@ -25,8 +31,12 @@ export const useMaterialRegister = <T, P extends FieldPath<T>>(
 		defaultValue: controller.field.value,
 	};
 
-	if (includeHelperText) {
+	if (options?.includeHelperText ?? true) {
 		re = { ...re, helperText: controller.fieldState.error?.message };
+	}
+
+	if (options?.includeValue ?? false) {
+		re = { ...re, value: controller.field.value };
 	}
 
 	return re;
