@@ -80,8 +80,6 @@ export const jobSearchQuery = selector<JobWithCompany[] | null>({
 			return null;
 		}
 
-		await new Promise((r) => setTimeout(r, 3000));
-
 		return new JobsApi(config)
 			.jobsControllerSearchJobs({
 				searchJobDto: {
