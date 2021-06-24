@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -9,7 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import JobCard from 'components/jobs/JobCard';
+import CompanyTable from 'components/company/CompanyTable';
+import { Job } from 'js-api-client';
 import React from 'react';
 
 const UiDivider = styled(Divider)`
@@ -21,23 +21,14 @@ const UiTypography = styled(Typography)`
 	margin-bottom: 10px;
 `;
 
-const OpenJobOffers: React.FC = () => {
-	function createData(description: string) {
-		return { description };
-	}
+interface OpenJobOffersProps {
+	jobs: Job[];
+}
 
-	//Daten aus dem BE vom Job benutzen
-	const rows = [createData('UX Designer'), createData('React FE Developer'), createData('Fullstack Developer')];
-
+const OpenJobOffers: React.FC<OpenJobOffersProps> = ({ jobs }) => {
 	return (
-		<Box padding={3}>
-			<JobCard
-				title="UI/UX Designer"
-				description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et"
-				image="https://preview.redd.it/iraq6sc6o3qz.jpg?auto=webp&s=dc0dfa00121359da7129d4efd9fbfc64635eac20"
-				tags={['Full-Time', '1 year Experience']}
-				selected
-			/>
+		<>
+			<CompanyTable jobs={[]} />
 			<UiDivider />
 			<UiTypography variant="h6">Vergangene Jobs: </UiTypography>
 			<TableContainer component={Paper}>
@@ -48,17 +39,17 @@ const OpenJobOffers: React.FC = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row) => (
-							<TableRow key={row.description}>
+						{jobs.map((job) => (
+							<TableRow key={job.id}>
 								<TableCell component="th" scope="row">
-									{row.description}
+									{job.jobName}
 								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
 				</Table>
 			</TableContainer>
-		</Box>
+		</>
 	);
 };
 

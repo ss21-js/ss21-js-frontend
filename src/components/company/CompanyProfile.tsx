@@ -8,6 +8,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import RoundedBox from 'components/RoundedBox';
 import StyledButton from 'components/StyledButton';
 import { Company } from 'js-api-client';
+import OpenJobOffers from 'pages/Company/OpenJobOffers';
 import React from 'react';
 import CompanyImages from './CompanyImages';
 import EditCompanyDialog from './EditCompanyDialog';
@@ -118,14 +119,16 @@ const CompanyProfile: React.FC<CompanyProfileProps> = ({ company, editable }) =>
 			</Header>
 			<Grid
 				container
+				direction="column"
 				padding={{
 					xs: 2,
 					md: 4,
 				}}
 				spacing={2}
+				alignItems={'center'}
 			>
-				<Grid item md={6} xs={12}>
-					<RoundedBox padding={3}>
+				<Grid item md={6} xs={12} width={'60%'}>
+					<RoundedBox padding={4}>
 						{isMobile && <InfoContainer company={company} />}
 						<Typography component="h2" variant="h5" gutterBottom>
 							{company.name}
@@ -134,6 +137,9 @@ const CompanyProfile: React.FC<CompanyProfileProps> = ({ company, editable }) =>
 							{company.companyInfo}
 						</Typography>
 					</RoundedBox>
+				</Grid>
+				<Grid item width={'60%'}>
+					<OpenJobOffers jobs={[]} />
 				</Grid>
 			</Grid>
 			<EditCompanyDialog open={editOpen} handleClose={handleCloseEdit} />

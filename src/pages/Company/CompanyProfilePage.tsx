@@ -17,7 +17,7 @@ const CompanyProfilePage: React.FC = () => {
 				tabs={[
 					{
 						title: 'Jobangebote',
-						component: <OpenJobOffers />,
+						component: <OpenJobOffers jobs={[]} />,
 					},
 					{
 						title: 'Über uns',
