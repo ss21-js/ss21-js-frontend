@@ -2,6 +2,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from '@material-ui/core/styles/styled';
 import Tooltip from '@material-ui/core/Tooltip';
+import ProfilePlaceholder from 'assets/ProfilePlaceholder.jpeg';
 import Center from 'components/layout/Center';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
@@ -46,12 +47,14 @@ const ProfileLogo: React.FC<ProfileLogoProps> = ({ src, width, height, onImageCh
 		inputRef.current?.click();
 	};
 
+	const srcUrl = src.length === 0 ? ProfilePlaceholder : src;
+
 	if (onImageChange !== undefined) {
 		return (
 			<>
 				<Tooltip title="Profilbild bearbeiten">
 					<EditButton onClick={handleEdit}>
-						<ProfileLogoImg src={src} alt={''} width={width} height={height} />
+						<ProfileLogoImg src={srcUrl} alt={''} width={width} height={height} />
 					</EditButton>
 				</Tooltip>
 				<input
@@ -67,7 +70,7 @@ const ProfileLogo: React.FC<ProfileLogoProps> = ({ src, width, height, onImageCh
 		);
 	}
 
-	return <ProfileLogoImg src={src} alt={''} width={width} height={height} />;
+	return <ProfileLogoImg src={srcUrl} alt={''} width={width} height={height} />;
 };
 
 const ProfileLogoFirebaseProxy: React.FC<ProfileLogoProps> = (props) => {
