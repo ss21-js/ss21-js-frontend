@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTheme } from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import useTheme from '@material-ui/core/styles/useTheme';
 import React, { useState } from 'react';
 
 interface CollapsableProps {

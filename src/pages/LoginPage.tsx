@@ -1,4 +1,7 @@
-import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
+import faApple from '@fortawesome/free-brands-svg-icons/faApple';
+import faGithub from '@fortawesome/free-brands-svg-icons/faGithub';
+import faGoogle from '@fortawesome/free-brands-svg-icons/faGoogle';
+import faMicrosoft from '@fortawesome/free-brands-svg-icons/faMicrosoft';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Box from '@material-ui/core/Box';

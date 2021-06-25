@@ -1,6 +1,7 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import styled from '@material-ui/core/styles/styled';
+import ProfileImages from 'components/profile/ProfileHeaderImages';
 import StyledButton from 'components/StyledButton';
 import { Student } from 'js-api-client';
 import React from 'react';
@@ -17,11 +18,6 @@ const Header = styled('div')`
 	width: 100%;
 `;
 
-const HeaderImg = styled('img')`
-	object-fit: cover;
-	object-position: center;
-`;
-
 const HeaderActions = styled('div')`
 	position: absolute;
 	right: ${(props) => props.theme.spacing(2)};
@@ -34,7 +30,28 @@ export interface StudentProfileProps {
 }
 
 const StudentProfile: React.FC<StudentProfileProps> = ({ student, editable }) => {
+	// const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 	const [editOpen, setEditOpen] = React.useState(false);
+
+	// const toast = useToast();
+	// const updateStudent = useUpdateStudent();
+
+	// const uploadFileAndUpdateUrl = async (file: File, key: keyof Student) => {
+	// 	const refString = `images/${student.id}/${file.name}`;
+	// 	const fileRef = ref(firebaseStorage, refString);
+	// 	await uploadBytes(fileRef, file);
+	// 	return updateStudent!({ ...student, [key]: refString });
+	// };
+
+	const headerImageChanged = (file: File) => {
+		// toast.promise(uploadFileAndUpdateUrl(file, 'studentHeaderImageUrl'));
+		console.log(file);
+	};
+
+	const profileImageChanged = (file: File) => {
+		// toast.promise(uploadFileAndUpdateUrl(file, 'studentProfileImageUrl'));
+		console.log(file);
+	};
 
 	const handleOpenEdit = () => {
 		setEditOpen(true);
@@ -49,13 +66,11 @@ const StudentProfile: React.FC<StudentProfileProps> = ({ student, editable }) =>
 	return (
 		<>
 			<Header>
-				<HeaderImg
-					src={
-						'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80'
-					}
-					alt="Header"
-					width="100%"
-					height="250px"
+				<ProfileImages
+					// headerImageUrl={student.companyHeaderImageUrl}
+					headerImageChanged={headerImageChanged}
+					// profileImageUrl={student.companyProfileImageUrl}
+					profileImageChanged={profileImageChanged}
 				/>
 				{editable && (
 					<HeaderActions>

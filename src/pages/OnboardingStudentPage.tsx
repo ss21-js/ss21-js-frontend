@@ -1,9 +1,12 @@
 import { joiResolver } from '@hookform/resolvers/joi';
 import StepperContainer from 'components/app/StepperContainer';
+import OnboardingStudentProfile from 'components/student/OnboardingStudentImages';
 import StudentFormAddress from 'components/student/StudentFormAddress';
 import StudentFormGeneral from 'components/student/StudentFormGeneral';
 import StudentFormJob from 'components/student/StudentFormJob';
 import StudentFormUniversity from 'components/student/StudentFormUniversity';
+import { ref, uploadBytes } from 'firebase/storage';
+import { firebaseStorage } from 'index';
 import { Address, Student, StudentDto, University } from 'js-api-client';
 import { studentSchema } from 'models/joiSchemas';
 import WorkArea from 'models/workArea';
@@ -12,7 +15,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
-import { useSignUpStudent } from 'store/auth/useSignUpStudent';
+import useSignUpStudent from 'store/auth/useSignUpStudent';
 
 const OnboardingStudentPage: React.FC = () => {
 	const signUpStudent = useSignUpStudent();
@@ -26,6 +29,25 @@ const OnboardingStudentPage: React.FC = () => {
 		workBasis: WorkBasis.NONE.valueOf(),
 		skills: [],
 	});
+
+	const [headerFile, setHeaderFile] = React.useState<File | null>(null);
+	const [profileFile, setProfileFile] = React.useState<File | null>(null);
+
+	const handleHeaderImage = (file: File, url: string) => {
+		setHeaderFile(file);
+		setStudent((student) => ({
+			...student,
+			companyHeaderImageUrl: url,
+		}));
+	};
+
+	const handleProfileImage = (file: File, url: string) => {
+		setProfileFile(file);
+		setStudent((student) => ({
+			...student,
+			companyProfileImageUrl: url,
+		}));
+	};
 
 	const { control, getValues, trigger } = useForm<Student>({
 		resolver: joiResolver(studentSchema),
@@ -78,8 +100,44 @@ const OnboardingStudentPage: React.FC = () => {
 					trigger('address.zip'),
 				])
 			).every((v) => v);
-		} else if (to === 4) {
+		} else if (from === 3) {
+			return (
+				await Promise.all([
+					trigger('address.city'),
+					trigger('address.country'),
+					trigger('address.state'),
+					trigger('address.street1'),
+					trigger('address.street2'),
+					trigger('address.zip'),
+				])
+			).every((v) => v);
+		} else if (from === 4) {
+			return (
+				await Promise.all([
+					trigger('workArea'),
+					trigger('workBasis'),
+					trigger('languages'),
+					trigger('skills'),
+					trigger('fromAvailable'),
+					trigger('toAvailable'),
+				])
+			).every((v) => v);
+		} else if (to === 5) {
 			setLoading(true);
+			var headerUrl = '';
+			var profileUrl = '';
+
+			if (headerFile) {
+				const headerRef = ref(firebaseStorage, `images/${firebaseUser?.id}/${headerFile.name}`);
+				await uploadBytes(headerRef, headerFile);
+				headerUrl = `images/${firebaseUser?.id}/${headerFile.name}`;
+			}
+
+			if (profileFile) {
+				const profileRef = ref(firebaseStorage, `images/${firebaseUser?.id}/${profileFile.name}`);
+				await uploadBytes(profileRef, profileFile);
+				profileUrl = `images/${firebaseUser?.id}/${profileFile.name}`;
+			}
 
 			const address: Address = {
 				city: formStudent.address?.city ?? '',
@@ -149,6 +207,16 @@ const OnboardingStudentPage: React.FC = () => {
 							// toAvailable={toAvailable}
 							// toAvailableChanged={setToAvailable}
 							disabled={loading}
+						/>
+					),
+				},
+				{
+					label: 'Profilbilder',
+					component: (
+						<OnboardingStudentProfile
+							student={student}
+							headerImageChanged={handleHeaderImage}
+							profileImageChanged={handleProfileImage}
 						/>
 					),
 				},

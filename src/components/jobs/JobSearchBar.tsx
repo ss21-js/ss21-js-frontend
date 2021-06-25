@@ -2,12 +2,14 @@ import { css } from '@emotion/react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faDollarSign, faMapMarkerAlt, faSearch, faSuitcase } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useMediaQuery } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import InputBase from '@material-ui/core/InputBase';
-import { experimentalStyled as styled, Theme, useTheme } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core/styles/createTheme';
+import styled from '@material-ui/core/styles/styled';
+import useTheme from '@material-ui/core/styles/useTheme';
 import TextField from '@material-ui/core/TextField';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
 import StyledButton from 'components/StyledButton';
 import React from 'react';
 

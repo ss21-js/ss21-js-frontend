@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTheme } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
+import useTheme from '@material-ui/core/styles/useTheme';
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import globalLoadingState from 'store/general/globalLoadingState';

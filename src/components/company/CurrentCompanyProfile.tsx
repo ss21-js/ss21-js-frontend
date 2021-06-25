@@ -1,4 +1,4 @@
-import { CircularProgress } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CompanyProfile from 'components/company/CompanyProfile';
 import FullScreenLoading from 'components/FullScreenLoading';
 import Center from 'components/layout/Center';

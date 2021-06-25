@@ -7,9 +7,20 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import firebaseStorageQuery from 'store/general/firebaseStorageQuery';
 
-const CompanyHeaderContainer = styled('div')`
+const ProfileLogoContainer = styled('div')`
 	border-radius: ${(props) => props.theme.shape.borderRadius};
 	background-color: ${(props) => props.theme.palette.background.paper};
+	width: 128px;
+	height: 128px;
+	padding: 8px;
+`;
+
+const ProfileLogoImg = styled('img')`
+	width: 100%;
+	height: 100%;
+	border-radius: ${(props) => props.theme.shape.borderRadius};
+	object-fit: cover;
+	object-position: center;
 `;
 
 const EditButton = styled(Button)`
@@ -18,18 +29,9 @@ const EditButton = styled(Button)`
 	width: 100%;
 	height: 100%;
 	border-radius: 0;
-	border-top-left-radius: inherit;
-	border-top-right-radius: inherit;
 `;
 
-const CompanyHeaderImg = styled('img')`
-	border-top-left-radius: inherit;
-	border-top-right-radius: inherit;
-	object-fit: cover;
-	object-position: center;
-`;
-
-export interface CompanyHeaderProps {
+interface ProfileLogoProps {
 	src: string;
 	width?: string | number;
 	height?: string | number;
@@ -37,7 +39,7 @@ export interface CompanyHeaderProps {
 	disableFirebase?: boolean;
 }
 
-const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, width, height, onImageChange }) => {
+const ProfileLogo: React.FC<ProfileLogoProps> = ({ src, width, height, onImageChange }) => {
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	const handleEdit = () => {
@@ -47,9 +49,9 @@ const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, width, height, onIma
 	if (onImageChange !== undefined) {
 		return (
 			<>
-				<Tooltip title="Header bearbeiten">
+				<Tooltip title="Profilbild bearbeiten">
 					<EditButton onClick={handleEdit}>
-						<CompanyHeaderImg src={src} width={width} height={height} />
+						<ProfileLogoImg src={src} alt={''} width={width} height={height} />
 					</EditButton>
 				</Tooltip>
 				<input
@@ -65,17 +67,22 @@ const CompanyHeader: React.FC<CompanyHeaderProps> = ({ src, width, height, onIma
 		);
 	}
 
-	return <CompanyHeaderImg src={src} width={width} height={height} />;
+	return <ProfileLogoImg src={src} alt={''} width={width} height={height} />;
 };
 
-const CompanyHeaderFirebaseProxy: React.FC<CompanyHeaderProps> = (props) => {
+const ProfileLogoFirebaseProxy: React.FC<ProfileLogoProps> = (props) => {
 	const url = useRecoilValue(firebaseStorageQuery(props.src));
-	return <CompanyHeader {...props} src={url ?? ''} />;
+	return <ProfileLogo {...props} src={url ?? ''} />;
 };
 
-const AsyncCompanyHeader: React.FC<CompanyHeaderProps> = (props) => {
+const AsyncProfileLogo: React.FC<ProfileLogoProps> = (props) => {
 	return (
-		<CompanyHeaderContainer>
+		<ProfileLogoContainer
+			sx={{
+				width: props.width,
+				height: props.height,
+			}}
+		>
 			<React.Suspense
 				fallback={
 					<Center>
@@ -84,13 +91,13 @@ const AsyncCompanyHeader: React.FC<CompanyHeaderProps> = (props) => {
 				}
 			>
 				{props.disableFirebase || props.src.length === 0 ? (
-					<CompanyHeader {...props} />
+					<ProfileLogo {...props} />
 				) : (
-					<CompanyHeaderFirebaseProxy {...props} />
+					<ProfileLogoFirebaseProxy {...props} />
 				)}
 			</React.Suspense>
-		</CompanyHeaderContainer>
+		</ProfileLogoContainer>
 	);
 };
 
-export default AsyncCompanyHeader;
+export default AsyncProfileLogo;

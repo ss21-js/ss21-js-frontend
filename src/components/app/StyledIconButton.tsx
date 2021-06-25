@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTheme } from '@material-ui/core';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import useTheme from '@material-ui/core/styles/useTheme';
 import React from 'react';
 
 export interface IconButtonProps {

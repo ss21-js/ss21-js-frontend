@@ -7,9 +7,12 @@ import StudentProfile from 'components/student/StudentProfile';
 import { Company, Student } from 'js-api-client';
 import UserType from 'models/userType';
 import React from 'react';
+import { useRouteParams } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
+import router from 'Router';
 import currentUserState from 'store/user/currentUserState';
 import currentUserTypeState from 'store/user/currentUserTypeState';
+import userProfileByIdQuery from 'store/user/userProfileByIdQuery';
 
 const AsyncCurrentUserProfile: React.FC = () => {
 	const currentUser = useRecoilValue(currentUserState);
@@ -30,11 +33,35 @@ const AsyncCurrentUserProfile: React.FC = () => {
 	return <StudentProfile student={currentUser as Student} editable />;
 };
 
+interface AsyncUserProfileProps {
+	id: string;
+}
+
+const AsyncUserProfile: React.FC<AsyncUserProfileProps> = ({ id }) => {
+	const userProfile = useRecoilValue(userProfileByIdQuery(id));
+
+	if (userProfile === null) {
+		return (
+			<Center>
+				<Typography>Profil existiert nicht</Typography>
+			</Center>
+		);
+	}
+
+	if (userProfile.type === UserType.COMPANY) {
+		return <CompanyProfile company={userProfile.data as Company} />;
+	}
+
+	return <StudentProfile student={userProfile.data as Student} />;
+};
+
 const ProfilePage: React.FC = () => {
+	const { id } = useRouteParams(router.app.children.profile);
+
 	return (
 		<AppFrame>
 			<React.Suspense fallback={<FullScreenLoading />}>
-				<AsyncCurrentUserProfile />
+				{id ? <AsyncUserProfile id={id} /> : <AsyncCurrentUserProfile />}
 			</React.Suspense>
 		</AppFrame>
 	);

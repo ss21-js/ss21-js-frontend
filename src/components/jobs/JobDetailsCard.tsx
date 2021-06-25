@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { faHeart, faShareSquare } from '@fortawesome/free-regular-svg-icons';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import faHeart from '@fortawesome/free-regular-svg-icons/faHeart';
+import faShareSquare from '@fortawesome/free-regular-svg-icons/faShareSquare';
+import faArrowLeft from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '@material-ui/core/Box';
 import ButtonBase from '@material-ui/core/ButtonBase';
@@ -8,8 +9,8 @@ import Stack from '@material-ui/core/Stack';
 import styled from '@material-ui/core/styles/styled';
 import useTheme from '@material-ui/core/styles/useTheme';
 import Typography from '@material-ui/core/Typography';
-import CompanyLogo from 'components/company/CompanyLogo';
 import Center from 'components/layout/Center';
+import ProfileLogo from 'components/profile/ProfileLogo';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import jobByIdQuery from 'store/jobs/jobByIdQuerty';
@@ -86,7 +87,7 @@ const JobDetailsCard: React.FC<JobDetailsCardProps> = ({ jobId, handleClose }) =
 			<Header>
 				<HeaderImage src={job.headerImageUrl} />
 				<CompanyLogoContainer>
-					<CompanyLogo src={job.publisher.companyProfileImageUrl} />
+					<ProfileLogo src={job.publisher.companyProfileImageUrl} />
 				</CompanyLogoContainer>
 				{handleClose && (
 					<ButtonBase

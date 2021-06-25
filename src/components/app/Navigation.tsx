@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { useTheme } from '@material-ui/core';
+import useTheme from '@material-ui/core/styles/useTheme';
 import UserType from 'models/userType';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -77,7 +77,7 @@ const Navigation: React.FC<NavigationProps> = ({ vertical }) => {
 			) : (
 				<NavButton link={router.app().saved().$} text="Gespeichert" isActive={saved} vertical={vertical} />
 			)}
-			<NavButton link={router.app().profile().$} text="Profil" isActive={profile} vertical={vertical} />
+			<NavButton link={router.app().profile({}).$} text="Profil" isActive={profile} vertical={vertical} />
 		</div>
 	);
 };

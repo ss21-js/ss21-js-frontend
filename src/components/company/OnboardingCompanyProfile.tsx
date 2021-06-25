@@ -1,11 +1,12 @@
 import { faEnvelope, faGlobe, faMapPin } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Theme, useMediaQuery } from '@material-ui/core';
+import { Theme } from '@material-ui/core/styles/createTheme';
 import styled from '@material-ui/core/styles/styled';
 import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
 import { Company } from 'js-api-client';
 import React from 'react';
-import CompanyImages from './CompanyImages';
+import ProfileImages from '../profile/ProfileHeaderImages';
 
 const InfoRow = styled('div')`
 	display: flex;
@@ -67,7 +68,7 @@ const OnboardingCompanyProfile: React.FC<OnboardingCompanyProfileProps> = ({
 
 	return (
 		<div>
-			<CompanyImages
+			<ProfileImages
 				headerImageUrl={company.companyHeaderImageUrl}
 				headerImageChanged={headerImageChanged}
 				profileImageUrl={company.companyProfileImageUrl}

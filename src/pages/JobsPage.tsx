@@ -1,6 +1,7 @@
-import { useMediaQuery } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { experimentalStyled as styled, Theme } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core/styles/createTheme';
+import styled from '@material-ui/core/styles/styled';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
 import AppFrame from 'components/app/AppFrame';
 import JobDetailsCard from 'components/jobs/JobDetailsCard';
 import JobSearchBar from 'components/jobs/JobSearchBar';

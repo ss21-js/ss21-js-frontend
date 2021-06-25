@@ -1,8 +1,9 @@
 import { faEnvelope, faGlobe, faMapPin } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Theme, useTheme } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import { Theme } from '@material-ui/core/styles/createTheme';
 import styled from '@material-ui/core/styles/styled';
+import useTheme from '@material-ui/core/styles/useTheme';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useToast from 'common/useToast';
@@ -14,7 +15,7 @@ import { Company } from 'js-api-client';
 import OpenJobOffers from 'pages/Company/OpenJobOffers';
 import React from 'react';
 import useUpdateCompany from 'store/user/useUpdateCompany';
-import CompanyImages from './CompanyImages';
+import ProfileImages from '../profile/ProfileHeaderImages';
 import EditCompanyDialog from './EditCompanyDialog';
 
 const Header = styled('div')`
@@ -90,8 +91,6 @@ const CompanyProfile: React.FC<CompanyProfileProps> = ({ company, editable }) =>
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 	const [editOpen, setEditOpen] = React.useState(false);
 
-	console.log(company);
-
 	const toast = useToast();
 	const updateCompany = useUpdateCompany();
 
@@ -121,13 +120,12 @@ const CompanyProfile: React.FC<CompanyProfileProps> = ({ company, editable }) =>
 	return (
 		<>
 			<Header>
-				<CompanyImages
+				<ProfileImages
 					headerImageUrl={company.companyHeaderImageUrl}
-					headerImageChanged={headerImageChanged}
+					headerImageChanged={editable ? headerImageChanged : undefined}
 					profileImageUrl={company.companyProfileImageUrl}
-					profileImageChanged={profileImageChanged}
+					profileImageChanged={editable ? profileImageChanged : undefined}
 					infoComponent={!isMobile && <InfoContainer company={company} />}
-					largeLogo={!isMobile}
 				/>
 				{editable && (
 					<HeaderActions>

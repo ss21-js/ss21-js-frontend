@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
-import { useMediaQuery } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import drawerOpenState from 'store/general/drawerOpenState';

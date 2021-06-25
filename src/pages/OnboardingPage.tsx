@@ -1,7 +1,7 @@
-import { experimentalStyled as styled } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import styled from '@material-ui/core/styles/styled';
 import Typography from '@material-ui/core/Typography';
 import UndrawDeveloperActivity from 'assets/undraw_developer_activity.svg';
 import UndrawMeetTheTeam from 'assets/undraw_meet_the_team.svg';

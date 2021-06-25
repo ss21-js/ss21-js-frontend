@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import { useTheme } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import useTheme from '@material-ui/core/styles/useTheme';
 import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 

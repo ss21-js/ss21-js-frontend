@@ -1,7 +1,5 @@
-import { faGitAlt } from '@fortawesome/free-brands-svg-icons/faGitAlt';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
-import { faHistory } from '@fortawesome/free-solid-svg-icons/faHistory';
-import { faStar } from '@fortawesome/free-solid-svg-icons/faStar';
+import { faGitAlt } from '@fortawesome/free-brands-svg-icons';
+import { faExclamationCircle, faHistory, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';

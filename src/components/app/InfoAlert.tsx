@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Alert, Collapse, IconButton } from '@material-ui/core';
+import Alert from '@material-ui/core/Alert/Alert';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
 
 const Container = styled.div`

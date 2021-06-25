@@ -51,7 +51,6 @@ const jobSearchQuery = selector<JobWithCompany[] | null>({
 					limit,
 				},
 			})
-			.then((value) => value as JobWithCompany[])
 			.catch(() => null);
 	},
 });

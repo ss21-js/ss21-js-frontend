@@ -112,8 +112,11 @@ const router = OptionsRouter(routeOptions, (route) => ({
 			saved: route('gespeichert', {
 				component: SavedPage,
 			}),
-			profile: route('profil', {
+			profile: route('profil/:id?', {
 				component: ProfilePage,
+				params: {
+					id: stringParser,
+				},
 			}),
 		})
 	),

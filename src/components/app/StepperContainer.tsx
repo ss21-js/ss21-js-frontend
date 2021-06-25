@@ -1,10 +1,11 @@
-import { Theme, useMediaQuery } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
+import { Theme } from '@material-ui/core/styles/createTheme';
 import styled from '@material-ui/core/styles/styled';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
 import CenterContainer from 'components/layout/CenterContainer';
 import FullSizeContainer from 'components/layout/FullSizeContainer';
 import RoundedBox from 'components/RoundedBox';

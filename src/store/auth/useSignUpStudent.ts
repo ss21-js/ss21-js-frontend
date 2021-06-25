@@ -5,7 +5,7 @@ import authenticatedApiConfigurationSelector from 'store/api/authenticatedApiCon
 import currentUserState from 'store/user/currentUserState';
 import currentUserTypeState from 'store/user/currentUserTypeState';
 
-export const useSignUpStudent = () => {
+const useSignUpStudent = () => {
 	const config = useRecoilValue(authenticatedApiConfigurationSelector);
 	const setCurrentUser = useSetRecoilState(currentUserState);
 	const setCurrentUserType = useSetRecoilState(currentUserTypeState);
@@ -25,3 +25,4 @@ export const useSignUpStudent = () => {
 		}
 	};
 };
+export default useSignUpStudent;

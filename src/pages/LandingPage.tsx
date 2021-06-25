@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { Theme, useMediaQuery } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import { Theme } from '@material-ui/core/styles/createTheme';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
 import LandingCallToAction from 'components/landing/LandingCallToAction';
 import LandingImage from 'components/landing/LandingImage';
 import Logo from 'components/Logo';

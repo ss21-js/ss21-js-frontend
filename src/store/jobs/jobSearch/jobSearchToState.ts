@@ -3,7 +3,7 @@ import { atom } from 'recoil';
 
 const jobSearchToState = atom<Date>({
 	key: 'jobSearchToState',
-	default: add(new Date(), { months: 3 }),
+	default: add(new Date(), { months: 0 }),
 });
 
 export default jobSearchToState;
