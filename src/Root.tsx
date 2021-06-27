@@ -1,3 +1,6 @@
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import de from 'date-fns/locale/de';
 import * as React from 'react';
 import { RecoilRoot } from 'recoil';
 import RootRouter from './RootRouter';
@@ -7,7 +10,9 @@ const Root: React.FC = () => {
 	return (
 		<RecoilRoot>
 			<ThemeWrapper>
-				<RootRouter />
+				<LocalizationProvider dateAdapter={AdapterDateFns} locale={de}>
+					<RootRouter />
+				</LocalizationProvider>
 			</ThemeWrapper>
 		</RecoilRoot>
 	);

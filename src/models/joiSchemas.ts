@@ -1,7 +1,7 @@
 import Joi from 'joi';
-import { Address, Company, Student, University } from 'js-api-client';
+import { Address, Company, CreateJobDto, SearchJobDto, Student, University } from 'js-api-client';
 
-const germanJoiMessages: Joi.LanguageMessages = {
+export const germanJoiMessages: Joi.LanguageMessages = {
 	'any.required': '{{#label}} ist ein Pflichtfeld',
 	'string.alphanum': '{{#label}} darf nur aus alpha-numerischen Zeichen bestehen',
 	'string.base': '{{#label}} muss eine Zeichenfolge sein',
@@ -36,6 +36,7 @@ const germanJoiMessages: Joi.LanguageMessages = {
 		'{{#label}} muss eine gültige URI mit einem Schema das dem {{#scheme}} Muster entspricht sein',
 	'string.uriRelativeOnly': '{{#label}} muss eine gültige relative URI sein',
 	'string.uppercase': '{{#label}} darf nur aus Großbuchstaben bestehen',
+	'array.min': '{{#label}} muss mindestens {{#limit}} Element enthalten',
 };
 
 export const addressSchema = Joi.object<Address>({
@@ -51,7 +52,7 @@ export const companySchema = Joi.object<Company>({
 	id: Joi.any(),
 	name: Joi.string().min(3).required().label('Unternehmensname'),
 	email: Joi.string().email({ tlds: false }).required().label('E-Mail'),
-	companyInfo: Joi.string().allow('').max(500).label('Unternehmensinfo'),
+	companyInfo: Joi.string().required().max(500).label('Unternehmensinfo'),
 	homepage: Joi.string().allow('').label('Homepage'),
 	address: addressSchema,
 	companyHeaderImageUrl: Joi.string().allow(''),
@@ -73,4 +74,39 @@ export const studentSchema = Joi.object<Student>({
 	email: Joi.string().email({ tlds: false }).required().label('E-Mail'),
 	githubUrl: Joi.string().allow('').label('Github Nutzername'),
 	university: universitySchema,
+	semester: Joi.number().min(1).max(20).required().label('Semester'),
+	languages: Joi.array().min(1).required().label('Sprachen'),
+	skills: Joi.array().min(1).required().label('Programmiersprachen'),
+	workArea: Joi.string().required().label('Arbeitsbereich'),
+	workBasis: Joi.number().required().label('Anstellungsart'),
+	fromAvailable: Joi.date().required().label('Verfügbar ab'),
+	toAvailable: Joi.date().required().label('Verfügbar bis'),
+	identities: Joi.any(),
+	jobsMarkedIds: Joi.any(),
+}).messages(germanJoiMessages);
+
+export const createJobDtoSchema = Joi.object<CreateJobDto>({
+	jobName: Joi.string().min(5).max(200).required().label('Jobtitel'),
+	jobDescription: Joi.string().min(1).max(500).required().label('Beschreibung'),
+	workArea: Joi.string().required().label('Arbeitsbereich'),
+	workBasis: Joi.number().required().label('Anstellungsart'),
+	languages: Joi.array().min(1).required().label('Sprachen'),
+	jobQualifications: Joi.array().min(1).required().label('Qualifikationen'),
+	skills: Joi.array().min(1).required().label('Programmiersprachen'),
+	from: Joi.date().required().label('Von'),
+	to: Joi.date().required().label('Bis'),
+	contactMail: Joi.string().email({ tlds: false }).required().label('E-Mail'),
+	headerImageUrl: Joi.string().allow(''),
+}).messages(germanJoiMessages);
+
+export const searchJobDtoSchema = Joi.object<SearchJobDto>({
+	searchString: Joi.string().allow('').label('Suchtext'),
+	languages: Joi.array().label('Sprachen'),
+	skills: Joi.array().label('Programmiersprachen'),
+	from: Joi.date().required().label('Von'),
+	to: Joi.date().required().label('Bis'),
+	workArea: Joi.string().required().label('Arbeitsbereich'),
+	workBasis: Joi.number().required().label('Anstellungsart'),
+	limit: Joi.number(),
+	skip: Joi.number(),
 }).messages(germanJoiMessages);

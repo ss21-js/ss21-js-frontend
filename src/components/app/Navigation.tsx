@@ -1,12 +1,16 @@
 import { css } from '@emotion/react';
-import { useTheme } from '@material-ui/core';
+import useTheme from '@material-ui/core/styles/useTheme';
+import UserType from 'models/userType';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRoutesActive } from 'react-typesafe-routes';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import router from 'Router';
-import { drawerOpen } from 'store/general';
+import drawerOpenState from 'store/general/drawerOpenState';
+import currentUserTypeState from 'store/user/currentUserTypeState';
 import StyledButton from '../StyledButton';
+import styled from '@material-ui/core/styles/styled';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 interface NavButtonProps {
 	text: string;
@@ -18,7 +22,7 @@ interface NavButtonProps {
 const NavButton: React.FC<NavButtonProps> = ({ text, link, isActive, vertical }) => {
 	const theme = useTheme();
 	const history = useHistory();
-	const setDrawerOpen = useSetRecoilState(drawerOpen);
+	const setDrawerOpen = useSetRecoilState(drawerOpenState);
 
 	const handleClick = () => {
 		setDrawerOpen(false);
@@ -42,29 +46,42 @@ const NavButton: React.FC<NavButtonProps> = ({ text, link, isActive, vertical })
 	);
 };
 
-export interface NavigationProps {
-	vertical?: boolean;
-}
+const NavigationContainer = styled('div')`
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
 
-const Navigation: React.FC<NavigationProps> = ({ vertical }) => {
-	const { search, saved, profile } = useRoutesActive({
-		search: router.app.children.jobs,
+	@media (max-width: 360px) {
+		flex-direction: column;
+	}
+`;
+
+const Navigation: React.FC = () => {
+	const vertical = useMediaQuery(() => '@media(max-width: 360px)');
+	const currentUserType = useRecoilValue(currentUserTypeState);
+
+	const { search, saved, profile, createJob } = useRoutesActive({
+		search: router.app.children.search,
+		createJob: router.app.children.createJob,
 		saved: router.app.children.saved,
 		profile: router.app.children.profile,
 	});
 
 	return (
-		<div
-			css={css`
-				display: flex;
-				justify-content: center;
-				flex-direction: ${vertical ? 'column' : 'row'};
-			`}
-		>
-			<NavButton link={router.app().jobs({}).$} text="Job finden" isActive={search} vertical={vertical} />
-			<NavButton link={router.app().saved().$} text="Gespeichert" isActive={saved} vertical={vertical} />
+		<NavigationContainer>
+			<NavButton link={router.app().search({}).$} text="Job finden" isActive={search} vertical={vertical} />
+			{currentUserType === UserType.COMPANY ? (
+				<NavButton
+					link={router.app().createJob().$}
+					text="Job erstellen"
+					isActive={createJob}
+					vertical={vertical}
+				/>
+			) : (
+				<NavButton link={router.app().saved({}).$} text="Gespeichert" isActive={saved} vertical={vertical} />
+			)}
 			<NavButton link={router.app().profile().$} text="Profil" isActive={profile} vertical={vertical} />
-		</div>
+		</NavigationContainer>
 	);
 };
 export default Navigation;

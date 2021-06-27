@@ -1,6 +1,6 @@
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { useMaterialRegister } from 'common/formUtils';
+import useMaterialRegister from 'common/useMaterialRegister';
 import { Company } from 'js-api-client';
 import React from 'react';
 import { Control } from 'react-hook-form';

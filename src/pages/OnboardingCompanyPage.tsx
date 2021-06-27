@@ -1,33 +1,35 @@
 import { joiResolver } from '@hookform/resolvers/joi';
-import Scrollable from 'components/app/Scrollable';
-import StepperContainer from 'components/app/StepperContainer';
+import useToast from 'common/useToast';
+import OnboardingStepper from 'components/onboarding/OnboardingStepper';
 import CompanyFormAddress from 'components/company/CompanyFormAddress';
 import CompanyFormGeneral from 'components/company/CompanyFormGeneral';
-import OnboardingCompanyProfile from 'components/company/OnboardingCompanyProfile';
-import CenterContainer from 'components/layout/CenterContainer';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import OnboardingCompanyProfile from 'components/onboarding/OnboardingCompanyProfile';
+import { ref, uploadBytes } from 'firebase/storage';
 import { firebaseStorage } from 'index';
 import { Address, Company, CompanyDto } from 'js-api-client';
 import { companySchema } from 'models/joiSchemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
-import { currentFirebaseUser, useSignUpCompany } from 'store/auth';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
+import { useSignUpCompany } from 'store/auth/useSignUpCompany';
+import onboardingCompanyState from 'store/onboarding/onboardingCompanyState';
 
 const OnboardingCompanyPage: React.FC = () => {
+	const toast = useToast();
 	const signUpCompany = useSignUpCompany();
 
-	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 
 	const [loading, setLoading] = React.useState(false);
-	const [company, setCompany] = React.useState<Partial<Company>>({});
+	const [company, setCompany] = useRecoilState(onboardingCompanyState);
 	const [headerFile, setHeaderFile] = React.useState<File | null>(null);
 	const [profileFile, setProfileFile] = React.useState<File | null>(null);
 
 	const { control, getValues, trigger } = useForm<Company>({
 		resolver: joiResolver(companySchema),
 		defaultValues: company,
-		mode: 'all',
+		mode: 'onBlur',
 	});
 
 	const handleHeaderImage = (file: File, url: string) => {
@@ -46,12 +48,12 @@ const OnboardingCompanyPage: React.FC = () => {
 		}));
 	};
 
-	const handleNext = async (from: number, to: number) => {
+	const handleChange = async (from: number, to: number) => {
 		const values = getValues();
 		setCompany((company) => ({
 			...company,
 			address: values.address,
-			name: company.name,
+			name: values.name,
 			companyInfo: values.companyInfo,
 			email: values.email,
 			homepage: values.homepage,
@@ -74,19 +76,19 @@ const OnboardingCompanyPage: React.FC = () => {
 			).every((v) => v);
 		} else if (to === 3) {
 			setLoading(true);
-			var headerUrl = '';
-			var profileUrl = '';
+			let headerUrl = '';
+			let profileUrl = '';
 
 			if (headerFile) {
 				const headerRef = ref(firebaseStorage, `images/${firebaseUser?.id}/${headerFile.name}`);
 				await uploadBytes(headerRef, headerFile);
-				headerUrl = await getDownloadURL(headerRef);
+				headerUrl = `images/${firebaseUser?.id}/${headerFile.name}`;
 			}
 
 			if (profileFile) {
 				const profileRef = ref(firebaseStorage, `images/${firebaseUser?.id}/${profileFile.name}`);
 				await uploadBytes(profileRef, profileFile);
-				profileUrl = await getDownloadURL(profileRef);
+				profileUrl = `images/${firebaseUser?.id}/${profileFile.name}`;
 			}
 
 			const address: Address = {
@@ -108,7 +110,7 @@ const OnboardingCompanyPage: React.FC = () => {
 				companyProfileImageUrl: profileUrl,
 			};
 
-			const result = (await signUpCompany?.(companyDto)) ?? false;
+			const result = toast.promise(signUpCompany!(companyDto));
 			setLoading(false);
 			return result;
 		}
@@ -117,33 +119,29 @@ const OnboardingCompanyPage: React.FC = () => {
 	};
 
 	return (
-		<Scrollable>
-			<CenterContainer maxWidth="md">
-				<StepperContainer
-					steps={[
-						{
-							label: 'Unternehmen',
-							component: <CompanyFormGeneral control={control} disabled={loading} />,
-						},
-						{
-							label: 'Adresse',
-							component: <CompanyFormAddress control={control} disabled={loading} />,
-						},
-						{
-							label: 'Profilbilder',
-							component: (
-								<OnboardingCompanyProfile
-									company={company}
-									headerImageChanged={handleHeaderImage}
-									profileImageChanged={handleProfileImage}
-								/>
-							),
-						},
-					]}
-					next={handleNext}
-				/>
-			</CenterContainer>
-		</Scrollable>
+		<OnboardingStepper
+			steps={[
+				{
+					label: 'Unternehmen',
+					component: <CompanyFormGeneral control={control} disabled={loading} />,
+				},
+				{
+					label: 'Adresse',
+					component: <CompanyFormAddress control={control} disabled={loading} />,
+				},
+				{
+					label: 'Profilbilder',
+					component: (
+						<OnboardingCompanyProfile
+							company={company}
+							headerImageChanged={handleHeaderImage}
+							profileImageChanged={handleProfileImage}
+						/>
+					),
+				},
+			]}
+			onChange={handleChange}
+		/>
 	);
 };
 

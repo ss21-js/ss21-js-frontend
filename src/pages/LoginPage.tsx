@@ -8,19 +8,25 @@ import styled from '@material-ui/core/styles/styled';
 import TextField from '@material-ui/core/TextField/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography/Typography';
-import { useMaterialRegister } from 'common/formUtils';
+import useMaterialRegister from 'common/useMaterialRegister';
 import Scrollable from 'components/app/Scrollable';
 import CenterContainer from 'components/layout/CenterContainer';
 import RoundedBox from 'components/RoundedBox';
 import StyledButton from 'components/StyledButton';
 import Joi from 'joi';
+import { germanJoiMessages } from 'models/joiSchemas';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import { Link as RouterLink } from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
-import { authState, SignInWithEmail, ThirdPartyAuthProvider, useSignIn, useSignInWith } from 'store/auth';
+import router from 'Router';
+import authState from 'store/auth/authState';
+import EmailPassword from 'store/auth/emailPassword';
+import useSignIn from 'store/auth/useSignIn';
+import useSignInWith, { SignInWithProvider } from 'store/auth/useSignUpWith';
 
 const Form = styled('form')`
-	width: '100%';
+	width: 100%;
 	margin-top: ${(props) => props.theme.spacing(1)};
 `;
 
@@ -31,28 +37,30 @@ const IconButton = styled(StyledButton)`
 	height: 42px;
 `;
 
-const loginSchema = Joi.object<SignInWithEmail>({
+const loginSchema = Joi.object<EmailPassword>({
 	email: Joi.string()
 		.email({ tlds: { allow: false } })
-		.required(),
-	password: Joi.string().min(6).max(32).required(),
-});
+		.required()
+		.label('Email'),
+	password: Joi.string().min(6).max(32).required().label('Passwort'),
+}).messages(germanJoiMessages);
 
 const LoginPage: React.FC = () => {
-	const signIn = useSignIn();
-	const signInWith = useSignInWith();
 	const { loading, error } = useRecoilValue(authState);
 
-	const { control, handleSubmit } = useForm<SignInWithEmail>({
+	const signIn = useSignIn();
+	const signInWith = useSignInWith();
+
+	const { control, handleSubmit } = useForm<EmailPassword>({
 		resolver: joiResolver(loginSchema),
 	});
 
-	const onSubmit = (data: SignInWithEmail) => signIn(data);
+	const onSubmit = (data: EmailPassword) => signIn(data);
 
-	const handleGoogle = () => signInWith(ThirdPartyAuthProvider.Google);
-	const handleApple = () => signInWith(ThirdPartyAuthProvider.Apple);
-	const handleMicrosoft = () => signInWith(ThirdPartyAuthProvider.Microsoft);
-	const handleGithub = () => signInWith(ThirdPartyAuthProvider.Github);
+	const handleGoogle = () => signInWith(SignInWithProvider.Google);
+	const handleApple = () => signInWith(SignInWithProvider.Apple);
+	const handleMicrosoft = () => signInWith(SignInWithProvider.Microsoft);
+	const handleGithub = () => signInWith(SignInWithProvider.Github);
 
 	const emailField = useMaterialRegister(control, 'email');
 	const passwordField = useMaterialRegister(control, 'password');
@@ -150,7 +158,7 @@ const LoginPage: React.FC = () => {
 							</Link>
 						</Grid> */}
 							<Grid item>
-								<Link href="#" variant="body2">
+								<Link component={RouterLink} to={router.register()} variant="body2">
 									Noch kein Konto? Account erstellen
 								</Link>
 							</Grid>

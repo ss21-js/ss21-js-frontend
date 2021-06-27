@@ -3,13 +3,15 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import useToast from 'common/useToast';
 import StyledButton from 'components/StyledButton';
 import { Company } from 'js-api-client';
 import { companySchema } from 'models/joiSchemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
-import { currentUserAtom, useUpdateCompany } from 'store/user';
+import { useRecoilValue } from 'recoil';
+import currentUserState from 'store/user/currentUserState';
+import useUpdateCompany from 'store/user/useUpdateCompany';
 import CompanyForm from './CompanyForm';
 
 export interface EditCompanyDialogProps {
@@ -18,8 +20,9 @@ export interface EditCompanyDialogProps {
 }
 
 const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose }) => {
+	const toast = useToast();
 	const [loading, setLoading] = React.useState(false);
-	const [company, setCompany] = useRecoilState(currentUserAtom);
+	const company = useRecoilValue(currentUserState);
 
 	const updateCompany = useUpdateCompany();
 
@@ -36,17 +39,11 @@ const EditCompanyDialog: React.FC<EditCompanyDialogProps> = ({ open, handleClose
 		if (!updateCompany) return;
 
 		setLoading(true);
-
-		updateCompany(company)
-			.then((newCompany) => {
-				// TODO: Show notification
-				setCompany(newCompany);
-				setLoading(false);
-			})
-			.catch((e) => {
-				console.error(e);
-				setLoading(false);
-			});
+		toast
+			.promise(updateCompany(company))
+			.then(() => handleClose())
+			.catch()
+			.finally(() => setLoading(false));
 	};
 
 	return (

@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { Theme, useMediaQuery } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import { Theme } from '@material-ui/core/styles/createTheme';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
 import LandingCallToAction from 'components/landing/LandingCallToAction';
 import LandingImage from 'components/landing/LandingImage';
 import Logo from 'components/Logo';
@@ -9,15 +10,15 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import router from 'Router';
-import { currentFirebaseUser } from 'store/auth';
+import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
 
 const LandingPage: React.FC = () => {
 	const history = useHistory();
 
-	const firebaseUser = useRecoilValue(currentFirebaseUser);
+	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
-	const handleToApp = () => history.push(router.app().jobs({}).$);
+	const handleToApp = () => history.push(router.app().search({}).$);
 	const handleLogin = () => history.push(router.login().$);
 	const handleRegister = () => history.push(router.register().$);
 

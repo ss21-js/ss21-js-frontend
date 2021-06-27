@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
-import { useTheme } from '@material-ui/core';
 import Box, { BoxProps } from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import useTheme from '@material-ui/core/styles/useTheme';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 

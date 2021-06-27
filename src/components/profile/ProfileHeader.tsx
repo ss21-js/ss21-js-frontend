@@ -1,85 +1,99 @@
-import { css } from '@emotion/react';
-import { faIdBadge, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Grid from '@material-ui/core/Grid';
-import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Address } from 'js-api-client';
-import CompanyProfilePage from 'pages/Company/CompanyProfilePage';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import styled from '@material-ui/core/styles/styled';
+import Tooltip from '@material-ui/core/Tooltip';
+import Center from 'components/layout/Center';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+import firebaseStorageQuery from 'store/general/firebaseStorageQuery';
+import HeaderPlaceholder from 'assets/HeaderPlaceholder.svg';
+
+const ProfileHeaderContainer = styled('div')`
+	border-radius: ${(props) => props.theme.shape.borderRadius};
+	background-color: ${(props) => props.theme.palette.background.paper};
+`;
+
+const EditButton = styled(Button)`
+	padding: 0;
+	min-width: unset;
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+`;
+
+const ProfileHeaderImg = styled('img')`
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
+	object-fit: cover;
+	object-position: center;
+`;
 
 export interface ProfileHeaderProps {
-	firstName: string;
-	lastName: string;
-	companyName: string;
-	type: string;
-	address: Address[];
+	src: string;
+	width?: string | number;
+	height?: string | number;
+	onImageChange?: React.ChangeEventHandler<HTMLInputElement>;
+	disableFirebase?: boolean;
 }
 
-const UiTypography = styled(Typography)`
-	color: ${(props) => props.theme.palette.primary.contrastText};
-	text-shadow: 0 0 2px grey;
-`;
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ src, width, height, onImageChange }) => {
+	const inputRef = React.useRef<HTMLInputElement>(null);
 
-const UiFontAwesomeIcon = styled(FontAwesomeIcon)`
-	margin-right: 10px;
-`;
+	const handleEdit = () => {
+		inputRef.current?.click();
+	};
 
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({ firstName, lastName, companyName, type, address }) => {
-	const theme = useTheme();
-	const isMobile = useMediaQuery(() => theme.breakpoints.down('sm'));
+	const image = (
+		<ProfileHeaderImg src={src.length === 0 ? HeaderPlaceholder : src} alt={''} width={width} height={height} />
+	);
 
+	if (onImageChange !== undefined) {
+		return (
+			<>
+				<Tooltip title="Header bearbeiten">
+					<EditButton onClick={handleEdit}>{image}</EditButton>
+				</Tooltip>
+				<input
+					ref={inputRef}
+					type="file"
+					id="profile"
+					name="profile"
+					style={{ display: 'none' }}
+					accept="image/*"
+					onChange={onImageChange}
+				/>
+			</>
+		);
+	}
+
+	return image;
+};
+
+const ProfileHeaderFirebaseProxy: React.FC<ProfileHeaderProps> = (props) => {
+	const url = useRecoilValue(firebaseStorageQuery(props.src));
+	return <ProfileHeader {...props} src={url ?? ''} />;
+};
+
+const AsyncProfileHeader: React.FC<ProfileHeaderProps> = (props) => {
 	return (
-		<Grid
-			container
-			justifyContent="center"
-			css={css`
-				background-color: ${isMobile ? `${theme.palette.primary.main}` : null};
-			`}
-		>
-			<Grid
-				item
-				xs={12}
-				padding={5}
-				css={css`
-					background-color: ${theme.palette.primary.main};
-					display: ${isMobile ? 'contents' : 'flex'};
-					justify-content: center;
-				`}
+		<ProfileHeaderContainer>
+			<React.Suspense
+				fallback={
+					<Center>
+						<CircularProgress />
+					</Center>
+				}
 			>
-				{/* <ProfilImage /> */}
-				<div
-					css={css`
-						text-align: ${isMobile ? '-webkit-center' : ''};
-						align-self: ${isMobile ? '' : 'center'};
-						margin-top: ${isMobile ? '20px' : '0'};
-						margin-bottom: ${isMobile ? '20px' : '0'};
-					`}
-				>
-					<UiTypography variant="h4">
-						{firstName} {lastName} {companyName}
-					</UiTypography>
-					<Typography
-						variant="subtitle1"
-						css={css`
-							color: ${theme.palette.primary.contrastText};
-							text-shadow: 0 0 2px grey;
-							padding-top: 2rem;
-						`}
-					>
-						<UiFontAwesomeIcon icon={faIdBadge} />
-						{type}
-					</Typography>
-					<UiTypography variant="subtitle1">
-						<UiFontAwesomeIcon icon={faMapMarkerAlt} />
-						{address}
-					</UiTypography>
-				</div>
-			</Grid>
-			<CompanyProfilePage />
-		</Grid>
+				{props.disableFirebase || props.src.length === 0 ? (
+					<ProfileHeader {...props} />
+				) : (
+					<ProfileHeaderFirebaseProxy {...props} />
+				)}
+			</React.Suspense>
+		</ProfileHeaderContainer>
 	);
 };
 
-export default ProfileHeader;
+export default AsyncProfileHeader;

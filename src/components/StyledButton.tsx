@@ -7,6 +7,10 @@ const StyledButton = styled<typeof LoadingButton>(({ ...props }) => <LoadingButt
 	padding: 1rem 2rem;
 	text-transform: none;
 	line-height: 1;
+
+	&.Mui-disabled {
+		color: ${(props) => props.theme.palette.secondary.contrastText};
+	}
 `;
 
 export default StyledButton;

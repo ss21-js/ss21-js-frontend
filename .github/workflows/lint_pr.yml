@@ -1,7 +1,7 @@
 name: Lint Pull Requests
 on:
   pull_request:
-    types: ["opened", "edited", "reopened", "synchronize"]
+    types: [ "opened", "edited", "reopened", "synchronize" ]
 
 jobs:
   lint:
