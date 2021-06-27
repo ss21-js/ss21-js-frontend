@@ -1,11 +1,19 @@
+import AppFrame from 'components/app/AppFrame';
+import FullScreenLoading from 'components/FullScreenLoading';
 import React from 'react';
-import AppFrame from 'src/components/app/AppFrame';
-import Center from 'src/components/layout/Center';
+import { useRouteParams } from 'react-typesafe-routes';
+import router from 'Router';
+import CurrentUserProfile from 'components/profile/CurrentUserProfile';
+import UserProfile from 'components/profile/UserProfile';
 
 const ProfilePage: React.FC = () => {
+	const { id } = useRouteParams(router.app.children.otherProfile);
+
 	return (
 		<AppFrame>
-			<Center>Profile</Center>
+			<React.Suspense fallback={<FullScreenLoading />}>
+				{id ? <UserProfile id={id} /> : <CurrentUserProfile />}
+			</React.Suspense>
 		</AppFrame>
 	);
 };

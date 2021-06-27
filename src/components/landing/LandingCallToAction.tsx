@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { Theme, useMediaQuery } from '@material-ui/core';
+import { Theme } from '@material-ui/core/styles/createTheme';
 import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
 import React from 'react';
 import StyledButton from '../StyledButton';
 

@@ -1,11 +1,12 @@
-import { CssBaseline } from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
-import { ThemeProvider } from '@material-ui/styles';
+import createTheme from '@material-ui/core/styles/createTheme';
+import ThemeProvider from '@material-ui/core/styles/ThemeProvider';
 import * as React from 'react';
-import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { ThemeMode, themeMode } from './store/general';
+import themeModeState, { ThemeMode } from './store/general/themeModeState';
+
+export const theme = {};
 
 const paletteLight: PaletteOptions = {
 	primary: {
@@ -16,13 +17,26 @@ const paletteLight: PaletteOptions = {
 	},
 	secondary: {
 		main: '#F0F0F0',
+		dark: '#292931',
 		contrastText: '#7e7e85',
 	},
+	text: {
+		primary: '#000',
+		secondary: '#1b1b1b',
+		disabled: '#8b8b8b',
+	},
 	background: {
-		default: '#fff',
+		default: '#efefef',
 		paper: '#fafafb',
 	},
 };
+
+const themeLight = createTheme({
+	palette: paletteLight,
+	shape: {
+		borderRadius: '0.6rem',
+	},
+});
 
 const paletteDark: PaletteOptions = {
 	primary: {
@@ -33,37 +47,42 @@ const paletteDark: PaletteOptions = {
 	},
 	secondary: {
 		main: '#292931',
+		dark: '#F0F0F0',
 		contrastText: '#cfd0df',
 	},
+	text: {
+		primary: '#fff',
+		secondary: '#f1f1f1',
+		disabled: '#8b8b8b',
+	},
+	divider: '#434961',
 	background: {
-		default: '#131418',
-		paper: '#1C1C24',
+		default: '#272727',
+		paper: '#333333',
 	},
 };
+
+const themeDark = createTheme({
+	palette: paletteDark,
+	shape: {
+		borderRadius: '0.6rem',
+	},
+});
+
 interface Props {
 	children: React.ReactChild;
 }
 
 const ThemeWrapper: React.FC<Props> = ({ children }) => {
-	const mode = useRecoilValue(themeMode);
-	const theme = useMemo(() => {
-		let palette: PaletteOptions;
+	const mode = useRecoilValue(themeModeState);
 
+	const theme = React.useMemo(() => {
 		switch (mode) {
 			case ThemeMode.LIGHT:
-				palette = paletteLight;
-				break;
+				return themeLight;
 			case ThemeMode.DARK:
-				palette = paletteDark;
-				break;
+				return themeDark;
 		}
-
-		return createMuiTheme({
-			palette: palette,
-			shape: {
-				borderRadius: '0.6rem',
-			},
-		});
 	}, [mode]);
 
 	return (

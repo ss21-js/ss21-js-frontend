@@ -1,21 +1,16 @@
-import { css } from '@emotion/react';
-import { ButtonProps } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import styled from '@material-ui/core/styles/styled';
+import LoadingButton from '@material-ui/lab/LoadingButton';
 
-const StyledButton: React.FC<ButtonProps> = (props) => {
-	return (
-		<Button
-			variant="contained"
-			css={css`
-				border: 0;
-				height: 2.75rem;
-				padding: 1rem 2rem;
-				text-transform: none;
-				line-height: 1;
-			`}
-			{...props}
-		/>
-	);
-};
+const StyledButton = styled<typeof LoadingButton>(({ ...props }) => <LoadingButton variant="contained" {...props} />)`
+	border: 0;
+	height: 2.75rem;
+	padding: 1rem 2rem;
+	text-transform: none;
+	line-height: 1;
+
+	&.Mui-disabled {
+		color: ${(props) => props.theme.palette.secondary.contrastText};
+	}
+`;
 
 export default StyledButton;

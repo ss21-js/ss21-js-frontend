@@ -1,27 +1,19 @@
-import { css } from '@emotion/react';
-import { Theme, useMediaQuery } from '@material-ui/core';
+import styled from '@material-ui/core/styles/styled';
 import React from 'react';
 import UndrawFeelingProud from '../../assets/undraw_feeling_proud.svg';
 
-const LandingImage: React.FC = () => {
-	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
+const Img = styled('img')`
+	margin-right: 3vw;
+	max-width: 40vw;
 
-	return (
-		<img
-			css={
-				isMobile
-					? css`
-							max-width: min(60vw, 400px);
-							margin-bottom: min(5vh, 64px);
-					  `
-					: css`
-							margin-right: 3vw;
-							max-width: 40vw;
-					  `
-			}
-			src={UndrawFeelingProud}
-		/>
-	);
+	${(props) => props.theme.breakpoints.down('md')} {
+		max-width: min(60vw, 400px);
+		margin-bottom: min(5vh, 64px);
+	}
+`;
+
+const LandingImage: React.FC = () => {
+	return <Img src={UndrawFeelingProud} alt="" />;
 };
 
 export default LandingImage;
