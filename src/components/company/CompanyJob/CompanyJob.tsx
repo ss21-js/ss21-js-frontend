@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,22 +6,23 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import { JobWithCompany, Student } from 'js-api-client';
+import { JobWithCompany } from 'js-api-client';
 import React from 'react';
 import RoundedBox from 'components/RoundedBox';
 import Divider from '@material-ui/core/Divider';
-import intersection from 'lodash/intersection';
 import { JobCardContent } from 'components/jobs/JobCard';
+import CompanyJobStudentRow from 'components/company/CompanyJob/CompanyJobStudentRow';
 
 interface RowProps {
 	job: JobWithCompany;
-	students: Student[];
 }
 
-const CompanyJob: React.FC<RowProps> = ({ job, students }) => {
-	const handleAccept = () => {
+const CompanyJob: React.FC<RowProps> = ({ job }) => {
+	const handleAccept = (jobId: string) => {
 		//
 	};
+
+	console.log(job);
 
 	return (
 		<RoundedBox padding={3} width={'100%'}>
@@ -43,26 +43,14 @@ const CompanyJob: React.FC<RowProps> = ({ job, students }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{students.map((student) => {
-							const jobSL = [...job.skills, ...job.languages];
-							const studentSL = [...student.skills, ...student.languages];
-
-							const matches = intersection(jobSL, studentSL);
-							const match = (matches.length / jobSL.length).toPrecision(2);
-
-							return (
-								<TableRow key={student.id}>
-									<TableCell>
-										{student.firstName}
-										{student.lastName}
-									</TableCell>
-									<TableCell>{match}%</TableCell>
-									<TableCell align="right">
-										<Button onClick={handleAccept}>Annehmen</Button>
-									</TableCell>
-								</TableRow>
-							);
-						})}
+						{job.requestedByStudents.map((studentId) => (
+							<CompanyJobStudentRow
+								key={studentId}
+								job={job}
+								studentId={studentId}
+								handleAccept={handleAccept}
+							/>
+						))}
 					</TableBody>
 				</Table>
 			</TableContainer>

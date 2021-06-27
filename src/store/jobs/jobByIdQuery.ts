@@ -1,12 +1,18 @@
 import { JobsApi, JobWithCompany } from 'js-api-client';
-import { selectorFamily } from 'recoil';
+import { atom, selectorFamily } from 'recoil';
 import authenticatedApiConfigurationSelector from 'store/api/authenticatedApiConfigurationSelector';
+
+export const jobByIdQueryKeyState = atom({
+	key: 'jobByIdQueryKeyState',
+	default: new Date(),
+});
 
 const jobByIdQuery = selectorFamily<JobWithCompany | null, string>({
 	key: 'jobByIdQuery',
 	get:
 		(id) =>
 		async ({ get }) => {
+			get(jobByIdQueryKeyState);
 			const config = get(authenticatedApiConfigurationSelector);
 
 			if (config == null) {
