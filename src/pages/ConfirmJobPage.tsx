@@ -31,7 +31,7 @@ const ConfirmJobPage = () => {
 			.catch(() => {
 				setState('error');
 			});
-	}, []);
+	}, [acceptJob, jobId]);
 
 	return (
 		<AppFrame>
