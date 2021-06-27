@@ -11,7 +11,7 @@ import { Link } from 'react-typesafe-routes';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Stack from '@material-ui/core/Stack';
-import { format, formatRelative, sub } from 'date-fns';
+import { format, formatRelative } from 'date-fns';
 import InfoContainerGroup from 'components/app/InfoContainerGroup';
 import WorkArea from 'models/workArea';
 import UnorderedList from 'components/UnorderedList';
@@ -23,6 +23,8 @@ import Grid from '@material-ui/core/Grid';
 import TagBox from 'components/TagBox';
 import JobSaveButton from 'components/jobs/JobDetailsCard/JobSaveButton';
 import router from '../../../Router';
+import StyledButton from 'components/StyledButton';
+import Divider from '@material-ui/core/Divider';
 
 const Header = styled('div')`
 	position: relative;
@@ -44,6 +46,8 @@ interface JobDetailsCardContentProps {
 	handleShare?: () => void;
 	handleClose?: () => void;
 	shrink?: boolean;
+	handleRequest?: () => void;
+	requested?: boolean;
 }
 
 const JobDetailsCardContent: React.FC<JobDetailsCardContentProps> = ({
@@ -53,6 +57,8 @@ const JobDetailsCardContent: React.FC<JobDetailsCardContentProps> = ({
 	disableSave,
 	disabledCompanyLink,
 	shrink,
+	handleRequest,
+	requested,
 }) => {
 	const theme = useTheme();
 
@@ -134,10 +140,9 @@ const JobDetailsCardContent: React.FC<JobDetailsCardContentProps> = ({
 						{job.publisher.address.country}
 					</Typography>
 					<Box flexGrow={1} />
-					{/* TODO: USE CREATION TIMESTAMP */}
-					{true && (
+					{!isNaN(job.createdAt.getDate()) && (
 						<Typography variant="body1">
-							{formatRelative(sub(new Date(), { days: 1 }), new Date(), { locale: de })}
+							{formatRelative(job.createdAt, new Date(), { locale: de })}
 						</Typography>
 					)}
 				</Stack>
@@ -187,6 +192,16 @@ const JobDetailsCardContent: React.FC<JobDetailsCardContentProps> = ({
 						</Grid>
 					))}
 				</Grid>
+				{handleRequest && (
+					<>
+						<Box marginY={3}>
+							<Divider />
+						</Box>
+						<StyledButton fullWidth onClick={handleRequest} disabled={requested}>
+							{requested ? 'Job angefragt' : 'Job anfragen'}
+						</StyledButton>
+					</>
+				)}
 			</Box>
 		</JobDetailsCardRoot>
 	);

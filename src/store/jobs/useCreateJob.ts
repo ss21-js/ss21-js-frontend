@@ -1,10 +1,10 @@
 import { CompaniesApi, CreateJobDto } from 'js-api-client';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import authenticatedApiConfigurationSelector from 'store/api/authenticatedApiConfigurationSelector';
-import { jobSeachQueryKeyState } from './jobSearchQuery';
+import { jobSearchQueryKeyState } from './jobSearchQuery';
 
 const useCreateJob = () => {
-	const setJobSeachQueryKey = useSetRecoilState(jobSeachQueryKeyState);
+	const setJobSeachQueryKey = useSetRecoilState(jobSearchQueryKeyState);
 	const configuration = useRecoilValue(authenticatedApiConfigurationSelector);
 
 	if (configuration === null) {

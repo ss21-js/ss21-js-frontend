@@ -25,6 +25,7 @@ const CreateJobPreview: React.FC<CreateJobPreviewProps> = ({ watch }) => {
 				requestedByStudents: [],
 				finalAcceptedId: '',
 				active: true,
+				createdAt: new Date(),
 			}}
 			disableSave
 			disabledCompanyLink

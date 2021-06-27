@@ -18,12 +18,6 @@ interface RowProps {
 }
 
 const CompanyJob: React.FC<RowProps> = ({ job }) => {
-	const handleAccept = (jobId: string) => {
-		//
-	};
-
-	console.log(job);
-
 	return (
 		<RoundedBox padding={3} width={'100%'}>
 			<JobCardContent job={job} />
@@ -44,12 +38,7 @@ const CompanyJob: React.FC<RowProps> = ({ job }) => {
 					</TableHead>
 					<TableBody>
 						{job.requestedByStudents.map((studentId) => (
-							<CompanyJobStudentRow
-								key={studentId}
-								job={job}
-								studentId={studentId}
-								handleAccept={handleAccept}
-							/>
+							<CompanyJobStudentRow key={studentId} job={job} studentId={studentId} />
 						))}
 					</TableBody>
 				</Table>

@@ -22,6 +22,7 @@ import { useRecoilValue } from 'recoil';
 import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
 import currentUserState from 'store/user/currentUserState';
 import JobPage from 'pages/JobPage';
+import ConfirmJobPage from 'pages/ConfirmJobPage';
 
 const AuthMiddleware: RouteMiddleware = (next) => {
 	const firebaseUser = useRecoilValue(currentFirebaseUserState);
@@ -144,6 +145,12 @@ const router = OptionsRouter(routeOptions, (route) => ({
 			}),
 			createJob: route('job-erstellen', {
 				component: CreateJobPage,
+			}),
+			confirmJob: route('job-annehmen/:jobId', {
+				component: ConfirmJobPage,
+				params: {
+					jobId: stringParser,
+				},
 			}),
 			saved: route('gespeichert/&:jobId?', {
 				component: SavedPage,

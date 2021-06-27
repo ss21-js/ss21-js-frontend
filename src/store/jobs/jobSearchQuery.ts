@@ -3,18 +3,17 @@ import { atom, selector } from 'recoil';
 import authenticatedApiConfigurationSelector from 'store/api/authenticatedApiConfigurationSelector';
 import jobSearchParameters from 'store/jobs/jobSearchParameters';
 
-export const jobSeachQueryKeyState = atom({
-	key: 'jobSeachKeyState',
+export const jobSearchQueryKeyState = atom({
+	key: 'jobSearchKeyState',
 	default: new Date(),
 });
 
 const jobSearchQuery = selector<JobWithCompany[] | null>({
 	key: 'jobSearchJobs',
 	get: async ({ get }) => {
-		get(jobSeachQueryKeyState);
+		get(jobSearchQueryKeyState);
 
 		const config = get(authenticatedApiConfigurationSelector);
-
 		const parameters = get(jobSearchParameters);
 
 		if (config == null) {

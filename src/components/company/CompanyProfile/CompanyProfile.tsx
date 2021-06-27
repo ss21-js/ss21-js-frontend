@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import RoundedBox from 'components/RoundedBox';
 import Typography from '@material-ui/core/Typography';
-import CompanyJob from 'components/company/CompanyJob';
+import CompanyJob from 'components/company/CompanyJob/CompanyJob';
 import React from 'react';
 import { Company, JobWithCompany } from 'js-api-client';
 import styled from '@material-ui/core/styles/styled';
@@ -81,7 +81,7 @@ const CompanyProfile: React.FC<CompanyProfileContentProps> = ({
 					{jobs &&
 						jobs.map((job) => (
 							<Grid key={job.id} item xs={12}>
-								<CompanyJob job={job} students={[]} />
+								<CompanyJob job={job} />
 							</Grid>
 						))}
 					{/*<Grid item xs={12}>*/}

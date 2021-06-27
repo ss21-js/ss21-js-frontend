@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import authenticatedApiConfigurationSelector from 'store/api/authenticatedApiConfigurationSelector';
 import { StudentsApi } from 'js-api-client';
 
-const useConfirmJob = () => {
+const useAcceptJob = () => {
 	const config = useRecoilValue(authenticatedApiConfigurationSelector);
 
 	if (config === null) {
@@ -14,4 +14,4 @@ const useConfirmJob = () => {
 	};
 };
 
-export default useConfirmJob;
+export default useAcceptJob;
