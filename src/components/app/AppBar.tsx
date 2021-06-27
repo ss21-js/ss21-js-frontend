@@ -20,6 +20,26 @@ const StyledAppBar = styled(MuiAppBar)`
 	border-bottom: 1px solid ${(props) => props.theme.palette.divider};
 `;
 
+const StyledToolbar = styled(Toolbar)`
+	display: flex;
+	justify-content: space-between;
+`;
+
+const LogoContainer = styled('div')`
+	${(props) => props.theme.breakpoints.down('md')} {
+		width: 250px;
+	}
+`;
+
+const UserContainer = styled('div')`
+	display: flex;
+	justify-content: flex-end;
+
+	${(props) => props.theme.breakpoints.down('md')} {
+		width: 250px;
+	}
+`;
+
 const AppBar = () => {
 	const [isDrawerOpen, setDrawerOpen] = useRecoilState(drawerOpenState);
 
@@ -30,32 +50,17 @@ const AppBar = () => {
 
 	return (
 		<StyledAppBar position="fixed" elevation={0}>
-			<Toolbar
-				css={css`
-					display: flex;
-					justify-content: space-between;
-				`}
-			>
+			<StyledToolbar>
 				{isMobile && (
 					<IconButton color="primary" aria-label="open menu" onClick={handleMenuToggle}>
 						<FontAwesomeIcon icon={faBars} />
 					</IconButton>
 				)}
-				<div
-					css={css`
-						${!isMobile && 'width: 250px;'}
-					`}
-				>
+				<LogoContainer>
 					<Logo />
-				</div>
+				</LogoContainer>
 				{!isMobile && <Navigation />}
-				<div
-					css={css`
-						display: flex;
-						justify-content: flex-end;
-						${!isMobile && 'width: 250px;'}
-					`}
-				>
+				<UserContainer>
 					<CurrentUser avatarOnly={isMobile} />
 					<Tooltip title="Ausloggen">
 						<span>
@@ -70,8 +75,8 @@ const AppBar = () => {
 							</IconButton>
 						</span>
 					</Tooltip>
-				</div>
-			</Toolbar>
+				</UserContainer>
+			</StyledToolbar>
 		</StyledAppBar>
 	);
 };

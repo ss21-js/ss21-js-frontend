@@ -8,7 +8,7 @@ import styled from '@material-ui/core/styles/styled';
 import TextField from '@material-ui/core/TextField/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography/Typography';
-import { useMaterialRegister } from 'common/formUtils';
+import useMaterialRegister from 'common/useMaterialRegister';
 import Scrollable from 'components/app/Scrollable';
 import CenterContainer from 'components/layout/CenterContainer';
 import RoundedBox from 'components/RoundedBox';
@@ -26,7 +26,7 @@ import useSignUp from 'store/auth/useSignUp';
 import useSignInWith, { SignInWithProvider } from 'store/auth/useSignUpWith';
 
 const Form = styled('form')`
-	width: '100%';
+	width: 100%;
 	margin-top: ${(props) => props.theme.spacing(1)};
 `;
 

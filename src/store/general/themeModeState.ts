@@ -6,7 +6,9 @@ export enum ThemeMode {
 	DARK,
 }
 
-const { persistAtom } = recoilPersist();
+const { persistAtom } = recoilPersist({
+	key: 'theme',
+});
 
 const themeModeState = atom<ThemeMode>({
 	key: 'themeModeState',

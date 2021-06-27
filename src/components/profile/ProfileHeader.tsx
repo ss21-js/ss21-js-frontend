@@ -2,11 +2,11 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from '@material-ui/core/styles/styled';
 import Tooltip from '@material-ui/core/Tooltip';
-import HeaderPlaceholder from 'assets/HeaderPlaceholder.svg';
 import Center from 'components/layout/Center';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import firebaseStorageQuery from 'store/general/firebaseStorageQuery';
+import HeaderPlaceholder from 'assets/HeaderPlaceholder.svg';
 
 const ProfileHeaderContainer = styled('div')`
 	border-radius: ${(props) => props.theme.shape.borderRadius};
@@ -45,15 +45,15 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ src, width, height, onIma
 		inputRef.current?.click();
 	};
 
-	const srcUrl = src.length === 0 ? HeaderPlaceholder : src;
+	const image = (
+		<ProfileHeaderImg src={src.length === 0 ? HeaderPlaceholder : src} alt={''} width={width} height={height} />
+	);
 
 	if (onImageChange !== undefined) {
 		return (
 			<>
 				<Tooltip title="Header bearbeiten">
-					<EditButton onClick={handleEdit}>
-						<ProfileHeaderImg src={srcUrl} width={width} height={height} />
-					</EditButton>
+					<EditButton onClick={handleEdit}>{image}</EditButton>
 				</Tooltip>
 				<input
 					ref={inputRef}
@@ -68,7 +68,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ src, width, height, onIma
 		);
 	}
 
-	return <ProfileHeaderImg src={srcUrl} width={width} height={height} />;
+	return image;
 };
 
 const ProfileHeaderFirebaseProxy: React.FC<ProfileHeaderProps> = (props) => {

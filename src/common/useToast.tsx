@@ -30,15 +30,17 @@ const useToast = () => {
 		};
 	}
 
-	function promise<T>(
-		promise: Promise<T>,
-		msgs: ToastPromiseMsgs<T> = {
-			loading: 'Speichern...',
-			success: <b>Gespeichert</b>,
-			error: <b>Fehlgeschlagen</b>,
-		}
-	) {
-		return toast.promise(promise, msgs, options);
+	function promise<T>(promise: Promise<T>, messages?: Partial<ToastPromiseMsgs<T>>) {
+		return toast.promise(
+			promise,
+			{
+				loading: 'Speichern...',
+				success: <b>Gespeichert</b>,
+				error: <b>Fehlgeschlagen</b>,
+				...messages,
+			},
+			options
+		);
 	}
 
 	return {

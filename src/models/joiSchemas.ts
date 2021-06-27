@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { Address, Company, CreateJobDto, Student, University } from 'js-api-client';
+import { Address, Company, CreateJobDto, SearchJobDto, Student, University } from 'js-api-client';
 
 export const germanJoiMessages: Joi.LanguageMessages = {
 	'any.required': '{{#label}} ist ein Pflichtfeld',
@@ -87,7 +87,7 @@ export const studentSchema = Joi.object<Student>({
 
 export const createJobDtoSchema = Joi.object<CreateJobDto>({
 	jobName: Joi.string().min(5).max(200).required().label('Jobtitel'),
-	jobDescription: Joi.string().min(1).min(500).required().label('Beschreibung'),
+	jobDescription: Joi.string().min(1).max(500).required().label('Beschreibung'),
 	workArea: Joi.string().required().label('Arbeitsbereich'),
 	workBasis: Joi.number().required().label('Anstellungsart'),
 	languages: Joi.array().min(1).required().label('Sprachen'),
@@ -96,4 +96,17 @@ export const createJobDtoSchema = Joi.object<CreateJobDto>({
 	from: Joi.date().required().label('Von'),
 	to: Joi.date().required().label('Bis'),
 	contactMail: Joi.string().email({ tlds: false }).required().label('E-Mail'),
+	headerImageUrl: Joi.string().allow(''),
+}).messages(germanJoiMessages);
+
+export const searchJobDtoSchema = Joi.object<SearchJobDto>({
+	searchString: Joi.string().allow('').label('Suchtext'),
+	languages: Joi.array().label('Sprachen'),
+	skills: Joi.array().label('Programmiersprachen'),
+	from: Joi.date().required().label('Von'),
+	to: Joi.date().required().label('Bis'),
+	workArea: Joi.string().required().label('Arbeitsbereich'),
+	workBasis: Joi.number().required().label('Anstellungsart'),
+	limit: Joi.number(),
+	skip: Joi.number(),
 }).messages(germanJoiMessages);

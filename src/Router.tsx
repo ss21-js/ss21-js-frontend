@@ -1,5 +1,5 @@
 import CreateJobPage from 'pages/CreateJobPage';
-import JobsPage from 'pages/JobsPage';
+import SearchPage from 'pages/SearchPage';
 import LandingPage from 'pages/LandingPage';
 import LoginPage from 'pages/LoginPage';
 import OnboardingCompanyPage from 'pages/OnboardingCompanyPage';
@@ -9,10 +9,19 @@ import ProfilePage from 'pages/ProfilePage';
 import RegisterPage from 'pages/RegisterPage';
 import SavedPage from 'pages/SavedPage';
 import React from 'react';
-import { OptionsRouter, Redirect, RouteMiddleware, stringParser } from 'react-typesafe-routes';
+import {
+	dateParser,
+	intParser,
+	OptionsRouter,
+	ParamParser,
+	Redirect,
+	RouteMiddleware,
+	stringParser,
+} from 'react-typesafe-routes';
 import { useRecoilValue } from 'recoil';
 import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
 import currentUserState from 'store/user/currentUserState';
+import JobPage from 'pages/JobPage';
 
 const AuthMiddleware: RouteMiddleware = (next) => {
 	const firebaseUser = useRecoilValue(currentFirebaseUserState);
@@ -46,7 +55,7 @@ const OnboardingMiddleware: RouteMiddleware = (next) => {
 	}
 
 	if (user !== null) {
-		return () => <Redirect to={router.app().jobs({})} />;
+		return () => <Redirect to={router.app().search({})} />;
 	}
 
 	return next;
@@ -55,6 +64,15 @@ const OnboardingMiddleware: RouteMiddleware = (next) => {
 const routeOptions = {
 	showAppBar: true,
 	showDrawer: true,
+};
+
+const stringArrayParser: ParamParser<string[]> = {
+	parse: (s) =>
+		s
+			.substring(1, s.length - 1)
+			.split(',')
+			.filter((s) => s !== ''),
+	serialize: (x) => `[${x.join(',')}]`,
 };
 
 const router = OptionsRouter(routeOptions, (route) => ({
@@ -97,22 +115,46 @@ const router = OptionsRouter(routeOptions, (route) => ({
 		'app',
 		{
 			middleware: AuthMiddleware,
-			component: () => <Redirect to={router.app().jobs({})} />,
+			component: () => <Redirect to={router.app().search({})} />,
 		},
 		(route) => ({
-			jobs: route('jobs/:jobId?', {
-				component: JobsPage,
+			search: route(
+				'jobsuche/&:from?&:to?&:languages?&:skills?&:workArea?&:workBasis?&:skip?&:limit?&:searchString?&:jobId?',
+				{
+					component: SearchPage,
+					params: {
+						jobId: stringParser,
+						from: dateParser,
+						to: dateParser,
+						languages: stringArrayParser,
+						skills: stringArrayParser,
+						workArea: stringParser,
+						workBasis: intParser,
+						skip: intParser,
+						limit: intParser,
+						searchString: stringParser,
+					},
+				}
+			),
+			job: route('job/:id', {
+				component: JobPage,
 				params: {
-					jobId: stringParser,
+					id: stringParser,
 				},
 			}),
 			createJob: route('job-erstellen', {
 				component: CreateJobPage,
 			}),
-			saved: route('gespeichert', {
+			saved: route('gespeichert/&:jobId?', {
 				component: SavedPage,
+				params: {
+					jobId: stringParser,
+				},
 			}),
-			profile: route('profil/:id?', {
+			profile: route('profil', {
+				component: ProfilePage,
+			}),
+			otherProfile: route('profil/:id', {
 				component: ProfilePage,
 				params: {
 					id: stringParser,
@@ -121,7 +163,7 @@ const router = OptionsRouter(routeOptions, (route) => ({
 		})
 	),
 	fallback: route('*', {
-		component: () => <Redirect to={router.app().jobs({})} />,
+		component: () => <Redirect to={router.app().search({})} />,
 	}),
 }));
 

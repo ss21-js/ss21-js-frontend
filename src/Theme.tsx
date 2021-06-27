@@ -23,6 +23,7 @@ const paletteLight: PaletteOptions = {
 	text: {
 		primary: '#000',
 		secondary: '#1b1b1b',
+		disabled: '#8b8b8b',
 	},
 	background: {
 		default: '#efefef',
@@ -52,6 +53,7 @@ const paletteDark: PaletteOptions = {
 	text: {
 		primary: '#fff',
 		secondary: '#f1f1f1',
+		disabled: '#8b8b8b',
 	},
 	divider: '#434961',
 	background: {

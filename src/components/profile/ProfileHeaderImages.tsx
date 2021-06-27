@@ -5,10 +5,10 @@ import ProfileLogo from './ProfileLogo';
 
 const ImageContainer = styled('div')`
 	position: relative;
-	margin: -${(props) => props.theme.spacing(4)};
 	border-top-left-radius: ${(props) => props.theme.shape.borderRadius};
 	border-top-right-radius: ${(props) => props.theme.shape.borderRadius};
 	margin-bottom: 96px;
+	width: 100%;
 
 	${(props) => props.theme.breakpoints.down('sm')} {
 		margin-bottom: 64px;

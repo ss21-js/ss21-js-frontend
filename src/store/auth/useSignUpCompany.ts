@@ -4,6 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import authenticatedApiConfigurationSelector from 'store/api/authenticatedApiConfigurationSelector';
 import currentUserState from 'store/user/currentUserState';
 import currentUserTypeState from 'store/user/currentUserTypeState';
+import { onboardingPersistLocalStorageKey } from 'store/onboarding/onboardingPersistAtom';
 
 export const useSignUpCompany = () => {
 	const config = useRecoilValue(authenticatedApiConfigurationSelector);
@@ -14,14 +15,11 @@ export const useSignUpCompany = () => {
 		return null;
 	}
 
-	return async (companyDto: CompanyDto): Promise<boolean> => {
-		try {
-			const response = await new AuthApi(config).companiesControllerSignup({ companyDto });
-			setCurrentUser(response);
-			setCurrentUserType(UserType.COMPANY);
-			return true;
-		} catch (e) {
-			return false;
-		}
+	return async (companyDto: CompanyDto) => {
+		const response = await new AuthApi(config).companiesControllerSignup({ companyDto });
+		setCurrentUser(response);
+		setCurrentUserType(UserType.COMPANY);
+		localStorage.removeItem(onboardingPersistLocalStorageKey);
+		return true;
 	};
 };

@@ -9,6 +9,8 @@ import router from 'Router';
 import drawerOpenState from 'store/general/drawerOpenState';
 import currentUserTypeState from 'store/user/currentUserTypeState';
 import StyledButton from '../StyledButton';
+import styled from '@material-ui/core/styles/styled';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 interface NavButtonProps {
 	text: string;
@@ -44,29 +46,30 @@ const NavButton: React.FC<NavButtonProps> = ({ text, link, isActive, vertical })
 	);
 };
 
-export interface NavigationProps {
-	vertical?: boolean;
-}
+const NavigationContainer = styled('div')`
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
 
-const Navigation: React.FC<NavigationProps> = ({ vertical }) => {
+	@media (max-width: 360px) {
+		flex-direction: column;
+	}
+`;
+
+const Navigation: React.FC = () => {
+	const vertical = useMediaQuery(() => '@media(max-width: 360px)');
 	const currentUserType = useRecoilValue(currentUserTypeState);
 
 	const { search, saved, profile, createJob } = useRoutesActive({
-		search: router.app.children.jobs,
+		search: router.app.children.search,
 		createJob: router.app.children.createJob,
 		saved: router.app.children.saved,
 		profile: router.app.children.profile,
 	});
 
 	return (
-		<div
-			css={css`
-				display: flex;
-				justify-content: center;
-				flex-direction: ${vertical ? 'column' : 'row'};
-			`}
-		>
-			<NavButton link={router.app().jobs({}).$} text="Job finden" isActive={search} vertical={vertical} />
+		<NavigationContainer>
+			<NavButton link={router.app().search({}).$} text="Job finden" isActive={search} vertical={vertical} />
 			{currentUserType === UserType.COMPANY ? (
 				<NavButton
 					link={router.app().createJob().$}
@@ -75,10 +78,10 @@ const Navigation: React.FC<NavigationProps> = ({ vertical }) => {
 					vertical={vertical}
 				/>
 			) : (
-				<NavButton link={router.app().saved().$} text="Gespeichert" isActive={saved} vertical={vertical} />
+				<NavButton link={router.app().saved({}).$} text="Gespeichert" isActive={saved} vertical={vertical} />
 			)}
-			<NavButton link={router.app().profile({}).$} text="Profil" isActive={profile} vertical={vertical} />
-		</div>
+			<NavButton link={router.app().profile().$} text="Profil" isActive={profile} vertical={vertical} />
+		</NavigationContainer>
 	);
 };
 export default Navigation;

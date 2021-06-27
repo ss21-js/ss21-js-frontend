@@ -1,6 +1,6 @@
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { useMaterialRegister } from 'common/formUtils';
+import useMaterialRegister from 'common/useMaterialRegister';
 import { Student } from 'js-api-client';
 import React from 'react';
 import { Control } from 'react-hook-form';
@@ -13,7 +13,7 @@ export interface StudentFormUniversityProps {
 const StudentFormUniversity: React.FC<StudentFormUniversityProps> = ({ control, disabled }) => {
 	const name = useMaterialRegister(control, 'university.name');
 	const homepage = useMaterialRegister(control, 'university.homepage');
-	const semester = useMaterialRegister(control, 'semester');
+	const semester = useMaterialRegister(control, 'semester', { transformer: 'number' });
 
 	return (
 		<>

@@ -18,7 +18,7 @@ const LandingPage: React.FC = () => {
 	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
-	const handleToApp = () => history.push(router.app().jobs({}).$);
+	const handleToApp = () => history.push(router.app().search({}).$);
 	const handleLogin = () => history.push(router.login().$);
 	const handleRegister = () => history.push(router.register().$);
 

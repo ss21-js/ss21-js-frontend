@@ -1,7 +1,4 @@
-import faApple from '@fortawesome/free-brands-svg-icons/faApple';
-import faGithub from '@fortawesome/free-brands-svg-icons/faGithub';
-import faGoogle from '@fortawesome/free-brands-svg-icons/faGoogle';
-import faMicrosoft from '@fortawesome/free-brands-svg-icons/faMicrosoft';
+import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Box from '@material-ui/core/Box';
@@ -11,7 +8,7 @@ import styled from '@material-ui/core/styles/styled';
 import TextField from '@material-ui/core/TextField/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography/Typography';
-import { useMaterialRegister } from 'common/formUtils';
+import useMaterialRegister from 'common/useMaterialRegister';
 import Scrollable from 'components/app/Scrollable';
 import CenterContainer from 'components/layout/CenterContainer';
 import RoundedBox from 'components/RoundedBox';
@@ -29,7 +26,7 @@ import useSignIn from 'store/auth/useSignIn';
 import useSignInWith, { SignInWithProvider } from 'store/auth/useSignUpWith';
 
 const Form = styled('form')`
-	width: '100%';
+	width: 100%;
 	margin-top: ${(props) => props.theme.spacing(1)};
 `;
 

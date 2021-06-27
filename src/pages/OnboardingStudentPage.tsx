@@ -1,6 +1,6 @@
 import { joiResolver } from '@hookform/resolvers/joi';
-import StepperContainer from 'components/app/StepperContainer';
-import OnboardingStudentProfile from 'components/student/OnboardingStudentImages';
+import OnboardingStepper from 'components/onboarding/OnboardingStepper';
+import OnboardingStudentProfile from 'components/onboarding/OnboardingStudentProfile';
 import StudentFormAddress from 'components/student/StudentFormAddress';
 import StudentFormGeneral from 'components/student/StudentFormGeneral';
 import StudentFormJob from 'components/student/StudentFormJob';
@@ -13,22 +13,29 @@ import WorkArea from 'models/workArea';
 import WorkBasis from 'models/workBasis';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
 import useSignUpStudent from 'store/auth/useSignUpStudent';
+import useToast from 'common/useToast';
+import onboardingStudentState from 'store/onboarding/onboardingStudentState';
 
 const OnboardingStudentPage: React.FC = () => {
 	const signUpStudent = useSignUpStudent();
+	const toast = useToast();
 
 	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 
 	const [loading, setLoading] = React.useState(false);
-	const [student, setStudent] = React.useState<Partial<Student>>({
-		email: firebaseUser?.email ?? '',
-		workArea: WorkArea.NONE.valueOf(),
-		workBasis: WorkBasis.NONE.valueOf(),
-		skills: [],
-	});
+	const [student, setStudent] = useRecoilState(onboardingStudentState);
+
+	React.useEffect(() => {
+		// Reset images on page refresh because of missing permissions
+		setStudent((student) => ({
+			...student,
+			headerImageUrl: '',
+			profileImageUrl: '',
+		}));
+	}, [setStudent]);
 
 	const [headerFile, setHeaderFile] = React.useState<File | null>(null);
 	const [profileFile, setProfileFile] = React.useState<File | null>(null);
@@ -37,7 +44,7 @@ const OnboardingStudentPage: React.FC = () => {
 		setHeaderFile(file);
 		setStudent((student) => ({
 			...student,
-			companyHeaderImageUrl: url,
+			headerImageUrl: url,
 		}));
 	};
 
@@ -45,16 +52,17 @@ const OnboardingStudentPage: React.FC = () => {
 		setProfileFile(file);
 		setStudent((student) => ({
 			...student,
-			companyProfileImageUrl: url,
+			profileImageUrl: url,
 		}));
 	};
 
 	const { control, getValues, trigger } = useForm<Student>({
 		resolver: joiResolver(studentSchema),
 		defaultValues: student,
+		mode: 'onBlur',
 	});
 
-	const handleNext = async (from: number, to: number) => {
+	const handleChange = async (from: number, to: number) => {
 		const formStudent = getValues();
 		setStudent((student) => ({
 			...student,
@@ -103,17 +111,6 @@ const OnboardingStudentPage: React.FC = () => {
 		} else if (from === 3) {
 			return (
 				await Promise.all([
-					trigger('address.city'),
-					trigger('address.country'),
-					trigger('address.state'),
-					trigger('address.street1'),
-					trigger('address.street2'),
-					trigger('address.zip'),
-				])
-			).every((v) => v);
-		} else if (from === 4) {
-			return (
-				await Promise.all([
 					trigger('workArea'),
 					trigger('workBasis'),
 					trigger('languages'),
@@ -124,8 +121,8 @@ const OnboardingStudentPage: React.FC = () => {
 			).every((v) => v);
 		} else if (to === 5) {
 			setLoading(true);
-			var headerUrl = '';
-			var profileUrl = '';
+			let headerUrl = '';
+			let profileUrl = '';
 
 			if (headerFile) {
 				const headerRef = ref(firebaseStorage, `images/${firebaseUser?.id}/${headerFile.name}`);
@@ -160,9 +157,9 @@ const OnboardingStudentPage: React.FC = () => {
 				lastName: formStudent.lastName ?? '',
 				description: formStudent.description ?? '',
 				githubUrl: formStudent.githubUrl ?? '',
-				yearsOfExperience: parseInt((formStudent.yearsOfExperience ?? 0).toString()),
+				yearsOfExperience: formStudent.yearsOfExperience ?? 0,
 				university: university,
-				semester: parseInt((formStudent.semester ?? 0).toString()),
+				semester: formStudent.semester ?? 0,
 				// Address
 				address: address,
 				// Job
@@ -172,18 +169,25 @@ const OnboardingStudentPage: React.FC = () => {
 				skills: formStudent.skills ?? [],
 				workArea: formStudent.workArea ?? WorkArea.NONE.valueOf(),
 				workBasis: parseInt((formStudent.workBasis ?? WorkBasis.NONE.valueOf()).toString()),
+				headerImageUrl: headerUrl ?? '',
+				profileImageUrl: profileUrl ?? '',
 			};
 
-			const result = (await signUpStudent?.(studentDto)) ?? false;
-			setLoading(false);
-			return result;
+			toast
+				.promise(signUpStudent!(studentDto))
+				.then(() => {
+					//
+				})
+				.finally(() => setLoading(false));
+
+			return false;
 		}
 
 		return true;
 	};
 
 	return (
-		<StepperContainer
+		<OnboardingStepper
 			steps={[
 				{
 					label: 'Profil',
@@ -221,7 +225,7 @@ const OnboardingStudentPage: React.FC = () => {
 					),
 				},
 			]}
-			next={handleNext}
+			onChange={handleChange}
 		/>
 	);
 };

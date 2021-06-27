@@ -1,5 +1,5 @@
 enum WorkArea {
-	NONE = '',
+	NONE = 'none',
 	FULLSTACK = 'fullstack',
 	BACKEND = 'backend',
 	FRONTEND = 'frontend',

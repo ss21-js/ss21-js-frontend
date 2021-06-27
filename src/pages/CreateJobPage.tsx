@@ -1,33 +1,21 @@
 import { joiResolver } from '@hookform/resolvers/joi';
-import Autocomplete from '@material-ui/core/Autocomplete';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import DatePicker from '@material-ui/lab/DatePicker';
-import { useMaterialRegister } from 'common/formUtils';
 import useToast from 'common/useToast';
 import AppFrame from 'components/app/AppFrame';
 import Scrollable from 'components/app/Scrollable';
 import CenterContainer from 'components/layout/CenterContainer';
-import RoundedBox from 'components/RoundedBox';
-import StyledButton from 'components/StyledButton';
 import { add } from 'date-fns/esm';
 import { Company, CreateJobDto } from 'js-api-client';
-import { omit } from 'lodash';
 import { createJobDtoSchema } from 'models/joiSchemas';
-import langMap from 'models/langMap';
-import programmingLanguages from 'models/programmingLanguages';
 import WorkArea from 'models/workArea';
 import WorkBasis from 'models/workBasis';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import useCreateJob from 'store/jobs/useCreateJob';
 import currentUserState from 'store/user/currentUserState';
+import CreateJobForm from 'components/jobs/CreateJob/CreateJobForm';
+import CreateJobPreview from 'components/jobs/CreateJob/CreateJobPreview';
 
 const CreateJobPage: React.FC = () => {
 	const [loading, setLoading] = React.useState(false);
@@ -36,32 +24,37 @@ const CreateJobPage: React.FC = () => {
 	const toast = useToast();
 	const createJob = useCreateJob();
 
-	const { control, handleSubmit } = useForm<CreateJobDto>({
-		resolver: joiResolver(createJobDtoSchema),
-		defaultValues: {
+	const defaultValues = useMemo(
+		() => ({
 			contactMail: company.email,
 			headerImageUrl: company.companyHeaderImageUrl,
 			from: new Date(),
 			to: add(new Date(), { months: 1 }),
 			workArea: WorkArea.NONE.valueOf(),
 			workBasis: WorkBasis.NONE.valueOf(),
-		},
+			jobQualifications: [],
+			languages: [],
+			skills: [],
+		}),
+		[company.email, company.companyHeaderImageUrl]
+	);
+
+	const { control, handleSubmit, reset, watch } = useForm<CreateJobDto>({
+		resolver: joiResolver(createJobDtoSchema),
+		defaultValues: defaultValues,
 	});
 
-	const name = useMaterialRegister(control, 'jobName');
-	const description = useMaterialRegister(control, 'jobDescription');
-	const qualifications = useMaterialRegister(control, 'jobQualifications', { includeValue: true });
-	const languages = useMaterialRegister(control, 'languages');
-	const skills = useMaterialRegister(control, 'skills');
-	const workArea = useMaterialRegister(control, 'workArea');
-	const workBasis = useMaterialRegister(control, 'workBasis');
-	const from = useMaterialRegister(control, 'from', { includeValue: true });
-	const to = useMaterialRegister(control, 'to', { includeValue: true });
-
 	const onSubmit = (data: CreateJobDto) => {
+		reset(defaultValues);
 		setLoading(true);
 		toast
-			.promise(createJob!(data))
+			.promise(
+				createJob!({
+					...data,
+					jobQualifications: data.jobQualifications.map((q) => q.replace('- ', '').trim()),
+				})
+			)
+			.then(() => reset())
 			.catch()
 			.finally(() => setLoading(false));
 	};
@@ -69,191 +62,15 @@ const CreateJobPage: React.FC = () => {
 	return (
 		<AppFrame>
 			<Scrollable>
-				<CenterContainer maxWidth="lg">
-					<RoundedBox padding={3}>
-						<form onSubmit={handleSubmit(onSubmit)} noValidate>
-							<Typography component="h1" variant="h4">
-								Neuen Job anlegen
-							</Typography>
-							<Grid
-								container
-								paddingY={2}
-								spacing={{
-									md: 4,
-									sm: 2,
-								}}
-							>
-								<Grid item md={6} xs={12}>
-									<Grid container>
-										<Grid item xs={12}>
-											<TextField
-												{...name}
-												variant="outlined"
-												margin="normal"
-												required
-												fullWidth
-												label="Jobtitel"
-												disabled={loading}
-											/>
-										</Grid>
-										<Grid item xs={12}>
-											<TextField
-												{...description}
-												variant="outlined"
-												margin="normal"
-												required
-												multiline
-												rows={4}
-												fullWidth
-												label="Beschreibung"
-												disabled={loading}
-											/>
-										</Grid>
-										<Grid item xs={12}>
-											<TextField
-												value={qualifications.value?.join('\n') ?? ''}
-												onChange={(e) =>
-													qualifications.onChange({
-														target: { value: e.target.value.split('\n') },
-													})
-												}
-												error={qualifications.error}
-												variant="outlined"
-												margin="normal"
-												required
-												multiline
-												rows={4}
-												fullWidth
-												label="Qualifikationen"
-												placeholder={`- Bachelorstudium Informatik oder Wirtschaftsinformatik mindestens im 4. Semester
-- Teamfähig
-													`}
-												helperText={
-													qualifications.error
-														? qualifications.helperText
-														: 'Stichpunkte mit "-" am Zeilenanfang'
-												}
-												disabled={loading}
-											/>
-										</Grid>
-									</Grid>
-								</Grid>
-								<Grid item md={6} xs={12} marginTop={2}>
-									<Grid
-										container
-										spacing={{
-											md: 4,
-											sm: 2,
-										}}
-									>
-										<Grid item md={6} xs={12} marginBottom={2}>
-											<Autocomplete
-												multiple
-												id="languages"
-												onChange={(_, data) => languages.onChange(data)}
-												options={langMap}
-												getOptionLabel={(option) => option}
-												filterSelectedOptions
-												disabled={loading}
-												renderInput={(params) => (
-													<TextField
-														{...params}
-														label="Sprachen"
-														placeholder="Sprachen auswählen"
-														error={languages.error}
-														helperText={languages.helperText}
-													/>
-												)}
-											/>
-										</Grid>
-										<Grid item md={6} xs={12} marginBottom={2}>
-											<Autocomplete
-												multiple
-												id="skills"
-												onChange={(_, data) => skills.onChange(data)}
-												options={programmingLanguages}
-												getOptionLabel={(option) => option}
-												filterSelectedOptions
-												disabled={loading}
-												renderInput={(params) => (
-													<TextField
-														{...params}
-														label="Programmiersprachen"
-														placeholder="Programmiersprachen auswählen"
-														error={skills.error}
-														helperText={skills.helperText}
-													/>
-												)}
-											/>
-										</Grid>
-
-										<Grid item md={6} xs={12} marginBottom={2}>
-											<FormControl fullWidth>
-												<InputLabel htmlFor="workArea">Bereich</InputLabel>
-												<Select
-													{...omit(workArea, 'helperText')}
-													id="workArea"
-													label="Bereich"
-													disabled={loading}
-													native
-												>
-													<option value={WorkArea.NONE}>Keine Präferenz</option>
-													<option value={WorkArea.FRONTEND}>Frontend</option>
-													<option value={WorkArea.BACKEND}>Backend</option>
-													<option value={WorkArea.FULLSTACK}>Fullstack</option>
-												</Select>
-												{workArea.helperText && (
-													<FormHelperText>{workArea.helperText}</FormHelperText>
-												)}
-											</FormControl>
-										</Grid>
-										<Grid item md={6} xs={12} marginBottom={2}>
-											<FormControl fullWidth>
-												<InputLabel htmlFor="workBasis">Anstellungsart</InputLabel>
-												<Select
-													{...omit(workBasis, 'helperText')}
-													id="workBasis"
-													variant="outlined"
-													label="Anstellungsart"
-													disabled={loading}
-													native
-												>
-													<option value={WorkBasis.NONE}>Keine Präferenz</option>
-													<option value={WorkBasis.PART_TIME}>Teilzeit</option>
-													<option value={WorkBasis.FULL_TIME}>Vollzeit</option>
-												</Select>
-												{workBasis.helperText && (
-													<FormHelperText>{workBasis.helperText}</FormHelperText>
-												)}
-											</FormControl>
-										</Grid>
-										<Grid item md={6} xs={12}>
-											<DatePicker
-												value={from.value}
-												label="Von"
-												onChange={(newValue) => from.onChange(newValue)}
-												mask="__.__.____"
-												renderInput={(params) => <TextField {...params} fullWidth />}
-											/>
-										</Grid>
-										<Grid item md={6} xs={12}>
-											<DatePicker
-												value={to.value}
-												label="Bis"
-												onChange={(newValue) => to.onChange(newValue)}
-												mask="__.__.____"
-												renderInput={(params) => <TextField {...params} fullWidth />}
-											/>
-										</Grid>
-									</Grid>
-								</Grid>
-							</Grid>
-
-							<StyledButton type="submit" variant="contained" color="primary" loading={loading}>
-								Erstellen
-							</StyledButton>
-						</form>
-					</RoundedBox>
+				<CenterContainer maxWidth="xl">
+					<Grid container spacing={4} alignItems={'center'}>
+						<Grid item md={6} xs={12}>
+							<CreateJobForm handleSubmit={handleSubmit(onSubmit)} control={control} disabled={loading} />
+						</Grid>
+						<Grid item md={6} xs={12}>
+							<CreateJobPreview watch={watch} />
+						</Grid>
+					</Grid>
 				</CenterContainer>
 			</Scrollable>
 		</AppFrame>

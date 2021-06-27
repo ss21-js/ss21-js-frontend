@@ -4,6 +4,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import React, { useState } from 'react';
 import TabContentPanel from './TabContentPanel';
+
 export interface TabBarTab {
 	title: string;
 	component: React.ReactNode;

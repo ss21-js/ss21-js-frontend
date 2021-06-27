@@ -10,6 +10,7 @@ export interface SortOption {
 	key: string;
 	title: string;
 }
+
 export type SortDropdownProps = Omit<UseFormRegisterReturn, 'ref'> & {
 	options: SortOption[];
 	inputRef: React.Ref<any>;

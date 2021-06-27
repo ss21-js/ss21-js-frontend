@@ -11,6 +11,7 @@ import globalLoadingState from 'store/general/globalLoadingState';
 import themeModeState, { ThemeMode } from 'store/general/themeModeState';
 import AppBar from './AppBar';
 import Drawer from './Drawer';
+
 export interface AppFrameProps {
 	children: React.ReactNode;
 }

@@ -47,15 +47,15 @@ const ProfileLogo: React.FC<ProfileLogoProps> = ({ src, width, height, onImageCh
 		inputRef.current?.click();
 	};
 
-	const srcUrl = src.length === 0 ? ProfilePlaceholder : src;
+	const image = (
+		<ProfileLogoImg src={src.length === 0 ? ProfilePlaceholder : src} alt={''} width={width} height={height} />
+	);
 
 	if (onImageChange !== undefined) {
 		return (
 			<>
 				<Tooltip title="Profilbild bearbeiten">
-					<EditButton onClick={handleEdit}>
-						<ProfileLogoImg src={srcUrl} alt={''} width={width} height={height} />
-					</EditButton>
+					<EditButton onClick={handleEdit}>{image}</EditButton>
 				</Tooltip>
 				<input
 					ref={inputRef}
@@ -70,7 +70,7 @@ const ProfileLogo: React.FC<ProfileLogoProps> = ({ src, width, height, onImageCh
 		);
 	}
 
-	return <ProfileLogoImg src={srcUrl} alt={''} width={width} height={height} />;
+	return image;
 };
 
 const ProfileLogoFirebaseProxy: React.FC<ProfileLogoProps> = (props) => {

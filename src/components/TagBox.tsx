@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import useTheme from '@material-ui/core/styles/useTheme';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import RoundedBox from './RoundedBox';
+import { stringToHslColor } from 'common/utils';
 
 export interface TagBoxProps {
 	content: string;
@@ -11,15 +11,13 @@ export interface TagBoxProps {
 	color?: string;
 }
 
-const TagBox: React.FC<TagBoxProps> = ({ content, paddingX, paddingY, color }) => {
-	const theme = useTheme();
-
+const TagBox: React.FC<TagBoxProps> = ({ content, paddingX, paddingY }) => {
 	return (
 		<RoundedBox
 			paddingX={paddingX ?? 1.5}
 			paddingY={paddingY ?? 0.75}
 			css={css`
-				background-color: ${color ?? theme.palette.primary.main}33;
+				background-color: ${stringToHslColor(content)};
 			`}
 		>
 			<Typography
@@ -27,7 +25,7 @@ const TagBox: React.FC<TagBoxProps> = ({ content, paddingX, paddingY, color }) =
 				variant="body2"
 				css={css`
 					font-weight: 600;
-					color: ${color ?? theme.palette.primary.main};
+					color: #fff;
 				`}
 			>
 				{content}

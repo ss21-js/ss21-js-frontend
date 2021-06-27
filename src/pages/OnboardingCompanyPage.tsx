@@ -1,18 +1,19 @@
 import { joiResolver } from '@hookform/resolvers/joi';
 import useToast from 'common/useToast';
-import StepperContainer from 'components/app/StepperContainer';
+import OnboardingStepper from 'components/onboarding/OnboardingStepper';
 import CompanyFormAddress from 'components/company/CompanyFormAddress';
 import CompanyFormGeneral from 'components/company/CompanyFormGeneral';
-import OnboardingCompanyProfile from 'components/company/OnboardingCompanyProfile';
+import OnboardingCompanyProfile from 'components/onboarding/OnboardingCompanyProfile';
 import { ref, uploadBytes } from 'firebase/storage';
 import { firebaseStorage } from 'index';
 import { Address, Company, CompanyDto } from 'js-api-client';
 import { companySchema } from 'models/joiSchemas';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import currentFirebaseUserState from 'store/auth/currentFirebaseUserState';
 import { useSignUpCompany } from 'store/auth/useSignUpCompany';
+import onboardingCompanyState from 'store/onboarding/onboardingCompanyState';
 
 const OnboardingCompanyPage: React.FC = () => {
 	const toast = useToast();
@@ -21,15 +22,14 @@ const OnboardingCompanyPage: React.FC = () => {
 	const firebaseUser = useRecoilValue(currentFirebaseUserState);
 
 	const [loading, setLoading] = React.useState(false);
-	const [company, setCompany] = React.useState<Partial<Company>>({
-		email: firebaseUser?.email ?? undefined,
-	});
+	const [company, setCompany] = useRecoilState(onboardingCompanyState);
 	const [headerFile, setHeaderFile] = React.useState<File | null>(null);
 	const [profileFile, setProfileFile] = React.useState<File | null>(null);
 
 	const { control, getValues, trigger } = useForm<Company>({
 		resolver: joiResolver(companySchema),
 		defaultValues: company,
+		mode: 'onBlur',
 	});
 
 	const handleHeaderImage = (file: File, url: string) => {
@@ -48,7 +48,7 @@ const OnboardingCompanyPage: React.FC = () => {
 		}));
 	};
 
-	const handleNext = async (from: number, to: number) => {
+	const handleChange = async (from: number, to: number) => {
 		const values = getValues();
 		setCompany((company) => ({
 			...company,
@@ -76,8 +76,8 @@ const OnboardingCompanyPage: React.FC = () => {
 			).every((v) => v);
 		} else if (to === 3) {
 			setLoading(true);
-			var headerUrl = '';
-			var profileUrl = '';
+			let headerUrl = '';
+			let profileUrl = '';
 
 			if (headerFile) {
 				const headerRef = ref(firebaseStorage, `images/${firebaseUser?.id}/${headerFile.name}`);
@@ -119,7 +119,7 @@ const OnboardingCompanyPage: React.FC = () => {
 	};
 
 	return (
-		<StepperContainer
+		<OnboardingStepper
 			steps={[
 				{
 					label: 'Unternehmen',
@@ -140,7 +140,7 @@ const OnboardingCompanyPage: React.FC = () => {
 					),
 				},
 			]}
-			next={handleNext}
+			onChange={handleChange}
 		/>
 	);
 };

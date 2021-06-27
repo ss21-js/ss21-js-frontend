@@ -16,8 +16,6 @@ const useCreateJob = () => {
 			setJobSeachQueryKey(new Date());
 			return job;
 		});
-
-		// Invalidate search quer
 	};
 };
 

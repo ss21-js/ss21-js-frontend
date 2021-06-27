@@ -7,8 +7,7 @@ import Select from '@material-ui/core/Select';
 import styled from '@material-ui/core/styles/styled';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import DatePicker from '@material-ui/lab/DatePicker';
-import { useMaterialRegister } from 'common/formUtils';
+import useMaterialRegister from 'common/useMaterialRegister';
 import { Student } from 'js-api-client';
 import { omit } from 'lodash';
 import langMap from 'models/langMap';
@@ -17,6 +16,8 @@ import WorkArea from 'models/workArea';
 import WorkBasis from 'models/workBasis';
 import React from 'react';
 import { Control } from 'react-hook-form';
+import { DateRangePicker } from '@material-ui/lab';
+import Box from '@material-ui/core/Box';
 
 const Spacer = styled('div')`
 	height: ${(props) => props.theme.spacing(3)};
@@ -29,7 +30,7 @@ export interface StudentFormJobProps {
 
 const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) => {
 	const workArea = useMaterialRegister(control, 'workArea');
-	const workBasis = useMaterialRegister(control, 'workBasis');
+	const workBasis = useMaterialRegister(control, 'workBasis', { transformer: 'number' });
 	const languages = useMaterialRegister(control, 'languages');
 	const skills = useMaterialRegister(control, 'skills');
 	const fromAvailable = useMaterialRegister(control, 'fromAvailable', { includeValue: true });
@@ -83,6 +84,7 @@ const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) =>
 						onChange={(_, data) => languages.onChange(data)}
 						options={langMap}
 						getOptionLabel={(option) => option}
+						defaultValue={languages.defaultValue}
 						filterSelectedOptions
 						disabled={disabled}
 						renderInput={(params) => (
@@ -103,6 +105,7 @@ const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) =>
 						onChange={(_, data) => skills.onChange(data)}
 						options={programmingLanguages}
 						getOptionLabel={(option) => option}
+						defaultValue={skills.defaultValue}
 						filterSelectedOptions
 						disabled={disabled}
 						renderInput={(params) => (
@@ -119,22 +122,23 @@ const StudentFormJob: React.FC<StudentFormJobProps> = ({ control, disabled }) =>
 				<Grid item xs={12}>
 					<Typography variant="h6">Verfügbarkeit</Typography>
 				</Grid>
-				<Grid item md={6} xs={12}>
-					<DatePicker
-						value={fromAvailable.value}
-						label="Von"
-						onChange={(newValue) => fromAvailable.onChange(newValue)}
+				<Grid item xs={12}>
+					<DateRangePicker
+						startText="Von"
+						endText="Bis"
 						mask="__.__.____"
-						renderInput={(params) => <TextField {...params} fullWidth />}
-					/>
-				</Grid>
-				<Grid item md={6} xs={12}>
-					<DatePicker
-						value={toAvailable.value}
-						label="Bis"
-						onChange={(newValue) => toAvailable.onChange(newValue)}
-						mask="__.__.____"
-						renderInput={(params) => <TextField {...params} fullWidth />}
+						value={[fromAvailable.value, toAvailable.value]}
+						onChange={(newValue) => {
+							fromAvailable.onChange(newValue[0]);
+							toAvailable.onChange(newValue[1]);
+						}}
+						renderInput={(startProps, endProps) => (
+							<React.Fragment>
+								<TextField {...startProps} fullWidth />
+								<Box sx={{ mx: 2 }}> bis </Box>
+								<TextField {...endProps} fullWidth />
+							</React.Fragment>
+						)}
 					/>
 				</Grid>
 			</Grid>

@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { useMaterialRegister } from 'common/formUtils';
+import useMaterialRegister from 'common/useMaterialRegister';
 import { Student } from 'js-api-client';
 import React from 'react';
 import { Control } from 'react-hook-form';
@@ -19,7 +19,7 @@ const StudentFormGeneral: React.FC<StudentFormGeneralProps> = (props) => {
 	const lastName = useMaterialRegister(control, 'lastName');
 	const description = useMaterialRegister(control, 'description');
 	const github = useMaterialRegister(control, 'githubUrl');
-	const yearsOfExperience = useMaterialRegister(control, 'yearsOfExperience');
+	const yearsOfExperience = useMaterialRegister(control, 'yearsOfExperience', { transformer: 'number' });
 
 	return (
 		<>
