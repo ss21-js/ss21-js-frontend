@@ -1,6 +1,6 @@
 export const isProd = process.env.NODE_ENV !== 'production';
 
-export const apiBasePath = 'http://ss21.api.kse-dev.de';
+export const apiBasePath = 'https://ss21.api.kse-dev.de';
 
 export const firebaseConfig = {
 	apiKey: 'AIzaSyBZH4cPWpKQF3ZalLzoZmk4S5OTq07nJh0',
