@@ -8,7 +8,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import WorkArea from 'models/workArea';
 import WorkBasis from 'models/workBasis';
-import { DateRangePicker } from '@material-ui/lab';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Autocomplete from '@material-ui/core/Autocomplete';
@@ -20,6 +19,7 @@ import { omit } from 'lodash';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import useMaterialRegister from 'common/useMaterialRegister';
 import StyledButton from 'components/StyledButton';
+import { DateRangePicker } from '@material-ui/lab';
 
 export interface SearchFiltersProps {
 	control: Control<SearchJobDto>;
@@ -128,11 +128,11 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ control, isDirty }) => {
 							to.onChange(newValue[1]);
 						}}
 						renderInput={(startProps, endProps) => (
-							<React.Fragment>
+							<Grid container>
 								<TextField {...startProps} fullWidth />
-								<Box sx={{ mx: 2 }}> bis </Box>
+								<Box margin={2}> bis </Box>
 								<TextField {...endProps} fullWidth />
-							</React.Fragment>
+							</Grid>
 						)}
 					/>
 				</Grid>

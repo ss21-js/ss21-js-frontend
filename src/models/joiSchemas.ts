@@ -83,6 +83,8 @@ export const studentSchema = Joi.object<Student>({
 	toAvailable: Joi.date().required().label('Verfügbar bis'),
 	identities: Joi.any(),
 	jobsMarkedIds: Joi.any(),
+	headerImageUrl: Joi.string().allow(''),
+	profileImageUrl: Joi.string().allow(''),
 }).messages(germanJoiMessages);
 
 export const createJobDtoSchema = Joi.object<CreateJobDto>({
