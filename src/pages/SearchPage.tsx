@@ -32,6 +32,12 @@ const Layout = styled('div')`
 		'filter filter jobs jobs jobs jobs jobs jobs jobs jobs jobs jobs';
 	gap: ${(props) => props.theme.spacing(4)};
 
+	${(props) => props.theme.breakpoints.down('lg')} {
+		grid-template-areas:
+			'search search search search search search search search search search search search'
+			'filter filter filter jobs jobs jobs jobs jobs jobs jobs jobs jobs';
+	}
+
 	${(props) => props.theme.breakpoints.down('md')} {
 		column-gap: 0;
 		grid-template-areas:
