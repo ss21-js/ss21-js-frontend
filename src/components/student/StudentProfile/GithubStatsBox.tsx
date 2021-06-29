@@ -13,27 +13,26 @@ export interface GithubStatsBoxProps {
 }
 
 const GithubStatsBox: React.FC<GithubStatsBoxProps> = ({ username }) => {
-
 	const repos = useRecoilValue(githubQuery(username));
 
-	const starsMap = repos.map((repo:any) => (repo.stargazers_count));
+	const starsMap = repos.map((repo: any) => repo.stargazers_count);
 	const starsArr = Array.from(starsMap);
-		let stars = 0;
-	for(let i = 0; i < starsArr.length; i++) {
+	let stars = 0;
+	for (let i = 0; i < starsArr.length; i++) {
 		stars = stars + Number(starsArr[i]);
 	}
 
-	const forksMap = repos.map((repo:any) => (repo.forks_count));
+	const forksMap = repos.map((repo: any) => repo.forks_count);
 	const forksArr = Array.from(forksMap);
 	let forks = 0;
-	for(let i = 0; i < forksArr.length; i++) {
+	for (let i = 0; i < forksArr.length; i++) {
 		forks = forks + Number(forksArr[i]);
 	}
 
-	const watchersMap = repos.map((repo:any) => (repo.watchers_count));
+	const watchersMap = repos.map((repo: any) => repo.watchers_count);
 	const watchersArr = Array.from(watchersMap);
 	let watchers = 0;
-	for(let i = 0; i < watchersArr.length; i++) {
+	for (let i = 0; i < watchersArr.length; i++) {
 		watchers = watchers + Number(watchersArr[i]);
 	}
 	return (
