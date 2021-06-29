@@ -24,6 +24,7 @@
     "@hookform/resolvers": "^2.6.0",
     "@material-ui/core": "=5.0.0-alpha.37",
     "@material-ui/lab": "=5.0.0-alpha.37",
+    "@octokit/core": "^3.5.1",
     "animate-css-grid": "^1.4.3",
     "chart.js": "^3.3.2",
     "clsx": "^1.1.1",
@@ -46,6 +47,7 @@
     "react-use": "^17.2.4",
     "recoil": "^0.3.1",
     "recoil-persist": "^2.9.0",
+    "ts-node": "^10.0.0",
     "typescript": "4.3.4"
   },
   "eslintConfig": {
@@ -55,6 +57,7 @@
     ]
   },
   "scripts": {
+    "gittest": "ts-node src/test.ts",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "eject": "react-app-rewired eject",
