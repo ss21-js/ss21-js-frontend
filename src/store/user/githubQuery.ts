@@ -1,8 +1,7 @@
 import { selectorFamily } from 'recoil';
 import { Octokit } from '@octokit/core';
 
-const gitToken = `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`;
-const octokit = new Octokit({ auth: gitToken });
+const octokit = new Octokit();
 
 const githubQuery = selectorFamily({
 	key: 'githubQuery',
@@ -17,9 +16,11 @@ const githubQuery = selectorFamily({
 				language: repo.language,
 			}));
 			return data;
+
 		} catch (error) {
 			throw error;
 		}
+
 	},
 });
 
