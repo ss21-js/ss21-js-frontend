@@ -16,11 +16,9 @@ const githubQuery = selectorFamily({
 				language: repo.language,
 			}));
 			return data;
-
 		} catch (error) {
 			throw error;
 		}
-
 	},
 });
 
