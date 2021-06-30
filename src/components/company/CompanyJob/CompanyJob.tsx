@@ -37,7 +37,7 @@ const CompanyJob: React.FC<RowProps> = ({ job }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{job.requestedByStudents.map((studentId) => (
+						{(job.requestedByStudents ?? []).map((studentId) => (
 							<CompanyJobStudentRow key={studentId} job={job} studentId={studentId} />
 						))}
 					</TableBody>
