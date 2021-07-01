@@ -66,3 +66,8 @@ npm start  // starts the development server
 ```
 
 The server will run on http://localhost:3000
+
+## Jira Board
+
+Das ganze Projekt wurde Agile mit einem Jira Board umgesetzt. 
+[JS Jira Board](https://nicolasschlecker.atlassian.net/jira/software/projects/JS/boards/5)
